@@ -1,0 +1,41 @@
+# The idea is keep the prompt as simple as possible with the information that I
+# found useful, mainly: I am inside docker?, Username and hostname if it is not
+# local, directory, git information and cmd duration
+#
+# Author: Navarro Torres, Agustín
+# Email: agusnavarro11@gmail.com
+
+# General format
+format = """
+$docker_context$username$hostname$directory$git_branch$git_status$cmd_duration
+$character
+"""
+add_newline = true
+
+[cmd_duration]
+format = '\[[⏱ $duration]($style)\]'
+
+[docker_context]
+format = '\[[$symbol$context]($style)\]'
+
+[git_branch]
+format = '\[[$symbol$branch]($style)\]'
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+[username]
+style_user = 'bright-yellow'
+format = '\[[$user]($style)\]'
+show_always = false 
+
+[hostname]
+style = 'bright-purple'
+format = '\[[$hostname]($style)\]'
+ssh_only = true 
+
+[directory]
+format = '\[[$read_only$path]($style)\]'
+
+[sudo]
+format = '\[[as $symbol]\]'
