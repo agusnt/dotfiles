@@ -255,5 +255,5 @@ nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 "-------------------------------------------------------------------------------
 " VimLatex 
 "-------------------------------------------------------------------------------
-let g:vimtex_compiler_method = 'pdflatex'
+let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_general_viewer = 'open -a Preview'
