@@ -31,7 +31,7 @@ show_always = false
 
 [hostname]
 style = 'bright-purple'
-format = '\[[$hostname]($style)\]'
+format = '\[[ $hostname]($style)\]'
 ssh_only = true 
 
 [directory]
