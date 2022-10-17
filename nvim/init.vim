@@ -55,7 +55,6 @@ set termguicolors
 " To prevent conceal
 let g:indentLine_setConceal=0 " Use nvim conceal
 set conceallevel=2
-set concealcursor=v
 
 "-------------------------------------------------------------------------------
 " Movements
@@ -110,6 +109,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ellisonleao/glow.nvim'
 " Latex
 Plug 'lervag/vimtex'
+" TagBar
+Plug 'majutsushi/tagbar'
 call plug#end()
 
 "-------------------------------------------------------------------------------
