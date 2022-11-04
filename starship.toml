@@ -27,7 +27,6 @@ format = '\[[$symbol$branch]($style)\]'
 format = '([\[$all_status$ahead_behind\]]($style))'
 
 [git_commit]
-symbol = ' '
 format = '[\$hash$tag\]($style) '
 
 [username]
