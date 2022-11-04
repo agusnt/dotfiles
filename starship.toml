@@ -7,7 +7,7 @@
 
 # General format
 format = """
-$docker_context$username$hostname$directory$git_branch$git_status$cmd_duration
+$docker_context$username$hostname$directory$git_branch$git_commit$git_status$cmd_duration
 $character
 """
 add_newline = true
@@ -16,13 +16,19 @@ add_newline = true
 format = '\[[⏱ $duration]($style)\]'
 
 [docker_context]
+symbol = ' '
 format = '\[[$symbol$context]($style)\]'
 
 [git_branch]
+symbol = ' '
 format = '\[[$symbol$branch]($style)\]'
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style))'
+
+[git_commit]
+symbol = ' '
+format = '[\$hash$tag\]($style) '
 
 [username]
 style_user = 'bright-yellow'
@@ -35,7 +41,9 @@ format = '\[[ $hostname]($style)\]'
 ssh_only = true 
 
 [directory]
-format = '\[[$read_only$path]($style)\]'
+truncation_length = 3
+truncate_to_repo = false
+format = '\[[$read_only$path$read_only]($style)\]'
 
 [sudo]
 format = '\[[as $symbol]\]'
