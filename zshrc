@@ -123,7 +123,7 @@ if type brew &>/dev/null; then
 fi
 
 # Start tmux by default
-if [ "$TMUX" = "" ]; then tmux; fi
+if [ "$TMUX" = "" ]; then tmux attach -d || tmux; fi
 
 eval "$(starship init zsh)"
 
