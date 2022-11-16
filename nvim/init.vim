@@ -6,12 +6,12 @@ syntax on  " Highlight syntax
 set ruler  " Show position of the cursor in status bar
 let mapleader = "," " Change MapLeader
 
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Vertical line
-set textwidth=80   " Maximum width of column
-set colorcolumn=+1 " Change color
+" Vertical line and wrap
+set textwidth=0   " Maximum width of column
+set wrapmargin=0
+set wrap
+set linebreak " Breaks by word rather than character
+set colorcolumn=80 " Change color
 
 " Tab configuration, space instead of tab, 4-size
 set tabstop=4 shiftwidth=4 expandtab
@@ -32,22 +32,18 @@ set cursorcolumn
 " Italic Comments
 highlight Comment cterm=italic
 
-" Show buffers like tabs
-set hidden 
-set showtabline=2  
-
 " Incremental search
 set incsearch
 
 " Folding options
 set foldmethod=syntax " Way to fold
-set foldnestmax=2     " Maximum fold
+set foldnestmax=3     " Maximum fold
 
 " Set spell
 set spell
 
 " Merge signcolumn and number column into one
-set signcolumn=number
+set signcolumn=no
 
 " This variable must be enabled for colors to be applied properly
 set termguicolors 
@@ -55,6 +51,7 @@ set termguicolors
 " To prevent conceal
 let g:indentLine_setConceal=0 " Use nvim conceal
 set conceallevel=2
+set concealcursor=v
 
 "-------------------------------------------------------------------------------
 " Movements
@@ -71,6 +68,11 @@ nmap <leader>h :bprevious<CR>
 nmap <leader>bq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
 nmap <leader>bl :ls<CR>
+" Fast move between buffers (more than 9 has an small delay)
+for i in range(1, 9)
+    execute 'nnoremap <Leader>b'.i.
+        \ ' :buffer '.i.'<CR>'
+endfor
 
 "-------------------------------------------------------------------------------
 " Plugins
@@ -109,7 +111,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ellisonleao/glow.nvim'
 " Latex
 Plug 'lervag/vimtex'
-" TagBar
+" Tag Bar
 Plug 'majutsushi/tagbar'
 call plug#end()
 
@@ -126,9 +128,13 @@ lua require('lualine').setup{options = {theme = 'gruvbox'}}
 "-------------------------------------------------------------------------------
 " Tag Bar
 "-------------------------------------------------------------------------------
-nmap <leader>o :Vista<CR>
+nmap <leader>o :TagbarToggle<CR>
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-lua require("bufferline").setup{} 
+
+"-------------------------------------------------------------------------------
+" Bufferline 
+"-------------------------------------------------------------------------------
+lua require("bufferline").setup{options = {numbers = "buffer_id"}}
 
 "-------------------------------------------------------------------------------
 " Enable Git Blame
@@ -208,9 +214,6 @@ nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
 
-" Folde Icon background
-highlight NvimTreeFolderIcon guibg=blue
-
 "-------------------------------------------------------------------------------
 " Special options for specific stuff
 "-------------------------------------------------------------------------------
@@ -224,7 +227,7 @@ autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 "-------------------------------------------------------------------------------
 " Glow
 "-------------------------------------------------------------------------------
-let g:glow_border = "rounded"
+lua require('glow').setup({})
 
 "-------------------------------------------------------------------------------
 " COC (Autocomplete) 
@@ -242,16 +245,13 @@ let g:coc_global_extensions = [
             \ ]
 
 " Ctrl + Space trigger COC
-inoremap <silent><expr> <c-space> coc#refresh()
+ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-" Confirm selection
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Show commands.
 nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
