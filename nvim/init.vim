@@ -1,7 +1,6 @@
 "------------------------------------------------------------------
 " Syntax, number, limit, encoding, tab, fold, backspace, spell
 "------------------------------------------------------------------
-
 syntax on  " Highlight syntax
 set ruler  " Show position of the cursor in status bar
 let mapleader = "," " Change MapLeader
@@ -89,20 +88,14 @@ Plug 'yamatsum/nvim-cursorline'
 " File Explorer
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-" Git blame
-Plug 'f-person/git-blame.nvim'
 " Gruvbox
 Plug 'morhetz/gruvbox'
 " Registers Peek
 Plug 'gennaro-tedesco/nvim-peekup'
 " Buffer as tab
 Plug 'akinsho/nvim-bufferline.lua'
-" Tag bar
-Plug 'liuchengxu/vista.vim'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
-" ALE Lint engine
-Plug 'dense-analysis/ale'
 " Indent lines
 Plug 'Yggdroot/indentLine'
 " Autocomplete
@@ -111,8 +104,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ellisonleao/glow.nvim'
 " Latex
 Plug 'lervag/vimtex'
-" Tag Bar
-Plug 'majutsushi/tagbar'
+" Telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 call plug#end()
 
 "-------------------------------------------------------------------------------
@@ -126,20 +120,9 @@ lua require('spellsitter').setup()
 lua require('lualine').setup{options = {theme = 'gruvbox'}}
 
 "-------------------------------------------------------------------------------
-" Tag Bar
-"-------------------------------------------------------------------------------
-nmap <leader>o :TagbarToggle<CR>
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-
-"-------------------------------------------------------------------------------
 " Bufferline 
 "-------------------------------------------------------------------------------
 lua require("bufferline").setup{options = {numbers = "buffer_id"}}
-
-"-------------------------------------------------------------------------------
-" Enable Git Blame
-"-------------------------------------------------------------------------------
-let g:gitblame_enabled = 0
 
 "-------------------------------------------------------------------------------
 " Gruvbox
@@ -261,3 +244,11 @@ nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 "-------------------------------------------------------------------------------
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_view_general_viewer = 'open -a Preview'
+
+"-------------------------------------------------------------------------------
+" Telescope   
+"-------------------------------------------------------------------------------
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').current_buffer_tags()<cr>
