@@ -50,7 +50,6 @@ set termguicolors
 " To prevent conceal
 let g:indentLine_setConceal=0 " Use nvim conceal
 set conceallevel=2
-set concealcursor=v
 
 "-------------------------------------------------------------------------------
 " Movements
@@ -81,6 +80,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 " >> Plugins to install <<
 " Install plugins with :PlugInstall
 
+" VimWiki
+Plug 'vimwiki/vimwiki'
 " Spell Checker
 Plug 'lewis6991/spellsitter.nvim'
 " Cursor highlight
@@ -210,7 +211,8 @@ autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 "-------------------------------------------------------------------------------
 " Glow
 "-------------------------------------------------------------------------------
-lua require('glow').setup({})
+lua require('glow').setup({style = "dark", width = 120,})
+nmap <leader>g :Glow<cr>
 
 "-------------------------------------------------------------------------------
 " COC (Autocomplete) 
@@ -252,3 +254,12 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').current_buffer_tags()<cr>
+
+"-------------------------------------------------------------------------------
+" VimWiki     
+"-------------------------------------------------------------------------------
+" Work 
+let g:vimwiki_list = [{
+            \ 'path': '~/Documents/Wiki/Work/',
+            \ 'syntax': 'markdown',
+            \ 'ext': '.md', }]
