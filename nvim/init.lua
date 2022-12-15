@@ -2,6 +2,73 @@
 -- python3 -m pip install --user --upgrade pynvim
 
 -------------------------------------------------------------------------------
+-- Packer
+-------------------------------------------------------------------------------
+require('packer').startup(function(use)
+    -- >> Plugins to install
+    -- Install plugins with :PackerInstall
+    -- Update plugins with :PackerUpdate
+    -- List installed plugins with :PackerStatus
+    
+    -- Packer can manage itself
+    use 'wbthomason/packer.nvim'
+    -- VimWiki
+    use {
+        'vimwiki/vimwiki',
+        config = function()
+            vim.g.vimwiki_list = {
+                {
+                    path   = '~/Documents/Wiki/Work/',
+                    syntax = 'markdown',
+                    ext    = '.md', 
+                }
+            }
+        end
+    }
+    -- Gruvbox
+    use { "ellisonleao/gruvbox.nvim" }
+    -- Status line
+    use 'hoob3rt/lualine.nvim'
+    -- Glow
+    use 'ellisonleao/glow.nvim'
+    -- Telescope
+    use {
+  	    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+  	    requires = { {'nvim-lua/plenary.nvim'} }
+    }
+    use 'nvim-telescope/telescope-file-browser.nvim'
+    -- LSP configuration
+    use {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig'
+    }
+    -- Autocompletion
+    use {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-cmdline',
+        'hrsh7th/nvim-cmp'
+    }
+    -- Luasnip
+    use {
+        'L3MON4D3/LuaSnip',
+        'saadparwaiz1/cmp_luasnip'
+    }
+    -- Bufferline
+    use {
+        'akinsho/bufferline.nvim', 
+        tag = "v3.*", 
+        requires = 'nvim-tree/nvim-web-devicons'
+    }
+    -- Treesitter
+    use {
+        'nvim-treesitter/nvim-treesitter',
+    }
+end)
+
+-------------------------------------------------------------------------------
 -- Functions
 -------------------------------------------------------------------------------
 function map(mode, lhs, rhs, opts)
@@ -84,11 +151,8 @@ vim.g.indentLine_setConceal = 0 -- Use nvim conceal
 vim.o.conceallevel=2
 
 -- Fold
-vim.g.foldmethod = syntax
-vim.g.foldnestmax = 3
-vim.cmd([[
-    autocmd Filetype python set foldmethod=indent
-]])
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 
 -------------------------------------------------------------------------------
 -- Movements
@@ -206,59 +270,15 @@ map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbo
 map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
 
--- >> Packer
-return require('packer').startup(function(use)
-    -- >> Plugins to install
-    -- Install plugins with :PackerInstall
-    -- Update plugins with :PackerUpdate
-    -- List installed plugins with :PackerUpdate
-    
-    -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
-    -- VimWiki
-    use {
-        'vimwiki/vimwiki',
-        config = function()
-            vim.g.vimwiki_list = {
-                {
-                    path   = '~/Documents/Wiki/Work/',
-                    syntax = 'markdown',
-                    ext    = '.md', 
-                }
-            }
-        end
-    }
-    -- Gruvbox
-    use { "ellisonleao/gruvbox.nvim" }
-    -- Status line
-    use 'hoob3rt/lualine.nvim'
-    -- Glow
-    use 'ellisonleao/glow.nvim'
-    -- Telescope
-    use {
-  	    'nvim-telescope/telescope.nvim', tag = '0.1.0',
-  	    requires = { {'nvim-lua/plenary.nvim'} }
-    }
-    use 'nvim-telescope/telescope-file-browser.nvim'
-    -- LSP configuration
-    use {
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
-        'neovim/nvim-lspconfig'
-    }
-    -- Autocompletion
-    use {
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-cmdline',
-        'hrsh7th/nvim-cmp'
-    }
-    -- Luasnip
-    use {
-        'L3MON4D3/LuaSnip',
-        'saadparwaiz1/cmp_luasnip'
-    }
-end)
+-- >> Bufferline
+require("bufferline").setup{}
 
+-- >> TreeSitter
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names
+  ensure_installed = { "c", "bash", "python", "cpp", "lua", "rust", "latex", "latex" },
+  sync_install = false, -- Install sync
+  auto_install = true,
 
+  highlight = { enable = true, },
+}
