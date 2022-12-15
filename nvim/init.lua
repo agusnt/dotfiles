@@ -111,7 +111,7 @@ vim.bo.textwidth   = 0      -- Maximum width of column
 vim.bo.wrapmargin  = 0
 vim.wo.wrap        = true
 vim.wo.linebreak   = true   -- Breaks by word rather than character
-vim.wo.colorcolumn = 80     -- Change color
+vim.opt.colorcolumn = "80"     -- Change color
 
 -- Tab configuration, space instead of tab, 4-size
 vim.bo.tabstop    = 4 
@@ -271,11 +271,23 @@ map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_worksp
 -- >> TreeSitter
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names
-  ensure_installed = { "c", "bash", "python", "cpp", "lua", "rust", "latex", "latex" },
+  ensure_installed = "all",
   sync_install = false, -- Install sync
   auto_install = true,
 
   highlight = { enable = true, },
+
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+          init_selection = "gnn", -- set to `false` to disable one of the mappings
+          node_incremental = "grn",
+          scope_incremental = "grc",
+          node_decremental = "grm",
+    },
+  },
+
+  -- indent = { enable = true }, -- Experimental
 }
 
 -- >> Indent lines
