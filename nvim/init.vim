@@ -85,26 +85,16 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " VimWiki
 Plug 'vimwiki/vimwiki'
-" Spell Checker
-Plug 'lewis6991/spellsitter.nvim'
-" Cursor highlight
-Plug 'yamatsum/nvim-cursorline'
-" File Explorer
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'kyazdani42/nvim-tree.lua'
 " Gruvbox
 Plug 'morhetz/gruvbox'
-" Buffer as tab
-Plug 'akinsho/nvim-bufferline.lua'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
-" Indent lines
-Plug 'Yggdroot/indentLine'
 " Glow
 Plug 'ellisonleao/glow.nvim'
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 " LSP configuration
 Plug 'neovim/nvim-lspconfig'
 " Automatic LSP installer
@@ -116,25 +106,15 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-" Luasinp
+" Luasnip
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
 
 "-------------------------------------------------------------------------------
-" SpellChecker
-"-------------------------------------------------------------------------------
-lua require('spellsitter').setup()
-
-"-------------------------------------------------------------------------------
 " Status Line
 "-------------------------------------------------------------------------------
 lua require('lualine').setup{options = {theme = 'gruvbox'}}
-
-"-------------------------------------------------------------------------------
-" Bufferline 
-"-------------------------------------------------------------------------------
-lua require("bufferline").setup{options = {numbers = "buffer_id"}}
 
 "-------------------------------------------------------------------------------
 " Gruvbox
@@ -143,71 +123,6 @@ let g:gruvbox_italic=1
 set background=dark
 highlight Normal ctermbg=NONE
 colorscheme gruvbox
-
-"-------------------------------------------------------------------------------
-" FileExplorer
-"-------------------------------------------------------------------------------
-lua require('nvim-tree').setup {}
-let g:nvim_tree_quit_on_open = 0 "Close the tree when you open a file
-let g:nvim_tree_indent_markers = 1 "Shows indent markers when folders are open
-let g:nvim_tree_git_hl = 1 "Enable file highlight for git attributes.
-let g:nvim_tree_highlight_opened_files = 1 "Enable folder and file icon highlight for opened files/directories.
-let g:nvim_tree_root_folder_modifier = ':~'
-let g:nvim_tree_add_trailing = 1 "Append a trailing slash to folder names
-let g:nvim_tree_group_empty = 1 "Compact folders that only contain a single folder into one node in the file tree
-let g:nvim_tree_disable_window_picker = 1 "0 by default, will disable the window picker.
-let g:nvim_tree_icon_padding = ' '
-let g:nvim_tree_symlink_arrow = ' ➛ '
-let g:nvim_tree_respect_buf_cwd = 1 "Change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
-let g:nvim_tree_create_in_closed_folder = 1 "When creating files, sets the path of a file when cursor is on a closed folder to the parent folder when 0, and inside the folder when 1.
-let g:nvim_tree_refresh_wait = 1000 "Control how often the tree can be refreshed, 1000 means the tree can be refresh once per 1000ms.
-let g:nvim_tree_window_picker_exclude = {
-    \   'filetype': [
-    \     'notify',
-    \     'packer',
-    \     'qf'
-    \   ],
-    \   'buftype': [
-    \     'terminal'
-    \   ]
-    \ }
-let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 0,
-    \ 'files': 0,
-    \ 'folder_arrows': 0,
-    \ }
-
-" Icons
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★",
-    \   'deleted': "",
-    \   'ignored': "◌"
-    \   },
-    \ 'folder': {
-    \   'arrow_open': "",
-    \   'arrow_closed': "",
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   'symlink_open': "",
-    \   }
-    \ }
-
-" Keys to use NerdTree
-nnoremap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
 
 "-------------------------------------------------------------------------------
 " Special options for specific stuff
