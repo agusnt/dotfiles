@@ -64,6 +64,12 @@ require('packer').startup(function(use)
     use 'lukas-reineke/indent-blankline.nvim'
     -- Impatient
     use 'lewis6991/impatient.nvim' 
+    -- Pretty fold
+    use 'anuvyklack/pretty-fold.nvim'
+    use {
+        'anuvyklack/fold-preview.nvim',
+        requires = 'anuvyklack/keymap-amend.nvim',
+    }
 end)
 
 -------------------------------------------------------------------------------
@@ -98,7 +104,6 @@ function lspmap(mode, lhs, rhs)
     local opts = {buffer = true}
     vim.keymap.set(mode, lhs, rhs, opts)
 end
-
 
 -------------------------------------------------------------------------------
 -- Syntax, number, limit, encoding, tab, fold, backspace, spell
@@ -149,8 +154,8 @@ vim.g.indentLine_setConceal = 0 -- Use nvim conceal
 vim.o.conceallevel=2
 
 -- Fold
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -------------------------------------------------------------------------------
 -- Movements
@@ -291,9 +296,11 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- >> Indent lines
-require("indent_blankline").setup {
-    show_current_context = true,
-}
+require("indent_blankline").setup { show_current_context = true, }
 
 -- >> Impatient
 require('impatient')
+
+-- >> Pretty Fold
+require('pretty-fold').setup()
+require('fold-preview').setup()
