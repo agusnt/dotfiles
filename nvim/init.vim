@@ -108,6 +108,8 @@ Plug 'lervag/vimtex'
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+" Gutentag
+Plug 'ludovicchabant/vim-gutentags'
 call plug#end()
 
 "-------------------------------------------------------------------------------
@@ -238,8 +240,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
 "-------------------------------------------------------------------------------
 " VimLatex 
