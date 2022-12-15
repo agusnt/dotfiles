@@ -66,6 +66,8 @@ require('packer').startup(function(use)
     use {
         'nvim-treesitter/nvim-treesitter',
     }
+    -- Indent line
+    use 'lukas-reineke/indent-blankline.nvim'
 end)
 
 -------------------------------------------------------------------------------
@@ -281,4 +283,10 @@ require'nvim-treesitter.configs'.setup {
   auto_install = true,
 
   highlight = { enable = true, },
+}
+
+-- >> Indent lines
+require("indent_blankline").setup {
+    show_current_context = true,
+    show_current_context_start = true,
 }
