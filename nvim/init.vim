@@ -1,3 +1,6 @@
+" Install and run
+" python3 -m pip install --user --upgrade pynvim
+
 "------------------------------------------------------------------
 " Syntax, number, limit, encoding, tab, fold, backspace, spell
 "------------------------------------------------------------------
@@ -91,25 +94,31 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 " Gruvbox
 Plug 'morhetz/gruvbox'
-" Registers Peek
-Plug 'gennaro-tedesco/nvim-peekup'
 " Buffer as tab
 Plug 'akinsho/nvim-bufferline.lua'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
 " Indent lines
 Plug 'Yggdroot/indentLine'
-" Autocomplete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Glow
 Plug 'ellisonleao/glow.nvim'
-" Latex
-Plug 'lervag/vimtex'
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
-" Gutentag
-Plug 'ludovicchabant/vim-gutentags'
+" LSP configuration
+Plug 'neovim/nvim-lspconfig'
+" Automatic LSP installer
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+" Autocompletion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" Luasinp
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 call plug#end()
 
 "-------------------------------------------------------------------------------
@@ -217,41 +226,78 @@ lua require('glow').setup({style = "dark", width = 120,})
 nmap <leader>g :Glow<cr>
 
 "-------------------------------------------------------------------------------
-" COC (Autocomplete) 
+" LSP
 "-------------------------------------------------------------------------------
-" Language supports for C/C++ install clangd
-let g:coc_global_extensions = [
-            \ 'coc-json',
-            \ 'coc-tsserver',
-            \ 'coc-pyright',
-            \ 'coc-html',
-            \ 'coc-markdownlint',
-            \ 'coc-rust-analyzer',
-            \ 'coc-texlab',
-            \ 'coc-clangd',
-            \ ]
+set completeopt=menu,menuone,noselect
 
-" Ctrl + Space trigger COC
- inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+lua << EOF
+local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', }
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+-- Configure mason
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
 
-" Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
+-- Automatic install lsop server
+require("mason-lspconfig").setup({ ensure_installed = servers })
 
-" Formatting selected code
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+-- Autocompletation
+local cmp = require'cmp'
 
-"-------------------------------------------------------------------------------
-" VimLatex 
-"-------------------------------------------------------------------------------
-let g:vimtex_compiler_method = 'latexmk'
-let g:vimtex_view_general_viewer = 'open -a Preview'
+cmp.setup({
+    snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end,},
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'ultisnips' },
+    }, {
+        { name = 'buffer' },
+        { name = 'path' },
+    })
+})
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {
+        on_attach = on_attach,
+        flags = {
+          debounce_text_changes = 150,
+        },
+        capabilities = capabilities,
+    }
+end
+
+EOF
+
+" Move between definitions
+nnoremap <leader> gD (lsp-declaration)<cr>
+nnoremap <leader> gd (lsp-definition)<cr>
+nnoremap <leader> gi (lsp-implementation)<cr>
+
+nnoremap <leader> D (lsp-type_definition)<cr>
+nnoremap <leader> rn (lsp-rename)<cr>
+nnoremap <leader> gr (lsp-references)<cr>
+
+nnoremap <leader> K  (lsp-hover)<cr>
+nnoremap <leader> sh (lsp-signature_help)<cr>
+
 
 "-------------------------------------------------------------------------------
 " Telescope   
@@ -259,7 +305,9 @@ let g:vimtex_view_general_viewer = 'open -a Preview'
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').current_buffer_tags()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
+nnoremap <leader>fa <cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>
+nnoremap <leader>fo <cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>
 
 "-------------------------------------------------------------------------------
 " VimWiki     
