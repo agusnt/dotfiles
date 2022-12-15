@@ -56,12 +56,6 @@ require('packer').startup(function(use)
         'L3MON4D3/LuaSnip',
         'saadparwaiz1/cmp_luasnip'
     }
-    -- Bufferline
-    use {
-        'akinsho/bufferline.nvim', 
-        tag = "v3.*", 
-        requires = 'nvim-tree/nvim-web-devicons'
-    }
     -- Treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -113,11 +107,11 @@ vim.o.syntax    = on  -- Highlight syntax
 vim.g.mapleader = "," -- Change MapLeader
 
 -- Vertical line and wrap
-vim.bo.textwidth   = 0  -- Maximum width of column
+vim.bo.textwidth   = 0      -- Maximum width of column
 vim.bo.wrapmargin  = 0
 vim.wo.wrap        = true
-vim.wo.linebreak   = true     -- Breaks by word rather than character
-vim.wo.colorcolumn = 80 -- Change color
+vim.wo.linebreak   = true   -- Breaks by word rather than character
+vim.wo.colorcolumn = 80     -- Change color
 
 -- Tab configuration, space instead of tab, 4-size
 vim.bo.tabstop    = 4 
@@ -273,9 +267,6 @@ map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", { 
 map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", { silent = true })
 map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
-
--- >> Bufferline
-require("bufferline").setup{}
 
 -- >> TreeSitter
 require'nvim-treesitter.configs'.setup {
