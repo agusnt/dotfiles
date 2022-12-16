@@ -119,10 +119,10 @@ vim.wo.linebreak   = true   -- Breaks by word rather than character
 vim.opt.colorcolumn = "80"     -- Change color
 
 -- Tab configuration, space instead of tab, 4-size
-vim.bo.tabstop    = 4 
-vim.bo.shiftwidth = 4 
-vim.bo.expandtab  = true
-vim.o.backspace   = indent,eol,start
+vim.opt.tabstop    = 4 
+vim.opt.shiftwidth = 4 
+vim.opt.expandtab  = true
+vim.opt.backspace   = indent,eol,start
 
 -- Encode and spell
 vim.o.encoding  = "utf-8"
@@ -292,7 +292,7 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 
-  -- indent = { enable = true }, -- Experimental
+  indent = { enable = true }, -- Experimental
 }
 
 -- >> Indent lines
