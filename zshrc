@@ -3,7 +3,7 @@
 ###############################################################################
 
 HOMEBREW_PREFIX=$(brew --prefix)
-export PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Applications/kitty.app/Contents/MacOS:/Users/agus/Documents/bin
+export PATH=~/bin:$HOMEBREW_PREFIX/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
 ###############################################################################
@@ -18,37 +18,36 @@ ZSH_THEME="gruvbox"
 SOLARIZED_THEME="dark"
 
 ###############################################################################
-# Plugins
-###############################################################################
-
-# Install plugins
-# git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git source zsh-snap/install.zsh
-#
-
-[[ -f ~/.config/znap/zsh-snap/znap.zsh ]] ||
-    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.config/znap/zsh-snap
-
-source ~/.config/znap/zsh-snap/znap.zsh
-
-znap prompt sindresorhus/pure
-
-znap source marlonrichert/zsh-autocomplete
-znap source zsh-users/zsh-autosuggestions
-znap source zsh-users/zsh-syntax-highlighting
-
-plugins=(copyfile git)
-
-###############################################################################
 # Load extra stuff
 ###############################################################################
 
 source $ZSH/oh-my-zsh.sh
-source ~/.aliases
+#source ~/.aliases
 
 ###############################################################################
 # Tmux config
 ###############################################################################
 
 if [ "$TMUX" = "" ]; then tmux attach -d || tmux; fi
+
+###############################################################################
+# Plugins
+###############################################################################
+
+### Added by Zinit's installer
+### End by Zinit's installer
+
+# Install plugins
+# bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+#
+# zinit self-update
+#
+
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light unixorn/fzf-zsh-plugin
+zinit light Aloxaf/fzf-tab
+
+plugins=(copyfile git)
 
 eval "$(starship init zsh)"
