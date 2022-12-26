@@ -1,6 +1,6 @@
 -- Install and run
 -- python3 -m pip install --user --upgrade pynvim
-
+--
 -------------------------------------------------------------------------------
 -- Packer
 -------------------------------------------------------------------------------
@@ -57,19 +57,11 @@ require('packer').startup(function(use)
         'saadparwaiz1/cmp_luasnip'
     }
     -- Treesitter
-    use {
-        'nvim-treesitter/nvim-treesitter',
-    }
+    use 'nvim-treesitter/nvim-treesitter'
     -- Indent line
     use 'lukas-reineke/indent-blankline.nvim'
     -- Impatient
     use 'lewis6991/impatient.nvim' 
-    -- Pretty fold
-    use 'anuvyklack/pretty-fold.nvim'
-    use {
-        'anuvyklack/fold-preview.nvim',
-        requires = 'anuvyklack/keymap-amend.nvim',
-    }
 end)
 
 -------------------------------------------------------------------------------
@@ -122,7 +114,7 @@ vim.opt.colorcolumn = "80"     -- Change color
 vim.opt.tabstop    = 4 
 vim.opt.shiftwidth = 4 
 vim.opt.expandtab  = true
-vim.opt.backspace   = indent,eol,start
+vim.g.backspace   = indent,eol,start
 
 -- Encode and spell
 vim.o.encoding  = "utf-8"
@@ -181,7 +173,7 @@ vim.o.background = "dark" -- or light
 vim.cmd([[colorscheme gruvbox]])
 
 -- >> LuaLine
-require('lualine').setup{options = {theme = 'gruvbox'}}
+require('lualine').setup{options = {theme = 'gruvbox'},}
 
 -- >> Glow 
 require('glow').setup({style = "dark", width = 120,})
@@ -292,7 +284,7 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 
-  indent = { enable = true }, -- Experimental
+  -- indent = { enable = true }, -- Experimental
 }
 
 -- >> Indent lines
@@ -300,7 +292,3 @@ require("indent_blankline").setup { show_current_context = true, }
 
 -- >> Impatient
 require('impatient')
-
--- >> Pretty Fold
-require('pretty-fold').setup()
-require('fold-preview').setup()
