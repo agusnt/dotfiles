@@ -3,8 +3,8 @@
 ###############################################################################
 
 HOMEBREW_PREFIX=$(brew --prefix)
-export PATH=~/bin:$HOMEBREW_PREFIX/bin:/usr/local/bin:$PATH
-#export PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Applications/kitty.app/Contents/MacOS:/Users/agus/Documents/bin
+#export PATH=~/bin:$HOMEBREW_PREFIX/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/homebrew/bin:/opt/homebrew/sbin:/Applications/kitty.app/Contents/MacOS:/Users/agus/Documents/bin
 export ZSH="$HOME/.oh-my-zsh"
 
 ###############################################################################
@@ -24,6 +24,7 @@ SOLARIZED_THEME="dark"
 
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
+source ~/.aliases_cmd
 
 ###############################################################################
 # Tmux config
