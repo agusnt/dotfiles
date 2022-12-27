@@ -70,4 +70,5 @@ zinit light Aloxaf/fzf-tab
 
 plugins=(copyfile git)
 
-eval "$(starship init zsh)"
+PROMPT="%B>>%b "
+precmd() { print "" }
