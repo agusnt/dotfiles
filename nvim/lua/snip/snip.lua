@@ -3,6 +3,8 @@
 -- @Email: agusnavarro11@gmail.com
 
 ls = require("luasnip")
+extras = require("luasnip.extras")
+
 snip = ls.snippet
 node = ls.snippet_node
 text = ls.text_node
@@ -10,6 +12,53 @@ insert = ls.insert_node
 func = ls.function_node
 choice = ls.choice_node
 dynamicn = ls.dynamic_node
+rep = extras.rep
+
+-- Remap important keys to move between inserts
+require('fn')
+map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
+map("s", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
+map("i", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
+map("s", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
+map("i", "<c-m>", " luasnip#choice_active() ? <Plug>luasnip-next-choice", {silent = true})
+map("s", "<c-m>", " luasnip#choice_active() ? <Plug>luasnip-next-choice", {silent = true})
+
+-- Local functions
+fn_recur = function(_, _, _, txt)
+    return node(nil, {
+        choice(1, {
+            text({""}),
+            node(nil, {insert(1, txt), dynamicn(2, fn_recur, {}) }),
+        })
+    });
+end
+
+-- Function used by different language snips
+fn_myself = function(_, _, _, cmt)
+    -- Return a node with my information
+    -- Parameters: cmt -> character used for comment (e.g. C: *)
+    return node(nil, {
+        text({
+            cmt .. "@Author: Navarro Torres, Agustín",
+            cmt .. "@Email: "}),
+        insert(1, "email"),
+        dynamicn(2, fn_recur, nil, {user_args = {"email"}})
+    });
+end
+
+fn_param = function(_, _, _, cmt)
+    -- Return a node with to fill parameters and return info
+    -- Parameters: cmt -> character used for comment (e.g. C: *)
+    
+    return node(nil, {
+        text({"", cmt, cmt.." @Parameters:", cmt,}),
+        insert(1, "param"),
+        dynamicn(2, fn_recur, nil, {user_args = {"param"}}),
+        text({"", cmt, cmt.." @Return:", cmt,}),
+        insert(3, "return"),
+        dynamicn(4, fn_recur, nil, {user_args = {"return"}}),
+    });
+end
 
 -- Load snips for different languages
 require('snip/all')

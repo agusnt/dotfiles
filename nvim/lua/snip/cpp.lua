@@ -2,27 +2,19 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-ls.add_snippets(nil, {
-    cpp = {
-        snip({
-            trig = "myself_o",
-            namr = "My-Self One line",
-            dscr = "Information about myself for one line comments",
-        }, {
-            text({
-                    "# @Author: Navarro Torres, Agustín", 
-                    "# @Email: agusnavarro11@gmail.com, agusnt@unizar.es"
-                 }),
-        }),
-        snip({
-            trig = "myself",
-            namr = "My-Self",
-            dscr = "Information about myself for multi line comments",
-        }, {
-            text({
-                    "* @Author: Navarro Torres, Agustín", 
-                    "* @Email: agusnavarro11@gmail.com, agusnt@unizar.es"
-                 }),
-        }),
-    },
+ls.filetype_extend("cpp", { "c" }) -- include all C snips
+
+ls.add_snippets("cpp", {
+    snip({
+
+        trig = "foreach",
+        namr = "ForEach",
+        dscr = "A simple for (auto : struct)"
+    }, {
+        text("for (auto "),
+        insert(1, "var"),
+        text(": "),
+        insert(2, "struct"),
+        text(")"),
+    }),
 })
