@@ -143,7 +143,7 @@ vim.o.termguicolors = true
 
 -- To prevent conceal
 vim.g.indentLine_setConceal = 0 -- Use nvim conceal
-vim.o.conceallevel=2
+vim.o.conceallevel = 2
 
 -- Fold
 vim.opt.foldmethod = 'expr'
@@ -214,7 +214,7 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'ultisnips' },
+        { name = 'luasnip' },
     }, {
         { name = 'buffer' },
         { name = 'path' },
@@ -292,3 +292,6 @@ require("indent_blankline").setup { show_current_context = true, }
 
 -- >> Impatient
 require('impatient')
+
+-- >> Lua snips
+require('snip/snip')
