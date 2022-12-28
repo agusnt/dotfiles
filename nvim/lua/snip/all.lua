@@ -1,3 +1,7 @@
+-- Global snips
+-- @Author: Navarro Torres, Agustín
+-- @Email: agusnavarro11@gmail.com
+
 -- Auxiliary functions
 local date = function() return {os.date('%Y-%m-%d')} end
 
@@ -17,7 +21,7 @@ ls.add_snippets(nil, {
         }, {
             text({
                     "@Author: Navarro Torres, Agustín", 
-                    "@Email: agusnavarro11@gmail.com, agusnt@unizart.es"
+                    "@Email: agusnavarro11@gmail.com, agusnt@unizar.es"
                  }),
         }),
     },

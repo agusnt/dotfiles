@@ -1,3 +1,7 @@
+-- Sh snips
+-- @Author: Navarro Torres, Agustín
+-- @Email: agusnavarro11@gmail.com
+
 ls.add_snippets(nil, {
     sh = {
         snip({
@@ -6,8 +10,8 @@ ls.add_snippets(nil, {
             dscr = "Information about myself",
         }, {
             text({
-                    "# @Author: Navarro Torres, Agustín", 
-                    "# @Email: agusnavarro11@gmail.com, agusnt@unizart.es"
+                    "# @Author: Navarro Torres, Agustín",
+                    "# @Email: agusnavarro11@gmail.com, agusnt@unizar.es"
                  }),
         }),
     },
