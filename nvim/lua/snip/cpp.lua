@@ -17,4 +17,26 @@ ls.add_snippets("cpp", {
         insert(2, "struct"),
         text(")"),
     }),
+
+    snip({
+
+        trig = "stdout",
+        namr = "STDOUT",
+        dscr = "Print content to stdout with new line"
+    }, {
+        text("std::cout << "),
+        insert(1, "value"),
+        text(" << std::endl;"),
+    }),
+
+    snip({
+
+        trig = "stderr",
+        namr = "STDERR",
+        dscr = "Print content to stderr with new line"
+    }, {
+        text("std::cerr << "),
+        insert(1, "value"),
+        text(" << std::endl;"),
+    }),
 })

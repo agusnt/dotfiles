@@ -9,8 +9,8 @@ require("mason").setup({
     ui = {
         icons = {
             package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
+            package_pending = "->",
+            package_uninstalled = "X"
         }
     }
 })
@@ -53,38 +53,5 @@ for _, lsp in pairs(servers) do
         },
         capabilities = capabilities,
     }
-end
-
--- Info
-lspmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
--- Goto definition
-lspmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
--- Goto declaration
-lspmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
--- Goto Implementation
-lspmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
--- Goto type definition
-lspmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
--- List references
-lspmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
--- Show arguments
-lspmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
--- Show symbols
-lspmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
--- List options
-lspmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-lspmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
--- Open diagnostic
-lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-lspmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-lspmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-
--- >> Telescope
-map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
-map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { silent = true })
-map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", { silent = true })
-map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", { silent = true })
-map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
-map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
-
+end;
 

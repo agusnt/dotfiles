@@ -3,9 +3,9 @@
 -- @Email: agusnavarro11@gmail.com
 
 require("plugins/packer") -- This must be the first one
-require("plugins/glow")
-require("plugins/impatient")
-require("plugins/indent")
 require("plugins/lsp")
+require("plugins/glow")
+require("plugins/indent")
 require("plugins/lualine")
+require("plugins/impatient")
 require("plugins/treesitter")

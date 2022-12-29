@@ -14,15 +14,6 @@ choice = ls.choice_node
 dynamicn = ls.dynamic_node
 rep = extras.rep
 
--- Remap important keys to move between inserts
-require('fn')
-map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
-map("s", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
-map("i", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
-map("s", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
-map("i", "<c-m>", "<Plug>luasnip-next-choice", {silent = true})
-map("s", "<c-m>", "<Plug>luasnip-next-choice", {silent = true})
-
 -- Local functions
 fn_recur = function(_, _, _, txt)
     return node(nil, {
