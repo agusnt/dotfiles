@@ -29,4 +29,53 @@ ls.add_snippets("sh", {
 "#############################################################################",
         }),
     }),
+
+    snip({
+        trig = "ifempvar",
+        namr = "If empty var",
+        dscr = "If [ ! -z var ]; then action; fi",
+    }, {
+        text("if [ ! -z "),
+        insert(1, "var"),
+        text(" ]; then "),
+        insert(2, "action"),
+        text("; fi")
+    }),
+
+    snip({
+        trig = "if",
+        namr = "If",
+        dscr = "If statement",
+    }, {
+        text("if [[ "),
+        insert(1, "condition"),
+        text(" ]]; then "),
+        insert(2, "action"),
+        text("; fi")
+    }),
+    snip({
+        trig = "for",
+        namr = "For",
+        dscr = "A for loop",
+    }, {
+        text("for "),
+        insert(1, "var"),
+        text(" in "),
+        insert(2, "struct"),
+        text("; do "),
+        insert(3, "action"),
+        text("; done"),
+    }),
+
+    snip({
+        trig = "while",
+        namr = "While",
+        dscr = "A while loop",
+    }, {
+        text("while [ "),
+        insert(1, "condition"),
+        text("]; do "),
+        insert(2, "action"),
+        text("; done"),
+    })
 })
