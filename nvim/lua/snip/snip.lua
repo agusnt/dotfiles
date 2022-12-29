@@ -20,8 +20,8 @@ map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
 map("s", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
 map("i", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("s", "<c-k>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
-map("i", "<c-m>", " luasnip#choice_active() ? <Plug>luasnip-next-choice", {silent = true})
-map("s", "<c-m>", " luasnip#choice_active() ? <Plug>luasnip-next-choice", {silent = true})
+map("i", "<c-m>", "<Plug>luasnip-next-choice", {silent = true})
+map("s", "<c-m>", "<Plug>luasnip-next-choice", {silent = true})
 
 -- Local functions
 fn_recur = function(_, _, _, txt)
