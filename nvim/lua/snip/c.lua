@@ -55,4 +55,19 @@ ls.add_snippets("c", {
         insert(3, "action"),
         text(")"),
     }),
+
+    snip({
+        trig = "ternary",
+        namr = "Ternary",
+        dscr = "A ternary if",
+    }, {
+        insert(1, "var"),
+        text(" = "),
+        insert(2, "condition"),
+        text(" ? "),
+        insert(3, "true"),
+        text(" : "),
+        insert(4, "false"),
+        text(";"),
+    }),
 })
