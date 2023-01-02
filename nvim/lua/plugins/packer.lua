@@ -7,7 +7,7 @@ require('packer').startup(function(use)
     -- Install plugins with :PackerInstall
     -- Update plugins with :PackerUpdate
     -- List installed plugins with :PackerStatus
-    
+
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     -- VimWiki
@@ -59,5 +59,11 @@ require('packer').startup(function(use)
     -- Indent line
     use 'lukas-reineke/indent-blankline.nvim'
     -- Impatient
-    use 'lewis6991/impatient.nvim' 
+    use 'lewis6991/impatient.nvim'
+    -- Buffer line
+    use {
+        'akinsho/bufferline.nvim',
+        tag = "v3.*",
+        requires = 'nvim-tree/nvim-web-devicons'
+    }
 end)
