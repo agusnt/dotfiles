@@ -10,9 +10,9 @@ ls.add_snippets("html", {
         dscr = "A film struct for my website"
     }, {
         text({"<li>", "    <p>", "    <a href=https://www.themoviedb.org/movie/"}),
-        insert(1, "id"),
+        insert(2, "id"),
         text({">", "        <p class=\"foo\">"}),
-        insert(2, "film"),
+        insert(1, "film"),
         text({"</p></a>", "    <p>", "</li>"}),
     }),
 })

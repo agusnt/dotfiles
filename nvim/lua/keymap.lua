@@ -10,9 +10,11 @@ map("n", "<leader>h", ":bprevious<CR>", { silent = true }) -- Move to the previo
 map("n", "<leader>bq", ":bp <BAR> bd #<CR>", { silent = true }) -- Close the current buffer and move to the previous one
 
 -- Telescope
-map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
+--map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
+map("n", "<leader>ff", ":Telescope file_browser<cr>", { silent = true })
 map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { silent = true })
 map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", { silent = true })
+map("n", "<leader>fr", ":Telescope<cr>", { silent = true })
 map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", { silent = true })
 map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
@@ -42,5 +44,3 @@ map("i", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("s", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("i", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
 map("s", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
-
-

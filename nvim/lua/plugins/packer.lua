@@ -35,6 +35,7 @@ require('packer').startup(function(use)
   	    requires = { {'nvim-lua/plenary.nvim'} }
     }
     use 'nvim-telescope/telescope-file-browser.nvim'
+    use 'benfowler/telescope-luasnip.nvim'
     -- LSP configuration
     use {
         'williamboman/mason.nvim',
@@ -66,4 +67,15 @@ require('packer').startup(function(use)
         tag = "v3.*",
         requires = 'nvim-tree/nvim-web-devicons'
     }
+    -- Hop
+    use {
+        'phaazon/hop.nvim',
+        branch = 'v2', -- optional but strongly recommended
+        config = function()
+            -- you can configure Hop the way you like here; see :h hop-config
+            require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+          end
+    }
+    -- Peekup
+    use 'gennaro-tedesco/nvim-peekup'
 end)

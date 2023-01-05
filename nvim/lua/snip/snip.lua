@@ -19,7 +19,36 @@ fn_recur = function(_, _, _, txt)
     return node(nil, {
         choice(1, {
             text({""}),
-            node(nil, {insert(1, txt), dynamicn(2, fn_recur, {}) }),
+            node(nil, {
+                insert(1, txt),
+                dynamicn(2, fn_recur, {})
+            }),
+        })
+    });
+end
+
+fn_recur_2 = function(_, _, _, txt, ins)
+    return node(nil, {
+        choice(1, {
+            text({""}),
+            node(nil, {
+                text(txt),
+                insert(1, ins),
+                dynamicn(2, fn_recur_2, {}, {user_args = {txt, ins}})
+            }),
+        })
+    });
+end
+
+fn_recur_3 = function(_, _, _, txt, ins)
+    return node(nil, {
+        choice(1, {
+            text({""}),
+            node(nil, {
+                text({"", txt}),
+                insert(1, ins),
+                dynamicn(2, fn_recur_3, {}, {user_args = {txt, ins}})
+            }),
         })
     });
 end

@@ -1,8 +1,10 @@
 -- Sh snips
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
+--
+ls.filetype_extend("plaintex", { "tex" }) -- include all tex snips
 
-ls.add_snippets("plaintex", {
+ls.add_snippets("tex", {
     snip({
         trig = "begin",
         namr = "Begin",
@@ -12,7 +14,7 @@ ls.add_snippets("plaintex", {
         insert(1),
         text({"}", ""}),
         insert(2),
-        text({"", "\\begin{"}),
+        text({"", "\\end{"}),
         rep(1),
         text("}"),
     }),
@@ -24,7 +26,7 @@ ls.add_snippets("plaintex", {
     }, {
         text("\\textbf{"),
         insert(1, "text"),
-        text({"}", ""}),
+        text({"}"}),
     }),
 
     snip({
@@ -34,7 +36,7 @@ ls.add_snippets("plaintex", {
     }, {
         text("\\textit{"),
         insert(1, "text"),
-        text({"}", ""}),
+        text({"}"}),
     }),
 
     snip({
@@ -44,7 +46,7 @@ ls.add_snippets("plaintex", {
     }, {
         text("\\underline{"),
         insert(1, "text"),
-        text({"}", ""}),
+        text({"}"}),
     }),
 
     snip({
@@ -54,7 +56,7 @@ ls.add_snippets("plaintex", {
     }, {
         text("\\texttt{"),
         insert(1, "text"),
-        text({"}", ""}),
+        text({"}"}),
     }),
 
     snip({
@@ -74,4 +76,16 @@ ls.add_snippets("plaintex", {
         insert(5, "label"),
         text({"}", "\\end{figure}"}),
     }),
+
+    snip({
+        trig = "item",
+        namr = "item",
+        dscr = "Insert new items",
+    }, {
+        text("\\item "),
+        insert(1, "txt"),
+        dynamicn(2, fn_recur_3, {1}, {user_args = { "\\item ", "txt"}})
+    }),
+
+
 })
