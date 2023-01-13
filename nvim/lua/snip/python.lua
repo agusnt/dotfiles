@@ -1,6 +1,7 @@
 -- Python snips
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
+
 ls.add_snippets("python", {
     snip({
 
@@ -52,7 +53,7 @@ ls.add_snippets("python", {
         text(" in zip("),
         insert(3, "struct"),
         dynamicn(4, fn_recur, {3}, { user_args = { "struct" }} ),
-        text("):"),
+        text(":"),
     }),
 
     snip({

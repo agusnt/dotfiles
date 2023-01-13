@@ -2,8 +2,9 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-require("plugins/packer") -- This must be the first one
+require("plugins/lazy") -- This must be the first one
 require("plugins/lsp")
+require("plugins/hop")
 require("plugins/glow")
 require("plugins/indent")
 require("plugins/lualine")
