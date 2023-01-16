@@ -79,11 +79,6 @@ require('lazy').setup({
         'akinsho/bufferline.nvim',
         dependencies = 'nvim-tree/nvim-web-devicons'
     },
-    -- Hop
-    {
-        'ggandor/leap.nvim',
-        dependencies = 'tpope/vim-repeat'
-    },
     -- Peekup
     'gennaro-tedesco/nvim-peekup',
 })
