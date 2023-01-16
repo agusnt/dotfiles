@@ -16,7 +16,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---vim.g.vimwiki_global_ext = 0 -- Markdown always as markdown
+vim.g.vimwiki_global_ext = 0 -- Markdown not always as markdown
 
 require('lazy').setup({
     -- VimWiki
@@ -81,12 +81,8 @@ require('lazy').setup({
     },
     -- Hop
     {
-        'phaazon/hop.nvim',
-        branch = 'v2', -- optional but strongly recommended
-        config = function()
-            -- you can configure Hop the way you like here; see :h hop-config
-            require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-          end
+        'ggandor/leap.nvim',
+        dependencies = 'tpope/vim-repeat'
     },
     -- Peekup
     'gennaro-tedesco/nvim-peekup',

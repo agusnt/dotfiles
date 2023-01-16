@@ -4,7 +4,7 @@
 
 require("plugins/lazy") -- This must be the first one
 require("plugins/lsp")
-require("plugins/hop")
+require("plugins/leap")
 require("plugins/glow")
 require("plugins/indent")
 require("plugins/lualine")
