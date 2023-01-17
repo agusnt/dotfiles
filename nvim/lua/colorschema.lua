@@ -23,3 +23,8 @@ require("gruvbox").setup({
 
 vim.o.background = "dark" -- or light
 vim.cmd([[colorscheme gruvbox]])
+
+vim.cmd([[highlight link NormalFloat Normal]]) -- Float windows same color as normal one
+
+vim.cmd([[highlight SignColumn guibg=NONE]])
+

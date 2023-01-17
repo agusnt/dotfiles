@@ -9,11 +9,11 @@ map("n", "<leader>l", ":bnext<CR>", { silent = true }) -- Move to the next buffe
 map("n", "<leader>h", ":bprevious<CR>", { silent = true }) -- Move to the previous buffer
 map("n", "<leader>bq", ":bp <BAR> bd #<CR>", { silent = true }) -- Close the current buffer and move to the previous one
 
-map("n", "<leader>m", ":marks:normal!<CR>", { silent = true }) -- Show marks
+map("n", "<leader>m", ":marks<CR>", { silent = true }) -- Show marks
 
 -- Telescope
---map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
 map("n", "<leader>ff", ":Telescope file_browser<cr>", { silent = true })
+map("n", "<leader>ft", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
 map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { silent = true })
 map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", { silent = true })
 map("n", "<leader>fr", ":Telescope<cr>", { silent = true })

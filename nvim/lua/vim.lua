@@ -2,7 +2,7 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-vim.o.syntax    = on  -- Highlight syntax
+vim.o.syntax    = enable  -- Highlight syntax
 vim.g.mapleader = "," -- Change MapLeader
 
 -- Vertical line and wrap
@@ -38,7 +38,7 @@ vim.api.nvim_set_hl(0, 'Comment', {italic})
 vim.o.spell = true
 
 -- Merge signcolumn and number column into one
-vim.o.signcolumn = "no"
+vim.o.signcolumn = "number"
 
 -- This variable must be enabled for colors to be applied properly
 vim.o.termguicolors = true
@@ -51,3 +51,5 @@ vim.o.conceallevel = 2
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
+-- Use two space instead of 4 for tabs
+vim.cmd([[ab tabdos set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab]])

@@ -49,6 +49,7 @@ require('lazy').setup({
     },
     'nvim-telescope/telescope-file-browser.nvim',
     'benfowler/telescope-luasnip.nvim',
+    'nvim-telescope/telescope-fzy-native.nvim',
     -- LSP configuration
     {
         'williamboman/mason.nvim',
@@ -81,4 +82,8 @@ require('lazy').setup({
     },
     -- Peekup
     'gennaro-tedesco/nvim-peekup',
+    -- Smark marks
+    'chentoast/marks.nvim',
+    -- Leap
+    'ggandor/leap.nvim',
 })
