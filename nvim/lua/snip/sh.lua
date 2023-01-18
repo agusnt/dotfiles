@@ -77,5 +77,33 @@ ls.add_snippets("sh", {
         text("]; do "),
         insert(2, "action"),
         text("; done"),
-    })
+    }),
+
+    snip({
+        trig = "fora",
+        namr = "forArray",
+        dscr = "Iterate over array",
+    }, {
+        text("for "),
+        insert(1, "var"),
+        text(" in \"${"),
+        insert(2, "array"),
+        text("[@]}\"; do "),
+        insert(3, "action"),
+        text(" done"),
+    }),
+
+    snip({
+        trig = "forh",
+        namr = "forHash",
+        dscr = "Iterate over associativity array",
+    }, {
+        text("for "),
+        insert(1, "key"),
+        text(" in \"${!"),
+        insert(2, "array"),
+        text("[@]}\"; do "),
+        insert(3, "action"),
+        text(" done"),
+    }),
 })
