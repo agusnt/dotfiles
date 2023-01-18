@@ -86,4 +86,6 @@ require('lazy').setup({
     'chentoast/marks.nvim',
     -- Leap
     'ggandor/leap.nvim',
+    -- Nerd commander
+    'numToStr/Comment.nvim',
 })
