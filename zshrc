@@ -69,7 +69,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light unixorn/fzf-zsh-plugin
 zinit light Aloxaf/fzf-tab
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#7c6f64,italic"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#7c6f64"
 
 plugins=(copyfile git)
 
