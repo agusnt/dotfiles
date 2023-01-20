@@ -34,7 +34,7 @@ require('lazy').setup({
     },
     -- Gruvbox
     {
-        'ellisonleao/gruvbox.nvim',
+        'sainnhe/gruvbox-material',
         lazy = false,
         priority = 1000,
     },
