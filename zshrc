@@ -69,7 +69,9 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light unixorn/fzf-zsh-plugin
 zinit light Aloxaf/fzf-tab
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#7c6f64,italic"
+
 plugins=(copyfile git)
 
-PROMPT="%B>>%b "
+PROMPT="%b%B>>%b "
 precmd() { print "" }
