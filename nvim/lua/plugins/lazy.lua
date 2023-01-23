@@ -73,15 +73,11 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     -- Indent line
     'lukas-reineke/indent-blankline.nvim',
-    -- Impatient
-    'lewis6991/impatient.nvim',
     -- Buffer line
     {
         'akinsho/bufferline.nvim',
         dependencies = 'nvim-tree/nvim-web-devicons'
     },
-    -- Peekup
-    'gennaro-tedesco/nvim-peekup',
     -- Smark marks
     'chentoast/marks.nvim',
     -- Leap
