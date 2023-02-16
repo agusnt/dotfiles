@@ -58,5 +58,5 @@ end;
 -- New icons for singcoloumn
 vim.cmd([[sign define DiagnosticSignError text= texthl=TextError linehl= numhl=]])
 vim.cmd([[sign define DiagnosticSignWarn  text= texthl=TextWarn  linehl= numhl=]])
-vim.cmd([[sign define DiagnosticSignInfo  text=כֿ texthl=TextInfo  linehl= numhl=]])
-vim.cmd([[sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=]])
+vim.cmd([[sign define DiagnosticSignInfo  text= texthl=TextInfo  linehl= numhl=]])
+vim.cmd([[sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=]])

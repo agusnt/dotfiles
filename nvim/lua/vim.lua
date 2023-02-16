@@ -53,3 +53,6 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Use two space instead of 4 for tabs
 vim.cmd([[ab tabdos set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab]])
+
+-- Disable mouse
+vim.opt.mouse = nil
