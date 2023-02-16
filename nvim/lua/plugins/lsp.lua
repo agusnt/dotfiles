@@ -2,7 +2,7 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'sumneko_lua'}
+local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab'}
 
 -- Configure mason
 require("mason").setup({
