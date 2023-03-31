@@ -7,3 +7,5 @@
 require("telescope").load_extension('file_browser')
 require('telescope').load_extension('luasnip')
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('neoclip')
+require('neoclip').setup()

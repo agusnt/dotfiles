@@ -50,6 +50,10 @@ require('lazy').setup({
     'nvim-telescope/telescope-file-browser.nvim',
     'benfowler/telescope-luasnip.nvim',
     'nvim-telescope/telescope-fzy-native.nvim',
+    {
+        'AckslD/nvim-neoclip.lua',
+        dependencies = {'kkharji/sqlite.lua', module = 'sqlite'},
+    },
     -- LSP configuration
     {
         'williamboman/mason.nvim',
