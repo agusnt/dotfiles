@@ -88,7 +88,5 @@ require('lazy').setup({
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander
-    'numToStr/Comment.nvim',
-    -- Editorconfig (remove it in neovim 0.9)
-    'editorconfig/editorconfig-vim',
+    'numToStr/Comment.nvim'
 })
