@@ -44,8 +44,8 @@ require('lazy').setup({
     'ellisonleao/glow.nvim',
     -- Telescope
     {
-  	    'nvim-telescope/telescope.nvim',
-  	    dependencies = { {'nvim-lua/plenary.nvim'} }
+        'nvim-telescope/telescope.nvim',
+        dependencies = { {'nvim-lua/plenary.nvim'} }
     },
     'nvim-telescope/telescope-file-browser.nvim',
     'benfowler/telescope-luasnip.nvim',
@@ -88,5 +88,14 @@ require('lazy').setup({
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander
-    'numToStr/Comment.nvim'
+    'numToStr/Comment.nvim',
+    -- Noice vim 
+    {
+        'folke/noice.nvim',
+        dependencies = 
+        {
+            'MunifTanjim/nui.nvim',
+            'rcarriga/nvim-notify'
+        }
+    },
 })

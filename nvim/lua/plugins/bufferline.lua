@@ -7,7 +7,7 @@ require("bufferline").setup{
         diagnostics = "nvim_lsp",
         separator_style = {"", ""},
         modified_icon = '●',
-        numbers = "buffer_id",
+        numbers = "ordinal",
         color_icons = true,
         show_buffer_icons = true,
         show_buffer_close_icons = false,
