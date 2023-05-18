@@ -21,8 +21,7 @@ vim.g.vimwiki_global_ext = 0 -- Markdown not always as markdown
 require('lazy').setup({
     -- Gruvbox
     {
-        -- 'sainnhe/gruvbox-material',
-        'ellisonleao/gruvbox.nvim',
+        'sainnhe/gruvbox-material',
         lazy = false,
         priority = 1000,
     },
