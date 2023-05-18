@@ -9,7 +9,7 @@ map("n", "<leader>l", ":bnext<CR>", { silent = true }) -- Move to the next buffe
 map("n", "<leader>h", ":bprevious<CR>", { silent = true }) -- Move to the previous buffer
 map("n", "<leader>bq", ":bp <BAR> bd #<CR>", { silent = true }) -- Close the current buffer and move to the previous one
 
-map("n", "<leader>m", ":marks<CR>", { silent = true }) -- Show marks
+map("n", "<leader>m", ":NvimTreeToggle<CR>", { silent = true }) -- Nvim Tree
 
 -- Telescope
 map("n", "<leader>ff", ":Telescope file_browser<cr>", { silent = true })

@@ -19,22 +19,10 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.vimwiki_global_ext = 0 -- Markdown not always as markdown
 
 require('lazy').setup({
-    -- VimWiki
-    {
-        'vimwiki/vimwiki',
-        config = function()
-            vim.g.vimwiki_list = {
-                {
-                    path   = '~/Documents/Wiki/Work/',
-                    syntax = 'markdown',
-                    ext    = '.md',
-                },
-            }
-        end
-    },
     -- Gruvbox
     {
-        'sainnhe/gruvbox-material',
+        -- 'sainnhe/gruvbox-material',
+        'ellisonleao/gruvbox.nvim',
         lazy = false,
         priority = 1000,
     },
@@ -83,19 +71,22 @@ require('lazy').setup({
         'akinsho/bufferline.nvim',
         dependencies = 'nvim-tree/nvim-web-devicons'
     },
-    -- Smark marks
-    'chentoast/marks.nvim',
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander
-    'numToStr/Comment.nvim',
-    -- Noice vim 
     {
-        'folke/noice.nvim',
-        dependencies = 
-        {
-            'MunifTanjim/nui.nvim',
-            'rcarriga/nvim-notify'
-        }
+        'numToStr/Comment.nvim',
+        config = function() require('Comment').setup() end
     },
+    -- Autopairs
+    {
+        'windwp/nvim-autopairs',
+        config = function() require('nvim-autopairs').setup() end
+    },
+    -- Tree
+    {
+        'nvim-tree/nvim-tree.lua',
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function() require('nvim-tree').setup({}) end
+    }
 })

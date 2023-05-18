@@ -3,7 +3,11 @@
 -- @Email: agusnavarro11@gmail.com
 
 vim.o.syntax    = enable  -- Highlight syntax
-vim.g.mapleader = "," -- Change MapLeader
+vim.g.mapleader = "," -- Change mapleader
+
+-- Disable newtr
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Vertical line and wrap
 vim.bo.textwidth   = 0      -- Maximum width of column
@@ -50,9 +54,6 @@ vim.o.conceallevel = 2
 -- Fold
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-
--- Use two space instead of 4 for tabs
-vim.cmd([[ab tabdos set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab]])
 
 -- Disable mouse
 vim.opt.mouse = nil
