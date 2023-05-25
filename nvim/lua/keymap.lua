@@ -9,8 +9,6 @@ map("n", "<leader>l", ":bnext<CR>", { silent = true }) -- Move to the next buffe
 map("n", "<leader>h", ":bprevious<CR>", { silent = true }) -- Move to the previous buffer
 map("n", "<leader>bq", ":bp <BAR> bd #<CR>", { silent = true }) -- Close the current buffer and move to the previous one
 
-map("n", "<leader>m", ":NvimTreeToggle<CR>", { silent = true }) -- Nvim Tree
-
 -- Telescope
 map("n", "<leader>ff", ":Telescope file_browser<cr>", { silent = true })
 map("n", "<leader>ft", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
@@ -34,11 +32,8 @@ lspmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>') -- Show symbols
 lspmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>') -- List options
 lspmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
 lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>') -- Open diagnostic
-lspmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-lspmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-
--- Glow
-map("n", "<leader>g", ":Glow<cr>", { silent = true })
+lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+lspmap('n', 'gp', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 -- LuaSnip
 map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})

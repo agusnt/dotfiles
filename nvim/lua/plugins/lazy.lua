@@ -16,60 +16,33 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.vimwiki_global_ext = 0 -- Markdown not always as markdown
-
 require('lazy').setup({
-    -- Gruvbox
-    {
-        'sainnhe/gruvbox-material',
-        lazy = false,
-        priority = 1000,
-    },
-    -- Status line
-    'hoob3rt/lualine.nvim',
-    -- Glow
-    'ellisonleao/glow.nvim',
-    -- Telescope
-    {
-        'nvim-telescope/telescope.nvim',
-        dependencies = { {'nvim-lua/plenary.nvim'} }
-    },
-    'nvim-telescope/telescope-file-browser.nvim',
-    'benfowler/telescope-luasnip.nvim',
-    'nvim-telescope/telescope-fzy-native.nvim',
-    {
-        'AckslD/nvim-neoclip.lua',
-        dependencies = {'kkharji/sqlite.lua', module = 'sqlite'},
-    },
-    -- LSP configuration
-    {
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
-        'neovim/nvim-lspconfig',
-        build = ":MasonUpdate"
-    },
-    -- Autocompletion
-    {
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-cmdline',
-        'hrsh7th/nvim-cmp'
-    },
-    -- Luasnip
-    {
-        'L3MON4D3/LuaSnip',
-        'saadparwaiz1/cmp_luasnip'
-    },
     -- Treesitter
-    'nvim-treesitter/nvim-treesitter',
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    -- Gruvbox
+    { 'sainnhe/gruvbox-material.nvim', priority = 1000 },
+    -- Status line
+    { 'hoob3rt/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons' },
+    -- Telescope
+    { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
+    'nvim-telescope/telescope-file-browser.nvim',
+    'nvim-telescope/telescope-fzy-native.nvim',
+    -- LSP configuration
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'neovim/nvim-lspconfig',
+    'jose-elias-alvarez/null-ls.nvim',
+    -- Autocompletion
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
+    -- Luasnip
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
     -- Indent line
     'lukas-reineke/indent-blankline.nvim',
-    -- Buffer line
-    {
-        'akinsho/bufferline.nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons'
-    },
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander
@@ -82,10 +55,4 @@ require('lazy').setup({
         'windwp/nvim-autopairs',
         config = function() require('nvim-autopairs').setup() end
     },
-    -- Tree
-    {
-        'nvim-tree/nvim-tree.lua',
-        dependencies = 'nvim-tree/nvim-web-devicons',
-        config = function() require('nvim-tree').setup({}) end
-    }
 })

@@ -4,6 +4,17 @@
 
 local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab'}
 
+-- Null-ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.spell,
+    },
+})
+
 -- Configure mason
 require("mason").setup({
     ui = {
@@ -19,7 +30,7 @@ require("mason").setup({
 require("mason-lspconfig").setup({ ensure_installed = servers })
 
 -- Autocompletation
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 cmp.setup({
     snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end,},
@@ -34,13 +45,18 @@ cmp.setup({
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
-    sources = cmp.config.sources({
+    sources = cmp.config.sources(
+    {
+        { name = 'nvim_lsp_signature_help' }
+    },
+    {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
     }, {
         { name = 'buffer' },
         { name = 'path' },
-    })
+    }
+    )
 })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
