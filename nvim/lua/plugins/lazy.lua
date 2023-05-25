@@ -20,7 +20,7 @@ require('lazy').setup({
     -- Treesitter
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     -- Gruvbox
-    { 'sainnhe/gruvbox-material.nvim', priority = 1000 },
+    { 'sainnhe/gruvbox-material', priority = 1000 },
     -- Status line
     { 'hoob3rt/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons' },
     -- Telescope
@@ -55,4 +55,9 @@ require('lazy').setup({
         'windwp/nvim-autopairs',
         config = function() require('nvim-autopairs').setup() end
     },
+    -- Glow 
+    {
+        'ellisonleao/glow.nvim',
+        config = function() require('glow').setup() end
+    }
 })

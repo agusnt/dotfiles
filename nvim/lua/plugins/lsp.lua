@@ -2,7 +2,8 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab'}
+local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'lua_ls',
+'rust_analyzer'}
 
 -- Null-ls
 local null_ls = require("null-ls")
@@ -46,9 +47,6 @@ cmp.setup({
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = cmp.config.sources(
-    {
-        { name = 'nvim_lsp_signature_help' }
-    },
     {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
