@@ -31,4 +31,3 @@ function lspmap(mode, lhs, rhs)
     local opts = {buffer = true}
     vim.keymap.set(mode, lhs, rhs, opts)
 end
-

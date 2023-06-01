@@ -9,3 +9,8 @@ require("plugins/indent")
 require("plugins/lualine")
 require("plugins/telescope")
 require("plugins/treesitter")
+
+-- Now load the plugins that does not need any special configurations
+require('Comment').setup()
+require('nvim-autopairs').setup()
+require('glow').setup()

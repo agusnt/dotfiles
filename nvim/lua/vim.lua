@@ -5,10 +5,6 @@
 vim.o.syntax    = enable  -- Highlight syntax
 vim.g.mapleader = "," -- Change mapleader
 
--- Disable newtr
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- Vertical line and wrap
 vim.bo.textwidth   = 0      -- Maximum width of column
 vim.bo.wrapmargin  = 0

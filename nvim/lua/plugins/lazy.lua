@@ -46,18 +46,9 @@ require('lazy').setup({
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander
-    {
-        'numToStr/Comment.nvim',
-        config = function() require('Comment').setup() end
-    },
+    'numToStr/Comment.nvim',
     -- Autopairs
-    {
-        'windwp/nvim-autopairs',
-        config = function() require('nvim-autopairs').setup() end
-    },
+    'windwp/nvim-autopairs',
     -- Glow 
-    {
-        'ellisonleao/glow.nvim',
-        config = function() require('glow').setup() end
-    }
+    'ellisonleao/glow.nvim',
 })

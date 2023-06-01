@@ -3,7 +3,7 @@
 -- @Email: agusnavarro11@gmail.com
 
 local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'lua_ls',
-'rust_analyzer'}
+                'rust_analyzer'}
 
 -- Null-ls
 local null_ls = require("null-ls")
@@ -48,11 +48,11 @@ cmp.setup({
     }),
     sources = cmp.config.sources(
     {
-        { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = 'nvim_lsp' },
+        { name = 'path' },
     }, {
         { name = 'buffer' },
-        { name = 'path' },
     }
     )
 })
