@@ -2,6 +2,8 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
+local keymap = vim.keymap.set
+
 require('fn') -- Import auxiliary functions
 
 map("n", "<leader>T", ":enew<CR>", { silent = true }) -- Open a new buffer

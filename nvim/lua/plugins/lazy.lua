@@ -25,19 +25,14 @@ require('lazy').setup({
     { 'hoob3rt/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons' },
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
-    'nvim-telescope/telescope-file-browser.nvim',
-    'nvim-telescope/telescope-fzy-native.nvim',
-    -- LSP configuration
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    'neovim/nvim-lspconfig',
-    'jose-elias-alvarez/null-ls.nvim',
-    -- Autocompletion
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/nvim-cmp',
+    { 
+        'nvim-telescope/telescope-file-browser.nvim', 
+        dependencies = 'nvim-telescope/telescope.nvim'
+    },
+    {
+        'nvim-telescope/telescope-fzy-native.nvim',
+        dependencies = 'nvim-telescope/telescope.nvim'
+    },
     -- Luasnip
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
@@ -51,4 +46,18 @@ require('lazy').setup({
     'windwp/nvim-autopairs',
     -- Glow 
     'ellisonleao/glow.nvim',
+
+    -- Comment this plugins if you don't want to have lsp (and save resources)
+    -- LSP configuration
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'neovim/nvim-lspconfig',
+    'jose-elias-alvarez/null-ls.nvim',
+    -- Autocompletion
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp'
+
 })
