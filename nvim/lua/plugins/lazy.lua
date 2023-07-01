@@ -45,7 +45,12 @@ require('lazy').setup({
     -- Autopairs
     'windwp/nvim-autopairs',
     -- Glow 
-    'ellisonleao/glow.nvim',
+    { 'ellisonleao/glow.nvim', config = true, cmd = 'Glow' },
+    -- Grammar checker
+    {
+        'brymer-meneses/grammar-guard.nvim',
+        dependencies = 'neovim/nvim-lspconfig'
+    },
 
     -- Comment this plugins if you don't want to have lsp (and save resources)
     -- LSP configuration

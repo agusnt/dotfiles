@@ -2,8 +2,8 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'lua_ls',
-                'rust_analyzer'}
+local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'ltex',
+    'lua_ls', 'rust_analyzer'}
 
 -- Null-ls
 local null_ls = require("null-ls")

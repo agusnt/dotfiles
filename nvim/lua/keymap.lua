@@ -31,7 +31,7 @@ lspmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>') -- Goto type def
 lspmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>') -- List references
 lspmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>') -- Show arguments
 lspmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>') -- Show symbols
-lspmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>') -- List options
+lspmap('n', 'gf', '<cmd>lua vim.lsp.buf.code_action()<cr>') -- List options
 lspmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
 lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>') -- Open diagnostic
 lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')

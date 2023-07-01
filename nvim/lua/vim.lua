@@ -53,3 +53,6 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Disable mouse
 vim.opt.mouse = nil
+
+-- Smart indent
+vim.opt.smartindent = false
