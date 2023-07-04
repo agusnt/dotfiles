@@ -25,13 +25,26 @@ require('lazy').setup({
     { 'hoob3rt/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons' },
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
-    { 
-        'nvim-telescope/telescope-file-browser.nvim', 
-        dependencies = 'nvim-telescope/telescope.nvim'
+    {
+        'nvim-telescope/telescope-file-browser.nvim',
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+            'nvim-lua/plenary.nvim'
+        }
     },
     {
         'nvim-telescope/telescope-fzy-native.nvim',
-        dependencies = 'nvim-telescope/telescope.nvim'
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+            'nvim-lua/plenary.nvim'
+        }
+    },
+    {
+        'debugloop/telescope-undo.nvim',
+        dependencies = {
+            'nvim-telescope/telescope.nvim',
+            'nvim-lua/plenary.nvim'
+        }
     },
     -- Luasnip
     'L3MON4D3/LuaSnip',

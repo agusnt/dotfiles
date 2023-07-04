@@ -21,6 +21,7 @@ map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbo
 map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fy", ":Telescope neoclip<cr>", { silent = true })
+map("n", "<leader>fu", "<cmd>Telescope undo<cr>")
 
 -- LSP
 lspmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>') -- Info
