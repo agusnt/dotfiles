@@ -50,7 +50,7 @@ require('lazy').setup({
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
     -- Indent line
-    'lukas-reineke/indent-blankline.nvim',
+    { 'lukas-reineke/indent-blankline.nvim', main = "ibl", opts = {} },
     -- Leap
     'ggandor/leap.nvim',
     -- Nerd commander

@@ -13,7 +13,7 @@ vim.cmd [[highlight IndentBlanklineContextChar guifg=#d79921 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#504945 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineChar guifg=#504945 gui=nocombine]]
 
-require("indent_blankline").setup {
+require("ibl").setup {
     space_char_blankline = " ",
     show_end_of_line = true,
 
