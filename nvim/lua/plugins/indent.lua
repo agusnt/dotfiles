@@ -13,13 +13,4 @@ vim.cmd [[highlight IndentBlanklineContextChar guifg=#d79921 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#504945 gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineChar guifg=#504945 gui=nocombine]]
 
-require("ibl").setup {
-    space_char_blankline = " ",
-    show_end_of_line = true,
-
-    show_trailing_blankline_indent = false,
-    show_current_context = true,
-
-    use_treesitter = true,
-    use_treesitter_scope = true,
-}
+require("ibl").setup()
