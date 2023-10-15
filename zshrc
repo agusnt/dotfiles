@@ -1,7 +1,9 @@
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=~/Documents/bin:$PATH
+#export PATH=~/Documents/bin:$PATH
+export PATH=~/Documents/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:/opt/homebrew/bin:~/.cargo/bin/:$PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ###############################################################################
 # Plugins
@@ -54,7 +56,7 @@ setopt appendhistory
 ###############################################################################
 
 source ~/.aliases
-# source ~/.aliases_cmd
+source ~/.aliases_cmd
 
 ###############################################################################
 # Tmux config
