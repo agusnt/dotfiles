@@ -59,12 +59,6 @@ require('lazy').setup({
     'windwp/nvim-autopairs',
     -- Glow 
     { 'ellisonleao/glow.nvim', config = true, cmd = 'Glow' },
-    -- Grammar checker
-    {
-        'brymer-meneses/grammar-guard.nvim',
-        dependencies = 'neovim/nvim-lspconfig'
-    },
-
     -- Comment this plugins if you don't want to have lsp (and save resources)
     -- LSP configuration
     'williamboman/mason.nvim',
@@ -76,6 +70,12 @@ require('lazy').setup({
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
-    'hrsh7th/nvim-cmp'
-
+    'hrsh7th/nvim-cmp',
+    -- Oil
+    {
+        'stevearc/oil.nvim',
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    }
 })
