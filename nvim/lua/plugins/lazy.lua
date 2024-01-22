@@ -21,8 +21,6 @@ require('lazy').setup({
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     -- Gruvbox
     { 'sainnhe/gruvbox-material', priority = 1000 },
-    -- Status line
-    { 'hoob3rt/lualine.nvim', dependencies = 'nvim-tree/nvim-web-devicons' },
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
     {

@@ -6,7 +6,6 @@ require("plugins/lazy") -- This must be the first one
 require("plugins/lsp") -- Comment this one if you do not want lsp (saving resources)
 require("plugins/leap")
 require("plugins/indent")
-require("plugins/lualine")
 require("plugins/telescope")
 require("plugins/treesitter")
 
