@@ -46,6 +46,9 @@ map("s", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("i", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
 map("s", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
 
+-- git
+map("n", "<leader>g", ":GitBlameToggle<cr>", {silent = true})
+
 -- Terminal
 map("n", "<leader>t", ":te zsh<cr>", {silent = true})
 map("t", "<esc>", [[<C-\><C-n>]], {silent = true})

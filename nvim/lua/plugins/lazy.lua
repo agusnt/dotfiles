@@ -69,6 +69,8 @@ require('lazy').setup({
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
+    -- git
+    'f-person/git-blame.nvim',
     -- Oil
     {
         'stevearc/oil.nvim',
