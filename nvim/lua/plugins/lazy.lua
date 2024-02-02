@@ -24,21 +24,7 @@ require('lazy').setup({
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
     {
-        'nvim-telescope/telescope-file-browser.nvim',
-        dependencies = {
-            'nvim-telescope/telescope.nvim',
-            'nvim-lua/plenary.nvim'
-        }
-    },
-    {
         'nvim-telescope/telescope-fzy-native.nvim',
-        dependencies = {
-            'nvim-telescope/telescope.nvim',
-            'nvim-lua/plenary.nvim'
-        }
-    },
-    {
-        'debugloop/telescope-undo.nvim',
         dependencies = {
             'nvim-telescope/telescope.nvim',
             'nvim-lua/plenary.nvim'
@@ -69,8 +55,6 @@ require('lazy').setup({
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
-    -- git
-    'f-person/git-blame.nvim',
     -- Oil
     {
         'stevearc/oil.nvim',

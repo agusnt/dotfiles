@@ -12,8 +12,7 @@ map("n", "<leader>h", ":bprevious<CR>", { silent = true }) -- Move to the previo
 map("n", "<leader>bq", ":bp <BAR> bd #<CR>", { silent = true }) -- Close the current buffer and move to the previous one
 
 -- Telescope
-map("n", "<leader>ff", ":Telescope file_browser<cr>", { silent = true })
-map("n", "<leader>ft", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
+map("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", { silent = true })
 map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { silent = true })
 map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", { silent = true })
 map("n", "<leader>fr", ":Telescope<cr>", { silent = true })
@@ -45,10 +44,3 @@ map("i", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("s", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", {silent = true})
 map("i", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
 map("s", "<c-l>", "<Plug>luasnip-next-choice", {silent = true})
-
--- git
-map("n", "<leader>g", ":GitBlameToggle<cr>", {silent = true})
-
--- Terminal
-map("n", "<leader>t", ":te zsh<cr>", {silent = true})
-map("t", "<esc>", [[<C-\><C-n>]], {silent = true})
