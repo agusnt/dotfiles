@@ -1,9 +1,8 @@
+zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-#export PATH=~/Documents/bin:$PATH
-export PATH=~/Documents/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:/opt/homebrew/bin:~/.cargo/bin/:$PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH=~/Documents/bin:$PATH
 
 ###############################################################################
 # Plugins
@@ -19,10 +18,8 @@ fi
 
 source ~/.zsh/antigen.zsh
 
-antigen bundle git # Git plugin
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle chitoku-k/fzf-zsh-completions
 antigen bundle unixorn/fzf-zsh-plugin@main # Autocomplete
 antigen bundle Aloxaf/fzf-tab # Suggestions
 
@@ -56,13 +53,10 @@ setopt appendhistory
 ###############################################################################
 
 source ~/.aliases
-source ~/.aliases_cmd
 
 ###############################################################################
 # Tmux config
 ###############################################################################
-
-if [ "$TMUX" = "" ]; then tmux attach -d || tmux; fi
 
 autoload -Uz vcs_info
 precmd() { vcs_info }
