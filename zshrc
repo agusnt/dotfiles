@@ -2,7 +2,7 @@ zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=~/Documents/bin:$PATH
+export PATH=~/Documents/bin/:$PATH
 
 ###############################################################################
 # Plugins
@@ -22,7 +22,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle unixorn/fzf-zsh-plugin@main # Autocomplete
 antigen bundle Aloxaf/fzf-tab # Suggestions
-
+antigen bundle jeffreytse/zsh-vi-mode # Vi-mode
 antigen bundle ael-code/zsh-colored-man-pages # Colored man pages
 antigen bundle mdumitru/fancy-ctrl-z # Fancy ctrl z
 
@@ -64,6 +64,6 @@ precmd() { vcs_info }
 setopt PROMPT_SUBST
 
 NEWLINE=$'\n'
-PROMPT='[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%B %b%f'
+PROMPT='%B[@%m]%b[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%B %b%f'
 
 zstyle ':vcs_info:git:*' formats '%F{yellow}[ %b]'
