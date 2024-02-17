@@ -61,5 +61,15 @@ require('lazy').setup({
         opts = {},
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    -- Hologram
+    'edluffy/hologram.nvim',
+    -- Org mode
+    {
+        'nvim-orgmode/orgmode',
+        dependencies = {
+            { 'nvim-treesitter/nvim-treesitter', lazy = true },
+        },
+        event = 'VeryLazy',
     }
 })

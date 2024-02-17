@@ -8,9 +8,11 @@ require("plugins/leap")
 require("plugins/indent")
 require("plugins/telescope")
 require("plugins/treesitter")
+require("plugins/orgmode")
 
 -- Now load the plugins that does not need any special configurations
 require('Comment').setup()
 require('nvim-autopairs').setup()
 require('glow').setup()
 require('oil').setup()
+require('hologram').setup({auto_display = true})
