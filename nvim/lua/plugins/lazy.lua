@@ -62,8 +62,6 @@ require('lazy').setup({
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
-    -- Hologram
-    'edluffy/hologram.nvim',
     -- Org mode
     {
         'nvim-orgmode/orgmode',
