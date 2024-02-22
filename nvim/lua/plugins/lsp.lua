@@ -70,6 +70,18 @@ for _, lsp in pairs(servers) do
     }
 end;
 
+-- ltex config
+require('lspconfig').ltex.setup({
+    filetypes = { "vimwiki", "markdown", "md", "pandoc", "vimwiki.markdown.pandoc" },
+    flags = { debounce_text_changes = 300 },
+    settings = {
+        ltex = {
+            language = "auto"
+        }
+    },
+    on_attach = on_attach,
+})
+
 -- New icons for singcoloumn
 vim.cmd([[sign define DiagnosticSignError text= texthl=TextError linehl= numhl=]])
 vim.cmd([[sign define DiagnosticSignWarn  text= texthl=TextWarn  linehl= numhl=]])
