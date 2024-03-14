@@ -20,7 +20,7 @@ require('lazy').setup({
     -- Treesitter
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     -- Gruvbox
-    { 'sainnhe/gruvbox-material', priority = 1000 },
+    { 'ellisonleao/gruvbox.nvim', priority = 1000 },
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
     {

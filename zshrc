@@ -2,7 +2,8 @@ zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=~/Documents/bin/:$PATH
+export PATH=~/Documents/bin/:/home/agus/.local/bin:/usr/local/texlive/2023/bin/x86_64-linux/:$HOME/.cargo/bin:$PATH
+export EDITOR=nvim
 
 ###############################################################################
 # Plugins
@@ -25,6 +26,7 @@ antigen bundle Aloxaf/fzf-tab # Suggestions
 antigen bundle jeffreytse/zsh-vi-mode # Vi-mode
 antigen bundle ael-code/zsh-colored-man-pages # Colored man pages
 antigen bundle mdumitru/fancy-ctrl-z # Fancy ctrl z
+antigen bundle zpm-zsh/colors
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     antigen bundle osx
@@ -67,3 +69,10 @@ NEWLINE=$'\n'
 PROMPT='%B[@%m]%b[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%B %b%f'
 
 zstyle ':vcs_info:git:*' formats '%F{yellow}[ %b]'
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/home/agus/.juliaup/bin' $path)
+export PATH

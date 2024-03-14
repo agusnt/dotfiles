@@ -1,0 +1,33 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 25,
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "network"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+    "network": {
+        "interface": "eno1",
+  	    "format": "Eth",
+  	    "format-ethernet": "Eth (OK)",
+  	    "format-disconnected": "Eth (Disconnect",
+  	    "max-length": 50
+    },
+    "pulseaudio": {
+  	"format": "Volume: {volume}%",
+  	"scroll-step": 5,
+  	"on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+    "clock": {
+        "interval": 60,
+        "format": "{:%d.%m.%y %H:%M (%Z)}",
+        "timezones": ["Europe/Madrid"],
+        "max-length": 25
+    },
+}

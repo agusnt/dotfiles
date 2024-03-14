@@ -9,7 +9,7 @@ local function statusline()
     if string.len(branch) > 0 then
         branch = " " .. branch
     end
-    return "%=" .. fname .. branch .. "%="
+    return fname .. branch .. "%="
 end
 
 vim.opt.statusline = statusline()
