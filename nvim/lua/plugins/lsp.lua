@@ -64,6 +64,9 @@ dap.listeners.before.event_exited.dapui_config = function()
     dapui.close()
 end
 
+require('dapui').setup()
+require('nvim-dap-virtual-text').setup()
+
 -- Autocompletation
 local cmp = require('cmp')
 
@@ -120,8 +123,6 @@ require('lspconfig').ltex.setup({
     },
     on_attach = on_attach,
 })
-
-require('dapui').setup()
 
 -- New icons for singcoloumn
 vim.cmd([[sign define DiagnosticSignError text= texthl=TextError linehl= numhl=]])

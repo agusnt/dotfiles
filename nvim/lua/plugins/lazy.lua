@@ -52,6 +52,7 @@ require('lazy').setup({
     'mhartington/formatter.nvim',
     'folke/neodev.nvim',
     'mfussenegger/nvim-lint',
+    'theHamsta/nvim-dap-virtual-text',
     'neovim/nvim-lspconfig',
     {
         'rcarriga/nvim-dap-ui',
