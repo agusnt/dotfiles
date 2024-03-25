@@ -19,6 +19,7 @@ map("n", "<leader>fr", ":Telescope<cr>", { silent = true })
 map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", { silent = true })
 map("n", "<leader>fa", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>", { silent = true })
 map("n", "<leader>fo", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", { silent = true })
+map("n", "<leader>fm", "<cmd>lua require('telescope.builtin').marks()<cr>", { silent = true })
 map("n", "<leader>fy", ":Telescope neoclip<cr>", { silent = true })
 map("n", "<leader>fu", "<cmd>Telescope undo<cr>")
 

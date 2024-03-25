@@ -61,5 +61,7 @@ require('lazy').setup({
         opts = {},
         -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
-    }
+    },
+    -- Marks
+    'chentoast/marks.nvim'
 })
