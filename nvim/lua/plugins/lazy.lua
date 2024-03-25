@@ -43,12 +43,20 @@ require('lazy').setup({
     'windwp/nvim-autopairs',
     -- Glow 
     { 'ellisonleao/glow.nvim', config = true, cmd = 'Glow' },
-    -- Comment this plugins if you don't want to have lsp (and save resources)
-    -- LSP configuration
+    -- Mason
     'williamboman/mason.nvim',
+    'jay-babu/mason-nvim-dap.nvim',
+    'rshkarin/mason-nvim-lint',
     'williamboman/mason-lspconfig.nvim',
+    -- LSP, DAP, LIN, FORMATTER configuration
+    'mhartington/formatter.nvim',
+    'folke/neodev.nvim',
+    'mfussenegger/nvim-lint',
     'neovim/nvim-lspconfig',
-    'jose-elias-alvarez/null-ls.nvim',
+    {
+        'rcarriga/nvim-dap-ui',
+        dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio'}
+    },
     -- Autocompletion
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -59,7 +67,6 @@ require('lazy').setup({
     {
         'stevearc/oil.nvim',
         opts = {},
-        -- Optional dependencies
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
     -- Marks

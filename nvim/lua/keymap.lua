@@ -38,6 +38,18 @@ lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>') -- Open diagnostic
 lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 lspmap('n', 'gp', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
+-- DAP
+map("n", "dc", "<cmd>lua require('dap').continue()<CR>", {silent = true})
+map("n", "dn", "<cmd>lua require('dap').step_into()<CR>", {silent = true})
+map("n", "do", "<cmd>lua require('dap').step_over()<CR>", {silent = true})
+map("n", "dO", "<cmd>lua require('dap').step_out()<CR>", {silent = true})
+map("n", "db", "<cmd>lua require('dap').toggle_breakpoint()<CR>", {silent = true})
+map("n", "dB", "<cmd>lua require('dap').set_breakpoint()<CR>", {silent = true})
+map("n", "dx", "<cmd>lua require('dap').set_breakpoint()<CR>", {silent = true})
+map("n", "dy", "<cmd>lua require('dap').repl.open()<CR>", {silent = true})
+map("n", "dl", "<cmd>lua require('dap').run_last()<CR>", {silent = true})
+map("n", "dt", "<cmd>lua require('dap').terminate()<CR>", {silent = true})
+
 -- LuaSnip
 map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})
 map("s", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", {silent = true})

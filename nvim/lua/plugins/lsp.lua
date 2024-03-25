@@ -1,20 +1,17 @@
--- LSP plugins suuport
+-- LSP,DAP,Linterns,Formatter plugins suuport
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-local servers = { 'pyright', 'bashls', 'clangd', 'html', 'texlab', 'ltex',
-    'lua_ls', 'rust_analyzer'}
-
--- Null-ls
-local null_ls = require("null-ls")
-
-null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.diagnostics.eslint,
-        --null_ls.builtins.completion.spell,
-    },
-})
+-- Servers
+local lsp_server = {
+        'pyright', 'bashls', 'clangd', 'html', 'texlab', 'ltex', 'lua_ls'
+}
+local dap_server = {
+        'python', 'cppdbg', 'bash'
+}
+local lint_server = {
+        'cpplint', 'flake8', 'vale', 'hadolint'
+}
 
 -- Configure mason
 require("mason").setup({
@@ -27,11 +24,53 @@ require("mason").setup({
     }
 })
 
--- Automatic install lsop server
-require("mason-lspconfig").setup({ ensure_installed = servers })
+-- LSP
+require("mason-lspconfig").setup({ ensure_installed = lsp_server })
+
+-- DAP
+require("mason-nvim-dap").setup({
+    ensure_installed = dap_server,
+    handlers = {}
+})
+
+-- Lint
+require('lint').linters_by_ft = {
+    markdown = {'vale',},
+    tex = {'vale',},
+    c = {'cpplint',},
+    cpp = {'cpplint',},
+    python = {'flake8',},
+    docker = {'hadolint',}
+}
+
+-- Linterns
+require('mason-nvim-lint').setup({ ensure_installed = lint_server })
+
+-- Formatter
+require("formatter").setup()
+
+-- DAP-UI
+local dap, dapui = require("dap"), require("dapui")
+dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+end
 
 -- Autocompletation
 local cmp = require('cmp')
+
+-- Neodev, should go before lspconfig
+require("neodev").setup({
+    library = { plugins = { "nvim-dap-ui" }, types = true },
+})
 
 cmp.setup({
     snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end,},
@@ -60,7 +99,7 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-for _, lsp in pairs(servers) do
+for _, lsp in pairs(lsp_server) do
     require('lspconfig')[lsp].setup {
         on_attach = on_attach,
         flags = {
@@ -81,6 +120,8 @@ require('lspconfig').ltex.setup({
     },
     on_attach = on_attach,
 })
+
+require('dapui').setup()
 
 -- New icons for singcoloumn
 vim.cmd([[sign define DiagnosticSignError text= texthl=TextError linehl= numhl=]])

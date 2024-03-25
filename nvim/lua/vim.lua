@@ -28,8 +28,8 @@ vim.o.nu      = true
 vim.o.rnu     = true
 
 -- Highlight cursor line
-vim.o.cursorline   = true
-vim.o.cursorcolumn = true
+-- vim.o.cursorline   = true
+-- vim.o.cursorcolumn = true
 
 -- Italic Comments
 vim.api.nvim_set_hl(0, 'Comment', {italic})
