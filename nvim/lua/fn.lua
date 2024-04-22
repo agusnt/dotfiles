@@ -31,28 +31,3 @@ function Lspmap(mode, lhs, rhs)
     local opts = {buffer = true}
     vim.keymap.set(mode, lhs, rhs, opts)
 end
-
--- Functions for configure the dap
-function AskArgs()
-    local askPerson = function()
-        local argument_string = vim.fn.input('Program arguments: ')
-        local bar = vim.fn.split(argument_string, " ", true)
-        if bar[1] == '' then
-            return nil
-        end
-        return bar
-    end
-
-    -- Depend on the file format
-    if vim.bo.filetype == 'python' then
-        require('dap').configurations.python = {
-            {
-                type = 'python',
-                request = 'launch',
-                program = '${file}',
-                args = askPerson
-            }
-        }
-    end
-    require('dap').continue()
-end

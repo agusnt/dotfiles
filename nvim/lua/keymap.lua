@@ -39,7 +39,7 @@ Lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 Lspmap('n', 'gp', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
 -- DAP
-Map("n", "dc", "<cmd>lua AskArgs()<CR>", {silent = true})
+Map("n", "dc", "<cmd>lua require('dap').continue()<CR>", {silent = true})
 Map("n", "dn", "<cmd>lua require('dap').step_into()<CR>", {silent = true})
 Map("n", "do", "<cmd>lua require('dap').step_over()<CR>", {silent = true})
 Map("n", "dO", "<cmd>lua require('dap').step_out()<CR>", {silent = true})
