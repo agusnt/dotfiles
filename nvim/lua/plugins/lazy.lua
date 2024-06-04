@@ -19,8 +19,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     -- Treesitter
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    -- Gruvbox
-    { 'ellisonleao/gruvbox.nvim', priority = 1000 },
+    -- Color Schema
+    { 'ellisonleao/gruvbox.nvim', lazy = false, priority = 1000 },
     -- Telescope
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
     {
@@ -64,6 +64,7 @@ require('lazy').setup({
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
+    { 'zbirenbaum/copilot-cmp', dependencies = { 'zbirenbaum/copilot.lua' } },
     -- Oil
     {
         'stevearc/oil.nvim',
@@ -71,5 +72,7 @@ require('lazy').setup({
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
     -- Marks
-    'chentoast/marks.nvim'
+    'chentoast/marks.nvim',
+    -- Latex
+    { 'lervag/vimtex', lazy = false }
 })

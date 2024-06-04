@@ -2,13 +2,18 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   -- A list of parser names
-  ensure_installed = "all",
+  ensure_installed = {'c', 'cpp', 'bash', 'python', 'asm', 'git_config', 'git_rebase',
+    'gitattributes', 'gitcommit', 'gitignore', 'html', 'lua', 'dockerfile', 'json',
+    },
   sync_install = false, -- Install sync
   auto_install = true,
 
-  highlight = { enable = true, },
+  highlight = {
+    disable = {'latex', 'bash'},
+    enable = true,
+  },
 
   incremental_selection = {
     enable = true,

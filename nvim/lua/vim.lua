@@ -13,19 +13,21 @@ vim.wo.linebreak   = true   -- Breaks by word rather than character
 vim.opt.colorcolumn = "80"     -- Change color
 
 -- Tab configuration, space instead of tab, 4-size
+vim.opt.expandtab  = true -- True for using spaces instead of tab
 vim.opt.tabstop    = 4 
 vim.opt.shiftwidth = 4 
-vim.opt.expandtab  = true
 vim.g.backspace   = indent,eol,start
 
 -- Encode and spell
 vim.o.encoding  = "utf-8"
 vim.o.spelllang = "en"
+vim.opt.spell = false
 
 -- Number relatives
 vim.wo.number = relativenumber
 vim.o.nu      = true
 vim.o.rnu     = true
+vim.wo.statuscolumn = '%=%s %=%r│%T'
 
 -- Highlight cursor line
 -- vim.o.cursorline   = true
@@ -56,3 +58,6 @@ vim.opt.mouse = nil
 
 -- Smart indent
 vim.opt.smartindent = false
+
+-- Python option
+-- vim.g.python_recommended_style = false

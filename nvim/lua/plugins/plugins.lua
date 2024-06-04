@@ -3,8 +3,17 @@
 -- @Email: agusnavarro11@gmail.com
 
 require("plugins/lazy") -- This must be the first one
-require("plugins/lsp") -- Comment this one if you do not want lsp (saving resources)
+
+require("copilot").setup({ suggestion = { enabled = false }, panel = { enabled = false }})
+require("copilot_cmp").setup()
+
+require("plugins/mason")
+require("plugins/lsp")
+require("plugins/dap")
+require("plugins/lint")
+require("plugins/cmp")
 require("plugins/leap")
+require("plugins/latex")
 require("plugins/indent")
 require("plugins/telescope")
 require("plugins/treesitter")
