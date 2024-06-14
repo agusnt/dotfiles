@@ -61,3 +61,13 @@ vim.opt.smartindent = false
 
 -- Python option
 -- vim.g.python_recommended_style = false
+
+-- Disable spell checking
+vim.api.nvim_create_autocmd('BufEnter',
+    {
+        pattern = "*.tex,*.md",
+        callback = function()
+            vim.cmd("set nospell")
+        end
+    }
+)
