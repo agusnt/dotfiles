@@ -74,5 +74,5 @@ require('lazy').setup({
     -- Marks
     'chentoast/marks.nvim',
     -- Latex
-    { 'lervag/vimtex', lazy = false }
+    { 'lervag/vimtex', lazy = false },
 })
