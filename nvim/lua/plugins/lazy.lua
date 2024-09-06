@@ -69,10 +69,16 @@ require('lazy').setup({
     {
         'stevearc/oil.nvim',
         opts = {},
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
     -- Marks
     'chentoast/marks.nvim',
     -- Latex
     { 'lervag/vimtex', lazy = false },
+    -- askGemini
+    {
+        --'agusnt/askGemini.nvim',
+        dir = '/home/agus/Documents/Repositories/askGemini.nvim',
+        dependencies = { 'MunifTanjim/nui.nvim' }
+    }
 })

@@ -15,6 +15,7 @@ require("plugins/cmp")
 require("plugins/leap")
 require("plugins/latex")
 require("plugins/indent")
+require("plugins/askGemini")
 require("plugins/telescope")
 require("plugins/treesitter")
 
