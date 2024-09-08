@@ -77,8 +77,7 @@ require('lazy').setup({
     { 'lervag/vimtex', lazy = false },
     -- askGemini
     {
-        --'agusnt/askGemini.nvim',
-        dir = '/home/agus/Documents/Repositories/askGemini.nvim',
+        'agusnt/askGemini.nvim',
         dependencies = { 'MunifTanjim/nui.nvim' }
     }
 })
