@@ -22,7 +22,6 @@ require("plugins/treesitter")
 -- Now load the plugins that does not need any special configurations
 require('Comment').setup()
 require('nvim-autopairs').setup()
-require('glow').setup()
 require('oil').setup()
 require('marks').setup()
 require('dapui').setup()

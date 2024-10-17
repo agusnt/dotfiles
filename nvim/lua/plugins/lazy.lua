@@ -41,8 +41,15 @@ require('lazy').setup({
     'numToStr/Comment.nvim',
     -- Autopairs
     'windwp/nvim-autopairs',
-    -- Glow 
-    { 'ellisonleao/glow.nvim', config = true, cmd = 'Glow' },
+    -- Markview
+    {
+        'OXY2DEV/markview.nvim',
+        lazy = false,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+            'nvim-tree/nvim-web-devicons'
+        }
+    },
     -- Mason
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',

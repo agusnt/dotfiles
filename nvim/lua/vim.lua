@@ -14,9 +14,9 @@ vim.opt.colorcolumn = "80"     -- Change color
 
 -- Tab configuration, space instead of tab, 4-size
 vim.opt.expandtab  = true -- True for using spaces instead of tab
-vim.opt.tabstop    = 4 
-vim.opt.shiftwidth = 4 
-vim.g.backspace   = indent,eol,start
+vim.opt.tabstop    = 4
+vim.opt.shiftwidth = 4
+vim.g.backspace    = indent,eol,start
 
 -- Encode and spell
 vim.o.encoding  = "utf-8"
@@ -50,8 +50,8 @@ vim.g.indentLine_setConceal = 0 -- Use nvim conceal
 vim.o.conceallevel = 2
 
 -- Fold
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Disable mouse
 vim.opt.mouse = nil
