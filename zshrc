@@ -2,7 +2,7 @@ zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=~/Documents/bin/:/home/agus/.local/bin:/usr/local/texlive/2023/bin/x86_64-linux/:$HOME/.cargo/bin:$PATH
+export PATH=/home/agus/.local/bin:/usr/local/bin/:$PATH
 export EDITOR=nvim
 
 ###############################################################################
@@ -70,9 +70,17 @@ PROMPT='%B[@%m]%b[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%B %b%f'
 
 zstyle ':vcs_info:git:*' formats '%F{yellow}[ %b]'
 
-# >>> juliaup initialize >>>
-
-# !! Contents within this block are managed by juliaup !!
+###############################################################################
+# Yazi stuff
+###############################################################################
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
 
 path=('/home/agus/.juliaup/bin' $path)
 export PATH
