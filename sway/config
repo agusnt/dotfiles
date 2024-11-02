@@ -1,60 +1,92 @@
-### Variables
-# Logo key. Use Mod1 for Alt.
-set $mod Mod4
-# Home row direction keys, like vim
+##################################################
+# Vars
+##################################################
+# Windows key as modifier
+set $mod Mod4 
+
+##################################################
+# Vars
+##################################################
+# Kitty as terminal
+set $term kitty
+# Fuzzel as launcher
+set $menu fuzzel -l 5
+# Screen lock
+set $lock physlock
+
+##################################################
+# Looks
+##################################################
+# A bit of gap between windows
+gaps inner 5
+# Borders
+default_border pixel 2
+default_floating_border pixel 2
+client.focused #d8a657 #d8a657 #d8a657
+client.focused_inactive #d8a657 #d8a657 #d8a657
+client.unfocused #ddc7a1 #ddc7a1 #ddc7a1
+### Output configuration
+# Wallpaper are a systemd timer!!!
+#output * bg #282828 solid_color
+#output HDMI-A-1 bg bg_landscape fill 
+#output DP-1 bg bg_portrait fill 
+
+##################################################
+# Screen configuration
+##################################################
+# Screens
+output HDMI-A-1 res 1920x1080@60Hz pos 0 0 
+output DP-1 res 1920x1080@60Hz pos 1920 0 transform 270
+
+##################################################
+# Keyboard
+##################################################
+# Spanish Keyboard
+input * {
+    xkb_layout "gb,es"
+    xkb_options "grp:win_space_toggle"
+    natural_scroll disabled
+    tap enabled
+}
+
+##################################################
+# Key bindings
+##################################################
+# Basics:
+## Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 
-# Kitty as terminal
-set $term kitty
+## Alt tab
+bindsym $mod+tab workspace next_on_output
+bindsym $mod+Shift+tab workspace prev_on_output
 
-# Wofi as launcher
-set $menu fuzzel -l 5
+## Start a terminal
+bindsym $mod+Return exec $term
 
-# Remove border
-default_border none
-default_floating_border none
+## Kill focused window
+bindsym $mod+Shift+q kill
 
-### Output configuration
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg #282828 solid_color
+## Start your launcher
+bindsym $mod+d exec $menu
 
-# Screens
-output HDMI-A-1 res 1920x1080@60Hz pos 0 0 
-output DP-1 res 1920x1080@60Hz pos 1920 0 transform 270
+## Reload the configuration file
+bindsym $mod+Shift+c reload
 
-# Spanish Keyboard
-input * {
-	xkb_layout "us,es"
-	xkb_options "grp:win_space_toggle"
-	natural_scroll disabled
-	tap enabled
-}
+## Lock sway
+bindsym $mod+Ctrl+l exec $lock
 
-### Key bindings
-#
-# Basics:
-#
-# Volum
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+# Volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
-# Screen
+# Bright
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
-
-# Start a terminal
-bindsym $mod+Return exec $term
-
-# Kill focused window
-bindsym $mod+Shift+q kill
-
-# Start your launcher
-bindsym $mod+d exec $menu
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -63,41 +95,34 @@ bindsym $mod+d exec $menu
 # mouse button for dragging.
 floating_modifier $mod normal
 
-# Reload the configuration file
-bindsym $mod+Shift+c reload
 
-# Lock sway
-bindsym $mod+Ctrl+l exec swaylock -c 282828 -k -e -F -f
-
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-#
 # Moving around:
-#
-# Move your focus around
+## Move your focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-# Or use $mod+[up|down|left|right]
+## Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# Move the focused window with the same, but add Shift
+## Move the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-# Ditto, with arrow keys
+
+## Ditto, with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
+
+##################################################
+# Workspaces
+##################################################
 # Switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -123,41 +148,53 @@ bindsym $mod+Shift+0 move container to workspace number 10
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
+##################################################
 # Layout stuff:
-#
+##################################################
 # You can "split" the current object of your focus with
 # $mod+b or $mod+v, for horizontal and vertical splits
-# respectively.
+# respectively. Currently I am using autotiling so this 
+# is not usef
 bindsym $mod+b splith
 bindsym $mod+v splitv
-
-# Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
 
-#
+##################################################
 # Scratchpad:
-#
+##################################################
 # Sway has a "scratchpad", which is a bag of holding for windows.
 # You can send windows there and get them back later.
 
 # Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+s opacity 0.95, move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
+bindsym $mod+s scratchpad show
+bindsym $mod+Shift+t floating toggle, opacity 1
 
+# Special windows to move to scratchpad
+bindsym $mod+Shift+u mark "sp1", opacity 0.95, move scratchpad
+bindsym $mod+Shift+i mark "sp2", opacity 0.95, move scratchpad
+bindsym $mod+Shift+o mark "sp3", opacity 0.95, move scratchpad
+bindsym $mod+Shift+p mark "sp4", opacity 0.95, move scratchpad
+
+bindsym $mod+u [con_mark="sp1"] scratchpad show
+bindsym $mod+i [con_mark="sp2"] scratchpad show
+bindsym $mod+o [con_mark="sp3"] scratchpad show
+bindsym $mod+p [con_mark="sp4"] scratchpad show
+
+##################################################
 # Screenshots
-bindsym $mod+Ctrl+s exec grim
-bindsym $mod+Ctrl+Shift+s exec grim -p "$(slurp)"
-#
+##################################################
+bindsym $mod+Ctrl+p exec grim
+bindsym $mod+Ctrl+Shift+p exec grim -g "$(slurp)"
+
+##################################################
 # Resizing containers:
-#
+##################################################
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -181,32 +218,32 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#
+##################################################
 # Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+##################################################
 bar {
      swaybar_command waybar
 }
 
-# Alt tab
-bindsym $mod+tab workspace next_on_output
-bindsym $mod+Shift+tab workspace prev_on_output
+##################################################
+# Another keys
+##################################################
+
+##################################################
 # Special things
+##################################################
 for_window [title="Picture in picture"] floating enable
-#for_window [title="kitty"] floating enable
 
+##################################################
 # SwayIdle
-exec swayidle -w \
-  timeout 300 'swaylock -c 282828 -k -e -F -f' \
-  timeout 600 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
-  before-sleep 'swaylock -c 282828 -k -e -F -f'
+##################################################
+exec swayidle -w timeout 300 $lock
 
-# Avoid it on fullscreen
-for_window [class=".*"] inhibit_idle fullscreen
-for_window [app_id=".*"] inhibit_idle fullscreen
-
-# Run udiskie
+##################################################
+# Apps to execute at the init
+##################################################
 exec udiskie --appindicator -t
+exec autotiling
+exec ~/.config/sway/wrap_wallpaper.sh
+
 include /etc/sway/config.d/*

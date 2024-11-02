@@ -1,13 +1,23 @@
-background-color=#3c3836
-text-color=#fbf1c7
-border-color=#d79921
-
+layer=overlay
+background-color=#282828
+text-color=#ddc7a1
+border-color=#d8a657
+border-radius=15
 default-timeout=10000
 ignore-timeout=1
-
-font=Fira Code Retina
-
+font=BlexMono Nerd Font
 padding=8
+width=500
+height=500
 
-[mode=do-not-disturb]
+[urgency=low]
+border-color=#7daea3
+
+[urgency=normal]
+border-color=#d8a657
+
+[urgency=critical]
+border-color=#ea6962
+
+[mode=dnd]
 invisible=1

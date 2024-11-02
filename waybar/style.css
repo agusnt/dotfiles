@@ -10,48 +10,59 @@
 
 window#waybar
 {
-    background: #2c2d30;
-    border: 2px;
+    background: rgba(40,40,40,0.0);
+    border-radius: 5px;
 }
 
-#custom-mirror,
-#custom-block,
-#custom-poweroff,
-#custom-reboot,
-#custom-suspend,
-#custom-logout,
-#custom-separator,
+#hw,
+#net,
+#tray,
+#clock,
+#audio,
+#system,
+#monitor,
 #workspaces,
+#custom-running,
+#custom-weather
+{
+    color: #fbf1c7;
+    background: rgba(40,40,40,0.8);
+    border: 2px solid rgba(216, 166, 87, .8);
+    box-shadow: 1px 1px 5px 0px rgba(216, 166, 87, .8);
+    padding: 0px 10px;
+    margin: 0px 10px 0px 10px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#load,
+#disk,
+#network,
 #privacy,
 #language,
-#clock,
-#idle_inhibitor,
-#tray
+#custom-dnd,
+#temperature,
+#custom-power,
+#custom-block,
+#custom-mirror,
+#idle_inhibitor
 {
-    font-weight: bold;
     color: #fbf1c7;
 }
 
-#workspaces button 
-{
-    padding: 0px;
-    color: #ebdbb2;
-    margin-right: 2px;
-    margin-left: 2px;
-    padding: 0px 8px;
-    border: 2px;
-}
-
+#workspaces button,
 #workspaces button.focused 
 {
-    color: #ebdbb2;
-    background-color: #504945;
-    font-weight: bold;
+    color: #fbf1c7;
+    padding: 0px 10px 0px 5px;
+    border-radius: 10px 10px 10px 10px;
 }
 
 #workspaces button:hover
 {
-    background: #7c6f64;
+    color: #fbf1c7;
+    background: rgba(72,60,40,0.9);
+    padding: 0px 10px 0px 5px;
+    border-radius: 10px 10px 10px 10px;
 }
 
 #battery.warning
@@ -59,22 +70,12 @@ window#waybar
     color: #fabd2f;
     margin-right: 8px;
     margin-left: 8px;
+    border-radius: 25px;
 }
 #battery.critical
 {
     color: #fb4934;
     margin-right: 8px;
     margin-left: 8px;
-}
-
-#pulseaudio,
-#network,
-#pulseaudio,
-#backlight,
-#battery,
-#window
-{
-    color: #ebdbb2;
-    margin-right: 8px;
-    margin-left: 8px;
+    border-radius: 25px;
 }

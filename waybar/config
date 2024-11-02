@@ -1,32 +1,115 @@
+[{
+    "layer": "top",
+    "position": "top",
+    "output": "HDMI-A-1",
+    "height": 32,
+    "modules-left": ["custom/wl-mirror"],
+    "modules-center": [],
+    "modules-right": [],
+    "custom/mirror": {
+        "format": " 󰹑 ",
+        "on-click": "wl-mirror -F eDP-1",
+        "on-click-right": "pkill wl-mirror"
+    }
+},
 {
     "layer": "top",
     "position": "top",
-    "height": 25,
-    "modules-left": ["sway/workspaces"],
-    "modules-center": ["clock"],
-    "modules-right": [
-        "custom/separator", 
-            "tray", "custom/mirror", 
-        "custom/separator", 
-            "sway/language",
-        "custom/separator", 
-            "privacy", "pulseaudio", "backlight", 
-        "custom/separator", 
-            "network", "battery",
-        "custom/separator", 
-            "idle_inhibitor",
-            "custom/block", "custom/suspend", "custom/reboot", 
-            "custom/poweroff", "custom/logout"
+    "output": "eDP-1",
+    "height": 32,
+    "modules-left": [
+        "sway/workspaces",
+        "group/monitor"
     ],
+    "modules-center": ["clock", "custom/weather"],
+    "modules-right": [
+        "tray", 
+        "custom/running", 
+        "group/net",
+        "group/system",
+        "group/hw",
+    ],
+    "group/monitor": {
+        "orientation": "horizontal",
+        "modules": [ 
+            "load",
+            "memory",
+            "disk",
+            "temperature",
+        ]
+    },
+    "tray": {
+        "spacing": 10
+    },
+    "custom/running": {
+        "format": " {} ",
+        "return-type": "json",
+        "interval": 900, // Update every 15 min,
+        "exec": "~/.config/waybar/running.sh",
+    },
+    "custom/weather": {
+        "format": " {} ",
+        "interval": 900, // Update every 15 min,
+        "exec": "~/.config/waybar/weather.sh",
+        "on-click": "~/.config/waybar/weather.sh"
+    },
+    "group/net": {
+        "orientation": "horizontal",
+        "modules": [ 
+            "network",
+            "network#2",
+            "backlight",
+            "battery",
+            "pulseaudio",
+            "privacy",
+        ]
+    },
+    "group/system": {
+        "orientation": "horizontal",
+        "modules": [ 
+            "sway/language",
+            "custom/updates",
+        ]
+    },
+    "group/hw": {
+        "orientation": "horizontal",
+        "modules": [ 
+            "custom/dnd", 
+            "idle_inhibitor", 
+            "custom/block", 
+            "custom/power" 
+        ]
+    },
+    "custom/updates": {
+        "format": " 󰚰 {}",
+        "tooltip": false,
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "on-click": "checkupdates | wc -l; pkill -SIGRTMIN+7 waybar",
+        "exec-if": "exit 0",
+        "signal": 7,
+    },
+    "custom/dnd": {
+        "exec": "~/.config/waybar/dnd.sh init",
+        "format": " {} ",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/dnd.sh; pkill -SIGRTMIN+8 waybar",
+        "signal": 8
+    },
+    "custom/power": {
+        "format": " ⏻ ",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/power.sh"
+    },
     "idle_inhibitor": {
-        "format": "{icon}   ",
+        "format": " {icon} ",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": "󰈈",
+            "deactivated": "󰈉"
         }
     },
     "sway/language": {
-        "format": "{short}",
+        "format": " {flag} ",
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
     },
     "privacy": {
@@ -47,57 +130,38 @@
            },
         ]
     },
-    "custom/separator": {
-        "format": "| ",
-    },
     "custom/block": {
-        "format": "  ",
-        "on-click": "swaylock -c 282828 -k -e -F -f",
-    },
-    "custom/poweroff": {
-        "format": "⏻  ",
-        "on-click": "systemctl shutdown",
-    },
-    "custom/reboot": {
-        "format": "  ",
-        "on-click": "systemctl reboot",
-    },
-    "custom/suspend": {
-        "format": "󰒲  ",
-        "on-click": "systemctl suspend",
-    },
-    "custom/logout": {
-        "format": "󰗽  ",
-        "on-click": "kill -9 -1",
+        "format": "  ",
+        "tooltip": false,
+        "on-click": "sh -c '(sleep 0.5s; physlock)' 
+            & disown ",
     },
     "custom/mirror": {
         "format": " 󰹑 ",
+        "tooltip": false,
         "on-click": "wl-mirror -F -t 90 HDMI-A-1",
         "on-click-right": "pkill wl-mirror"
     },
     "sway/workspaces": {
         "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{name}: <span font='15' rise='-4000'>{icon}</span>",
+        "all_outputs": false,
+        "format": "{name}:{icon}",
         "format-icons": {
-            "1": " ",
-            "2": "󰈹 ",
-            "3": " ",
-            "4": " ",
-            "urgent": " ",
-            "focused": " ",
-            "default": " "
-        }
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        },
     },
     "backlight": {
         "device": "intel_backlight",
-        "format": "{icon}",
+        "format": " {icon} ",
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set 5%+",
         "on-scroll-down": "brightnessctl set 5%-"
-    }, "battery": {
+    }, 
+    "battery": {
         "interval": 300,
-        "format": "{icon} ({capacity}%)",
+        "format": " {icon} ",
         "states": {
             "warning": 30,
             "critical": 15
@@ -106,17 +170,28 @@
         "max-length": 25
     },
     "network": {
-        "interface": "eno1",
-        "format": "{ifname}",
+        "interface": "enp2s0",
+        "format": " {} ",
         "format-ethernet": "󰈀",
         "format-disconnected": "󰈂",
         "tooltip-format": "{ifname}",
-        "tooltip-format-ethernet": "󰈀",
-        "tooltip-format-disconnected": "󰈂",
+        "tooltip-format-ethernet": "󰈀 {ipaddr} [{ifname}]",
+        "tooltip-format-disconnected": "󰈂 [{ifname}]",
+        "max-length": 50
+    },
+    "network#2": {
+        "interface": "wlp0s20f3",
+        "format": " {ifname} ",
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "format-wifi": " {icon} ",
+        "format-disconnected": " 󰤮 ",
+        "tooltip-format": "{ifname}",
+        "tooltip-format-wifi": "󰤨 {essid} ({signalStrength}%) [{ifname}]",
+        "tooltip-format-disconnected": "󰤭 [{ifname}]",
         "max-length": 50
     },
     "pulseaudio": {
-        "format": "{icon}",
+        "format": " {icon} ",
         "format-bluetooth": "{icon}",
         "format-muted": "",
         "scroll-step": 1,
@@ -130,8 +205,43 @@
     },
     "clock": {
         "interval": 60,
-        "format": "{:%d.%m.%y %H:%M (%Z)}",
+        "format": "{:L%d.%m.%y %H:%M (%Z)}",
+        "tooltip-format": "<span color='#282828'>{calendar}</span>",
         "timezones": ["Europe/Madrid"],
-        "max-length": 25
+        "max-length": 25,
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#a9b665'><b>{}</b></span>",
+                "days":       "<span color='#ddc7a1'><b>{}</b></span>",
+                "weeks":      "<span color='#7daea3'><b>W{}</b></span>",
+                "weekdays":   "<span color='#d8a657'><b>{}</b></span>",
+                "today":      "<span color='#ea6962'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
-}
+    "load": {
+        "format": "  {} "
+    },
+    "memory": {
+        "format": " {percentage}% "
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C"
+    },
+    "disk": {
+        "format": " {percentage_used}% "
+    },
+}]
