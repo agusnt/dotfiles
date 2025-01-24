@@ -66,8 +66,6 @@ return {
       -- Setup
       dapui.setup({
         controls = {
-          element = "repl",
-          enabled = true,
           icons = {
             disconnect = "",
             pause = "󰏤",
@@ -79,58 +77,6 @@ return {
             step_over = "",
             terminate = ""
           }
-        },
-        expand_lines = true,
-        floating = {
-          border = "double",
-          mappings = {
-            close = { "q", "<Esc>" }
-          }
-        },
-        force_buffers = true,
-        icons = {
-          collapsed = "<U+EB70>",
-          current_frame = "<U+EB70>",
-          expanded = "<U+EB6E>"
-        },
-        layouts = { {
-          elements = { {
-            id = "scopes",
-            size = 0.35
-          }, {
-            id = "breakpoints",
-            size = 0.35
-          }, {
-            id = "stacks",
-            size = 0.35
-          }, {
-            id = "watches",
-            size = 0.35
-          } },
-          position = "left",
-          size = 50
-        }, {
-          elements = { {
-            id = "repl",
-            size = 0.5
-          }, {
-            id = "console",
-            size = 0.5
-          } },
-          position = "bottom",
-          size = 10
-        } },
-        mappings = {
-          edit = "e",
-          expand = { "<CR>", "<2-LeftMouse>" },
-          open = "o",
-          remove = "d",
-          repl = "r",
-          toggle = "t"
-        },
-        render = {
-          indent = 2,
-          max_value_lines = 100
         }
       })
 

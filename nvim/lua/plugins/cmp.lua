@@ -9,6 +9,7 @@ return {
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-nvim-lsp-signature-help',
   -- Beautiful CMP icons
+  'rcarriga/cmp-dap',
   'onsails/lspkind.nvim',
   {
     'hrsh7th/nvim-cmp',
