@@ -1,29 +1,43 @@
--- TreeSitter
+-- Treesitter color scheme
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-require('nvim-treesitter.configs').setup {
-  -- A list of parser names
-  ensure_installed = {'c', 'cpp', 'bash', 'python', 'asm', 'git_config', 'git_rebase',
-    'gitattributes', 'gitcommit', 'gitignore', 'html', 'lua', 'dockerfile', 'json',
-    },
-  sync_install = false, -- Install sync
-  auto_install = true,
-
-  highlight = {
-    disable = {'latex', 'bash'},
-    enable = true,
+return {
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    config = function()
+      local configs = require("nvim-treesitter.configs")
+      configs.setup({
+        ensure_installed = {
+          'c',
+          'cpp',
+          'asm',
+          'lua',
+          'html',
+          'bash',
+          'json',
+          'make',
+          'ninja',
+          'latex',
+          'cmake',
+          'python',
+          'comment',
+          'gitignore',
+          'gitcommit',
+          'git_config',
+          'git_rebase',
+          'gitattributes',
+          'dockerfile',
+        },
+        sync_install = false, -- Install sync
+        auto_install = true,
+        highlight = {
+          -- disable = { 'latex', 'bash' }, -- Disabel some of them
+          enable = true,
+        },
+        indent = { enable = true },
+      })
+    end
   },
-
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-          init_selection = "gnn", -- set to `false` to disable one of the mappings
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
-    },
-  },
-
-  indent = { enable = true }, -- Experimental
 }

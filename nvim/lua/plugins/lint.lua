@@ -1,23 +1,20 @@
--- Linterns plugins support
+-- Lintern
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
---
-local lint_server =  {
-    'cpplint', 'flake8', 'vale', 'hadolint'
+
+return {
+  {
+    'mfussenegger/nvim-lint',
+    config = function()
+      require('lint').linters_by_ft = {
+        c = { 'cpplint' },
+        cpp = { 'cpplint' },
+        tex = { 'vale' },
+        bash = { 'shellcheck' },
+        docker = { 'hadolint' },
+        python = { 'flake8' },
+        markdown = { 'vale' },
+      }
+    end
+  }
 }
-
--- Lint
-require('lint').linters_by_ft = {
-    markdown = {'vale',},
-    tex = {'vale',},
-    c = {'cpplint',},
-    cpp = {'cpplint',},
-    python = {'flake8',},
-    docker = {'hadolint',}
-}
-
--- Linterns
-require('mason-nvim-lint').setup({ ensure_installed = lint_server })
-
--- Formatter
-require("formatter").setup()

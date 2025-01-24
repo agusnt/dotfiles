@@ -1,10 +1,9 @@
--- Leap
+-- DAP servers that will be installed
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
 return {
-  {
-    'ggandor/leap.nvim',
-    dependencies = 'tpope/vim-repeat',
-  }
+  'python',
+  'bash',
+  'codelldb',
 }

@@ -1,6 +1,5 @@
-require('vim') -- Vim config
-require('status_line') -- Status line
-require('plugins/plugins') -- Load plugins
-require('keymap') -- Keymaps
-require('colorschema') -- Colorscheme
-require('snip/snip') -- Luasnips
+require('config/vim')         -- Vim config
+require('config/lazy')        -- Lazy
+require('config/keymap')      -- Keymaps
+require('config/colorschema') -- Colorscheme
+require('snip/snip')          -- Luasnips

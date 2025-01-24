@@ -1,41 +1,100 @@
--- LSP plugins support
+-- LSP configuration
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
--- Servers
-local lsp_server = {
-    'pyright', 'bashls', 'clangd', 'html', 'texlab', 'ltex', 'lua_ls',
-    'dockerls', 'docker_compose_language_service'
-}
--- LSP
-require("mason-lspconfig").setup({ ensure_installed = lsp_server })
+return {
+  -- These plugin will be duplicated, but I would like that every file can be run
+  -- without using another
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp',
+  'Issafalcon/lsp-overloads.nvim',
+  -- Save RAM not running in the background LSP servers
+  {
+    'zeioth/garbage-day.nvim',
+    dependencies = 'neovim/nvim-lspconfig',
+    event = 'VeryLazy',
+    opts = {},
+  },
+  -- Easy goto function
+  {
+    'rmagatti/goto-preview',
+    event = 'BufEnter',
+    config = function()
+      require('goto-preview').setup({})
+    end
+  },
+  -- Action previews
+  'aznhe21/actions-preview.nvim',
+  -- Plugins to install
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      -- List of servers to configure
+      local lsp_servers = loadfile('~/.config/nvim/lua/shared/lsp_servers.lua')()
 
-for _, lsp in pairs(lsp_server) do
-    require('lspconfig')[lsp].setup {
-        on_attach = on_attach,
-        flags = {
-          debounce_text_changes = 150,
-        },
-        capabilities = capabilities,
-    }
-end;
+      -- Signature helper
+      local signature_helper = function(client, bufnr)
+        if client.server_capabilities.signatureHelpProvider then
+          require('lsp-overloads').setup(client, {
+            ui = { wrap_at = 40, width = 40 },
+          })
+        end
+        require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
+      end
 
--- ltex config
-require('lspconfig').ltex.setup({
-    filetypes = { 'markdown', 'tex' },
-    flags = { debounce_text_changes = 300 },
-    settings = {
-        ltex = {
-            language = 'auto'
+      -- Configure servers
+      for _, lsp in pairs(lsp_servers) do
+        require('lspconfig')[lsp].setup {
+          on_attach = signature_helper,
+          flags = {
+            debounce_text_changes = 150,
+          },
+          capabilities = capabilities,
         }
-    },
-    on_attach = on_attach,
-})
+      end
 
--- New icons for singcoloumn
-vim.cmd([[sign define DiagnosticSignError text= texthl=TextError linehl= numhl=]])
-vim.cmd([[sign define DiagnosticSignWarn  text= texthl=TextWarn  linehl= numhl=]])
-vim.cmd([[sign define DiagnosticSignInfo  text= texthl=TextInfo  linehl= numhl=]])
-vim.cmd([[sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=]])
+      -- clangd config
+      require('lspconfig').clangd.setup({
+        flags = { debounce_text_changes = 150 },
+        cmd = {
+          "clangd",
+          "--background-index",
+          -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
+          -- to add more checks, create .clang-tidy file in the root directory
+          -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+          "--clang-tidy",
+          "--completion-style=bundled",
+          "--cross-file-rename",
+          "--header-insertion=iwyu",
+        },
+        on_attach = signature_helper,
+      })
+
+      -- Icons for SignColumn
+      vim.cmd([[sign define DiagnosticSignError text=󰬅 texthl=TextError linehl= numhl=]])
+      vim.cmd([[sign define DiagnosticSignWarn  text=󱈸 texthl=TextWarn  linehl= numhl=]])
+      vim.cmd([[sign define DiagnosticSignInfo  text= texthl=TextInfo  linehl= numhl=]])
+      vim.cmd([[sign define DiagnosticSignHint  text=󰋖 texthl=TextHint  linehl= numhl=]])
+    end
+  },
+  -- Beautiful diagnostic
+  {
+    'sontungexpt/better-diagnostic-virtual-text',
+    opts  = {
+      ui = {
+        wrap_line_after = true,
+        left_kept_space = 3,
+        right_kept_space = 3,
+        arrow = "  ",
+        up_arrow = "  ",
+        down_arrow = "  ",
+        above = false,
+      },
+      priority = 2003, -- the priority of virtual text
+      inline = true,
+    },
+    event = 'VeryLazy',
+  }
+}

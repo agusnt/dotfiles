@@ -1,10 +1,11 @@
--- Leap
+-- Marks
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
 return {
   {
-    'ggandor/leap.nvim',
-    dependencies = 'tpope/vim-repeat',
+    'chentoast/marks.nvim',
+    event = 'VeryLazy',
+    opts = {}
   }
 }

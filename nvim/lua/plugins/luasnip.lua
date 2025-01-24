@@ -1,10 +1,8 @@
--- Leap
+-- LuaSnip
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
 return {
-  {
-    'ggandor/leap.nvim',
-    dependencies = 'tpope/vim-repeat',
-  }
+  'L3MON4D3/LuaSnip',
+  'saadparwaiz1/cmp_luasnip',
 }
