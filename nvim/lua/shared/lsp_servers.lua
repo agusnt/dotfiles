@@ -12,5 +12,4 @@ return {
   'clangd',
   'pyright',
   'dockerls',
-  'grammarly',
 }

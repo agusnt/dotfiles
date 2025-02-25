@@ -4,7 +4,12 @@
 
 return {
   -- Comment code
-  'numToStr/Comment.nvim',
+  {
+    'numToStr/Comment.nvim',
+    config = function()
+      require("Comment").setup()
+    end
+  },
   -- Ident lines
   {
     "lukas-reineke/indent-blankline.nvim",

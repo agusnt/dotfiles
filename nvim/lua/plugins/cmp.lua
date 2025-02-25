@@ -3,11 +3,23 @@
 -- @Email: agusnavarro11@gmail.com
 
 return {
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-buffer',
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
+  { 'tzachar/cmp-fuzzy-path',                   dependencies = { 'tzachar/fuzzy.nvim' } },
+  { 'tzachar/cmp-fuzzy-buffer',                 dependencies = { 'tzachar/fuzzy.nvim' } },
+  {
+    'uga-rosa/cmp-dictionary',
+    config = function()
+      require('cmp_dictionary').setup({
+        paths = { "/usr/share/dict/words" },
+        exact_length = 2,
+      })
+    end
+  },
+  'hrsh7th/cmp-nvim-lsp-document-symbol',
+  'hrsh7th/cmp-nvim-lsp-signature-help',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-nvim-lsp-signature-help',
+  'hrsh7th/cmp-calc',
   -- Beautiful CMP icons
   'rcarriga/cmp-dap',
   'onsails/lspkind.nvim',
@@ -20,7 +32,7 @@ return {
         -- To add luasnip
         formatting = {
           format = lspkind.cmp_format({
-            mode = 'symbol',
+            mode = 'symbol_text',
             maxwidth = {
               menu = 50,
               abbr = 50,
@@ -47,12 +59,19 @@ return {
 
         -- Configure sources
         sources = {
-          { name = 'nvim_lsp_signature_help', group_index = 2 },
-          { name = 'dap',                     group_index = 2 },
-          { name = 'luasnip',                 group_index = 2, keyword_length = 2 },
-          { name = 'nvim_lsp',                group_index = 2 },
-          { name = 'path',                    group_index = 2 },
-          { name = 'buffer',                  group_index = 2, keyword_length = 4 },
+          { name = 'nvim_lsp',                 max_item_count = 8, group_index = 1, keyword_length = 2 },
+          { name = 'nvim_lsp_signature_help',  max_item_count = 8, group_index = 1, keyword_length = 2 },
+          { name = 'nvim_lsp_document_symbol', max_item_count = 8, group_index = 1, keyword_length = 2 },
+          { name = 'luasnip',                  max_item_count = 8, group_index = 1, keyword_length = 2 },
+
+          { name = 'fuzzy_path',               max_item_count = 4, group_index = 2, keyword_length = 2 },
+
+          { name = 'dap',                      max_item_count = 4, group_index = 3, keyword_length = 2 },
+
+          { name = 'dictionary',               max_item_count = 4, group_index = 4, keyword_length = 2 },
+          { name = 'calc',                     max_item_count = 4, group_index = 4, keyword_length = 2 },
+
+          { name = 'fuzzy_buffer',             max_item_count = 4, group_index = 5, keyword_length = 2 },
         }
       })
     end

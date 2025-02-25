@@ -7,14 +7,19 @@ return {
   -- without using another
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
-  'Issafalcon/lsp-overloads.nvim',
-  -- Save RAM not running in the background LSP servers
   {
-    'zeioth/garbage-day.nvim',
-    dependencies = 'neovim/nvim-lspconfig',
+    'ray-x/lsp_signature.nvim',
     event = 'VeryLazy',
     opts = {},
+    config = function(_, opts) require('lsp_signature').setup(opts) end
   },
+  -- Save RAM not running in the background LSP servers
+  -- {
+  --   'zeioth/garbage-day.nvim',
+  --   dependencies = 'neovim/nvim-lspconfig',
+  --   event = 'VeryLazy',
+  --   opts = {},
+  -- },
   -- Easy goto function
   {
     'rmagatti/goto-preview',
@@ -36,11 +41,6 @@ return {
 
       -- Signature helper
       local signature_helper = function(client, bufnr)
-        if client.server_capabilities.signatureHelpProvider then
-          require('lsp-overloads').setup(client, {
-            ui = { wrap_at = 40, width = 40 },
-          })
-        end
         require("better-diagnostic-virtual-text.api").setup_buf(bufnr, {})
       end
 
@@ -65,7 +65,7 @@ return {
           -- to add more checks, create .clang-tidy file in the root directory
           -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
           "--clang-tidy",
-          "--completion-style=bundled",
+          -- "--completion-style=bundled",
           "--cross-file-rename",
           "--header-insertion=iwyu",
         },
