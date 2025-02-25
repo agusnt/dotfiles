@@ -2,7 +2,7 @@
 {
     border:        none;
     font-family:   "BlexMono Nerd Font";
-    font-size:     16px;
+    font-size:     12px;
     box-shadow:    none;
     text-shadow:   none;
     transition-duration: 0s;
@@ -11,7 +11,7 @@
 window#waybar
 {
     background: rgba(40,40,40,0.0);
-    border-radius: 5px;
+    border-radius: 1px;
 }
 
 #hw,
@@ -26,12 +26,11 @@ window#waybar
 #custom-weather
 {
     color: #fbf1c7;
-    background: rgba(40,40,40,0.8);
-    border: 2px solid rgba(216, 166, 87, .8);
-    box-shadow: 1px 1px 5px 0px rgba(216, 166, 87, .8);
+    background: rgba(0,0,0,0.8);
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 1);
     padding: 0px 10px;
-    margin: 0px 10px 0px 10px;
-    border-radius: 10px 10px 10px 10px;
+    margin: 0px 10px 5px 10px;
+    border-radius: 3px 3px 3px 3px;
 }
 
 #load,
@@ -49,20 +48,34 @@ window#waybar
     color: #fbf1c7;
 }
 
-#workspaces button,
-#workspaces button.focused 
+#workspaces button
 {
     color: #fbf1c7;
     padding: 0px 10px 0px 5px;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 3px 3px 3px 3px;
+}
+
+#workspaces button.focused 
+{
+    color: #fabd2f;
+    padding: 0px 10px 0px 5px;
+    border-radius: 3px 3px 3px 3px;
+}
+
+#workspaces button.urgent
+{
+    color: #fb4934;
+    padding: 0px 10px 0px 5px;
+    border-radius: 3px 3px 3px 3px;
 }
 
 #workspaces button:hover
 {
-    color: #fbf1c7;
-    background: rgba(72,60,40,0.9);
+    color: #b8bb26;
+    background: rgba(0,0,0,0);
+    border: rgba(169,182,101,1.0);
     padding: 0px 10px 0px 5px;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 3px 3px 3px 3px;
 }
 
 #battery.warning

@@ -1,27 +1,13 @@
-[{
-    "layer": "top",
-    "position": "top",
-    "output": "HDMI-A-1",
-    "height": 32,
-    "modules-left": ["custom/wl-mirror"],
-    "modules-center": [],
-    "modules-right": [],
-    "custom/mirror": {
-        "format": " 󰹑 ",
-        "on-click": "wl-mirror -F eDP-1",
-        "on-click-right": "pkill wl-mirror"
-    }
-},
+[
 {
     "layer": "top",
-    "position": "top",
+    "position": "bottom",
     "output": "eDP-1",
-    "height": 32,
     "modules-left": [
         "sway/workspaces",
-        "group/monitor"
+        "custom/weather"
     ],
-    "modules-center": ["clock", "custom/weather"],
+    "modules-center": ["clock",],
     "modules-right": [
         "tray", 
         "custom/running", 
@@ -39,10 +25,12 @@
         ]
     },
     "tray": {
+        "icon-size": 12,
         "spacing": 10
     },
     "custom/running": {
-        "format": " {} ",
+        "format": "{}",
+        "on-click": "~/.config/waybar/running.sh",
         "return-type": "json",
         "interval": 900, // Update every 15 min,
         "exec": "~/.config/waybar/running.sh",
@@ -57,7 +45,6 @@
         "orientation": "horizontal",
         "modules": [ 
             "network",
-            "network#2",
             "backlight",
             "battery",
             "pulseaudio",
@@ -144,12 +131,9 @@
     },
     "sway/workspaces": {
         "disable-scroll": true,
-        "all_outputs": false,
-        "format": "{name}:{icon}",
+        "all_outputs": true,
+        "format": "{icon}",
         "format-icons": {
-            "urgent": "",
-            "focused": "",
-            "default": ""
         },
     },
     "backlight": {
@@ -170,24 +154,10 @@
         "max-length": 25
     },
     "network": {
-        "interface": "enp2s0",
-        "format": " {} ",
-        "format-ethernet": "󰈀",
-        "format-disconnected": "󰈂",
-        "tooltip-format": "{ifname}",
-        "tooltip-format-ethernet": "󰈀 {ipaddr} [{ifname}]",
-        "tooltip-format-disconnected": "󰈂 [{ifname}]",
-        "max-length": 50
-    },
-    "network#2": {
         "interface": "wlp0s20f3",
-        "format": " {ifname} ",
-        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-        "format-wifi": " {icon} ",
-        "format-disconnected": " 󰤮 ",
-        "tooltip-format": "{ifname}",
-        "tooltip-format-wifi": "󰤨 {essid} ({signalStrength}%) [{ifname}]",
-        "tooltip-format-disconnected": "󰤭 [{ifname}]",
+        "format": " {} ",
+        "format-wifi": "󰖩  {essid} ({signalStrength}%)",
+        "format-disconnected": "󰖪 ",
         "max-length": 50
     },
     "pulseaudio": {
@@ -196,10 +166,10 @@
         "format-muted": "",
         "scroll-step": 1,
         "format-icons": {
-            "headphones": "",
-            "default": ["󰕿", "󰖀", "󰕾"]
+            "headphones": " ",
+            "default": [" 󰕿", " 󰖀", " 󰕾"]
         },
-        "format-muted": "󰖁",
+        "format-muted": " 󰖁 ",
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click-right": "pavucontrol",
     },
