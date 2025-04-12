@@ -1,6 +1,6 @@
 # How to install
 
-I know that you are using the latest version of Debian stable and zshrc.
+I know that you are using the latest version of Debian stable, zshrc, and nvim >= 0.11.
 
 ## Before anything
 
