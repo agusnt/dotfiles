@@ -11,13 +11,10 @@ return {
         formatters_by_ft = {
           c = { 'clang-format' },
           cpp = { 'clang-format' },
-          asm = { 'asmfmt' },
           tex = { 'latexindent', 'bibtex-tidy' },
           bash = { 'beautysh' },
-          html = { 'htmlbeautifier' },
           json = { 'jq' },
-          python = { 'autoflake' },
-          markdown = { 'markdown-toc' },
+          python = { 'autopep8' },
         },
         format_on_save = {
           timeout_ms = 500,

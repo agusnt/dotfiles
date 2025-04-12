@@ -5,16 +5,25 @@
 return {
   {
     'mfussenegger/nvim-lint',
+    event = {
+      "BufReadPre",
+      "BufNewFile",
+      "BufWritePost",
+    },
     config = function()
       require('lint').linters_by_ft = {
-        c = { 'cpplint' },
-        cpp = { 'cpplint' },
-        tex = { 'vale' },
+        c = { 'clang-format', },
+        cpp = { 'clang-format' },
         bash = { 'shellcheck' },
-        docker = { 'hadolint' },
-        python = { 'flake8' },
-        markdown = { 'vale' },
+        python = { 'pyright', },
       }
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          require("lint").try_lint()
+        end,
+      })
     end
   }
 }

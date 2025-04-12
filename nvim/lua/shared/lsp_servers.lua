@@ -3,13 +3,13 @@
 -- @Email: agusnavarro11@gmail.com
 
 return {
+  'lua_ls',
   'jqls',
   'ltex',
   'html',
-  'lua_ls',
   'jsonls',
   'bashls',
   'clangd',
-  'pyright',
   'dockerls',
+  'pyright',
 }

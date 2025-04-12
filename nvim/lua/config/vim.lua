@@ -21,13 +21,13 @@ vim.opt.spell        = false
 vim.wo.number        = relativenumber
 vim.o.nu             = true
 vim.o.rnu            = true
-vim.wo.statuscolumn  = '%=%s %=%r '
+--vim.wo.statuscolumn  = '%=%s %=%r '
 
 -- Italic Comments
 vim.api.nvim_set_hl(0, 'Comment', { italic })
 
 -- Merge signcolumn and number column into one
-vim.o.signcolumn = "yes:2"
+vim.o.signcolumn = "yes:1"
 
 -- This variable must be enabled for colors to be applied properly
 vim.o.termguicolors = true

@@ -33,7 +33,7 @@ return {
         sync_install = false, -- Install sync
         auto_install = true,
         highlight = {
-          -- disable = { 'latex', 'bash' }, -- Disabel some of them
+          disable = { 'latex', 'bash' }, -- Disabel some of them
           enable = true,
         },
         indent = { enable = true },
