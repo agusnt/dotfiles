@@ -1,6 +1,6 @@
 # How to install
 
-I know that you are using the latest version of Debian stable, zshrc, and nvim >= 0.11.
+I know that you are using the latest version of Debian stable.
 
 ## Before anything
 
@@ -10,19 +10,9 @@ Install `cargo` and `npm`:
 curl https://sh.rustup.rs -sSf | sh
 
 sudo apt install npm
+
+npm install -g tree-sitter-cli
 ```
-
-
-Change the global where npm install stuff
-
-```bash
-mkdir ~/.npm-global
-
-npm config set prefix '~/.npm-global'
-
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
-```
-
 
 
 ## LSP server
@@ -32,11 +22,13 @@ Install the LSP servers:
 ```bash
 sudo apt install clangd
 
-npm install -g pyright vscode-json-languageserver vscode-html-languageservice bash-language-server
+npm install vscode-json-languageserver vscode-html-languageservice bash-language-server
 
 cargo install asm-lsp
 
 cargo install --git https://github.com/latex-lsp/texlab texlab
+
+pip install --user --break-system-packages basedpyright
 ```
 
 ### LTex-LS
@@ -65,9 +57,9 @@ sudo cp ltex-ls-plus*/bin/ltex-ls-lus /usr/local/bin/
 
 sudo apt install jq clang-format
 
-npm install -g bibtex-tidy
+npm install bibtex-tidy
 
-pip install --user --break-system-packages beautysh autopep8
+pip install --user --break-system-packages beautysh autopep8 ruff
 ```
 
 
