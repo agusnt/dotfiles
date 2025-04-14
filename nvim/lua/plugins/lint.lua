@@ -15,7 +15,7 @@ return {
         c = { 'clang-format', },
         cpp = { 'clang-format' },
         bash = { 'shellcheck' },
-        python = { 'pyright', },
+        -- python = { 'pyright', },
       }
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 

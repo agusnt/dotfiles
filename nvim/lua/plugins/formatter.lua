@@ -14,12 +14,14 @@ return {
           tex = { 'latexindent', 'bibtex-tidy' },
           bash = { 'beautysh' },
           json = { 'jq' },
-          python = { 'autopep8' },
+          python = { 'ruff_format' },
         },
         format_on_save = {
           timeout_ms = 500,
           lsp_format = "fallback",
-        }
+        },
+        -- log_level = vim.log.levels.DEBUG,
+        -- quiet = false
       })
     end
   }

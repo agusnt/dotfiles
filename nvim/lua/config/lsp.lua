@@ -11,7 +11,7 @@
 -- Configuration of LSP servers
 -- Python
 vim.lsp.config['pyright'] = {
-  cmd = { 'pyright-langserver', '--stdio' },
+  cmd = { "basedpyright-langserver", "--stdio" },
   filetypes = { 'python' },
 }
 
