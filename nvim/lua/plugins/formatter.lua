@@ -12,13 +12,18 @@ return {
           c = { 'clang-format' },
           cpp = { 'clang-format' },
           tex = { 'latexindent', 'bibtex-tidy' },
-          bash = { 'beautysh' },
+          bash = { 'shfmt' },
           json = { 'jq' },
           python = { 'ruff_format' },
         },
         format_on_save = {
           timeout_ms = 500,
           lsp_format = "fallback",
+        },
+        formatters = {
+          shfmt = {
+            args = {'-i', '2'}
+          }
         },
         -- log_level = vim.log.levels.DEBUG,
         -- quiet = false

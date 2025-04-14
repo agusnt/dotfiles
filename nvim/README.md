@@ -55,11 +55,11 @@ sudo cp ltex-ls-plus*/bin/ltex-ls-lus /usr/local/bin/
 
 ```bash
 
-sudo apt install jq clang-format
+sudo apt install jq clang-format shfmt
 
 npm install bibtex-tidy
 
-pip install --user --break-system-packages beautysh autopep8 ruff
+pip install --user --break-system-packages autopep8 ruff
 ```
 
 
