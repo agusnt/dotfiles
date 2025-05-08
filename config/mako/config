@@ -1,0 +1,27 @@
+layer=overlay
+background-color=#fbf1c7
+text-color=#3c3836
+border-color=#b57614
+border-radius=15
+default-timeout=30000
+ignore-timeout=1
+font=Lilex Nerd Font
+padding=8
+width=300
+height=500
+icons=1
+history=1
+max-history=5
+anchor=top-left
+
+[urgency=low]
+border-color=#101010
+
+[urgency=normal]
+border-color=#202020
+
+[urgency=critical]
+border-color=#ea6962
+
+[mode=dnd]
+invisible=1

@@ -1,0 +1,228 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Clock
+(defwidget clock [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "v" :space-evenly "false" :halign "center"
+      (box :class "info-medium-light" :justify "center" "${day}, ${month}   ${date}")
+      (box :class "info" :justify "center" "${clock}")
+    )
+  )
+)
+
+(defpoll day :interval "1h"  "date +%A")
+(defpoll month :interval "1h"  "date +%B")
+(defpoll date :interval "1h"  "date +%d-%m-%Y")
+(defpoll clock :interval "1m"  "date +%H:%M")
+
+(defwindow clock :geometry (geometry :x "20%" :y "25%" :width "50%" :height "9%") (clock))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Weather
+(deflisten weather-icon :initial " " `tail -F /tmp/weather-icon`)
+(deflisten temperature :initial 0 `tail -F /tmp/temperature`)
+(deflisten location :initial 0 `tail -F /tmp/location`)
+
+(defwidget weather [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false"
+      (box :class "icon" "${weather-icon} ")
+      (box :orientation "v" :space-evenly "false" :valign "center"
+        (box :class "info" "${temperature} ")
+        (box :class "info-medium-light" "${location}")
+      )
+    )
+  )
+)
+
+(defwindow weather :geometry (geometry :x "20%" :y "36%" :width "25%" :height "15.7%") (weather))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Volume
+(deflisten volume-icon :initial " " `tail -F /tmp/sound-icon`)
+(deflisten volume :initial 0 `tail -F /tmp/sound-vol`)
+
+(defwidget volume [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" 
+      (box :orientation "h" :halign "center" :class "system-icon" :space-evenly "false" 
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/sound.sh toggle" (
+          label :text {volume-icon})
+        )
+      )
+      (eventbox :onscroll "~/.config/eww/scripts/sound.sh {}"
+        (box :orientation "h" :class "system-slider" :space-evenly "false" :halign "center"
+          (scale :min 0 :max 100 :step 5 :value {volume} :active "false")
+        )
+      )
+      (box :orientation "h" :halign "center" :class "system-icon" :space-evenly "false" 
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/sound.sh up" "󰝝 ") 
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/sound.sh down" "󰝞 ") 
+      )
+    )
+  )
+)
+
+(defwindow volume :geometry (geometry :x "46%" :y "36%" :width "14%") (volume))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Battery
+(defwidget battery [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" 
+      (box :class "system-icon" :style "margin-left: 10px; margin-right: -6px" "${battery-icon}")
+      (eventbox :onscroll "~/.config/eww/scripts/battery.sh {}"
+        (box :orientation "h" :class "battery-slider" :space-evenly "false" :halign "center"
+          (scale :min 0 :max 100 :step 5 :value {bright} :active "false")
+        )
+      )
+    )
+  )
+)
+
+(defpoll battery :interval "5m"  "~/.config/eww/scripts/battery.sh level")
+(defpoll battery-icon :interval "1s"  "~/.config/eww/scripts/battery.sh icon")
+
+(defwindow battery :geometry (geometry :x "46%" :y "41.7%" :width "14%") (battery))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Bright
+(deflisten bright-icon :initial "󰃠 " `tail -F /tmp/bright-icon`)
+(deflisten bright :initial 100 `tail -F /tmp/bright`)
+
+(defwidget bright [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" 
+      (box :class "system-icon" :style "margin-left: 10px; margin-right: -6px" "${bright-icon}")
+      (eventbox :onscroll "~/.config/eww/scripts/bright.sh {}"
+        (box :orientation "h" :class "system-slider" :space-evenly "false" :halign "center"
+          (scale :min 0 :max 100 :step 5 :value {bright} :active "false")
+        )
+      )
+      (box :orientation "h" :halign "center" :class "system-icon" :space-evenly "false" 
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/brigh.sh up" " ") 
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/bright.sh down" " ") 
+      )
+    )
+  )
+)
+
+(defwindow bright :geometry (geometry :x "46%" :y "47.3%" :width "14%" :height "25px") (bright))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;system 
+(defvar dnd-state "on")
+(defvar idle-state "off")
+
+(defwidget system [] 
+  (box :orientation "v" :space-evenly "false" :class "system"
+    (box :orientation "h" :space-evenly "false" :class "system"
+      (box :orientation "v" :space-evenly "false" :class "icon-box-start"
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/dnd-toggle.sh" 
+         (label :text {dnd-state == "on" ? "󰂛 " : "󰂚 "})
+        )
+      )
+      (box :orientation "v" :space-evenly "false" :class "icon-box"
+        (button :style "background-color:#282828" :onclick "~/.config/eww/scripts/idle.sh" 
+          (label :text {idle-state == "on" ? "󰈉 " : "󰈈 "})
+        )
+      )
+      (box :orientation "v" :space-evenly "false" :class "icon-box"
+        (button :style "background-color:#282828" :onclick "/usr/bin/swaylock --config ~/.config/swaylock/config" 
+         (label :text " ")
+        )
+      )
+    )
+    (box :orientation "h" :space-evenly "false" :class "system"
+      (box :orientation "v" :space-evenly "false" :class "icon-box-start"
+        (button :style "background-color:#282828" :onclick "systemctl suspend" 
+          (label :text "󰒲 ")
+        )
+      )
+      (box :orientation "v" :space-evenly "false" :class "icon-box"
+        (button :style "background-color:#282828;" :onclick "systemctl poweroff" 
+          (label :text " ")
+        )
+      )
+      (box :orientation "v" :space-evenly "false" :class "icon-box"
+        (button :style "background-color:#282828" :onclick "systemclt reboot" 
+          (label :text " ")
+        )
+      )
+    )
+  ) 
+)
+
+(defwindow system :geometry (geometry :x "61%" :y "36%" :width "10%" :height "15.7%") (system))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Internet
+(defwidget tray [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" :halign "center"
+      (box :class "info-low-medium-light" "${network1}")
+      (box :class "info-low-medium-light" "${apps} ")
+      (box :class "info-low-medium-light" "${keyboard}")
+    )
+  )
+)
+
+(defpoll network1 :interval "10s"  "~/.config/eww/scripts/networks.sh eno1")
+(defpoll apps :interval "10s"  "~/.config/eww/scripts/tray.sh")
+(defpoll keyboard :interval "10s"  "~/.config/eww/scripts/keyboard.sh")
+
+(defwindow tray :geometry (geometry :x "61%" :y "47.3%" :width "9.3%" :height "4.4%") (tray))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Music
+(deflisten music-title :initial "None " `tail -F /tmp/music-title`)
+(deflisten music-artist :initial "None " `tail -F /tmp/music-artist`)
+(deflisten music-pos :initial "50" `tail -F /tmp/music-pos`)
+(deflisten music-stat :initial " " `tail -F /tmp/music-stat`)
+(defvar music-image ".config/eww/images/no_music.png")
+
+(defwidget playing []
+  (box :orientation "h" :space-evenly "false"
+    (box :orientation "v" :space-evenly "false" :halign "center" :class "music-image"
+      (image :path music-image :image-width 130 :preserve-aspect-ration true)
+    )
+    (box :orientation "v" :space-evenly "false" :halign "center"
+      (box :class "musictitle" "${music-title}")
+      (box :class "musicartist" "${music-artist}")
+      (box :orientation "h" :halign "center" :class "musicbtn" :space-evenly "false" 
+        (button :onclick "playerctl previous" "")
+        (button :onclick "playerctl play-pause"
+          (label :text {music-stat})
+        )
+        (button :onclick "playerctl next" "")
+      )
+      (box :orientation "h" :class "music-slider" :space-evenly "false" :halign "center" 
+        (scale :min 0 :max 100 :value {music-pos} :active "false")
+      )
+    )
+  )
+)
+
+(defwindow playing :geometry (geometry :x "20%" :y "52.6%" :width "15%" :height "100px") (playing))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; sway
+(defwidget sway [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" :halign "center"
+      (label :class "info-medium-light" :text "${sway-app}" :wrap true)
+    )
+  )
+)
+
+(defpoll sway-app :interval "0.1s"  "~/.config/eww/scripts/sway.sh")
+
+(defwindow sway :geometry (geometry :x "56%" :y "52.6%" :width "14.3%" :height "156px") (sway))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -7,8 +7,7 @@ Mi current workflow configuration
 	* [tmux](https://github.com/tmux/tmux/wiki) as tmux
 	* [Kitty](https://sw.kovidgoyal.net/kitty/) as terminal emulator.
 	* [Swaywm](https://swaywm.org/) as VM.
-	* [Waybar](https://github.com/Alexays/Waybar) as top bar.
+	* [EWW](https://github.com/elkowar/eww) as dashboard.
 	* [Yazi](https://yazi-rs.github.io/) as file manager.
 	* [Tofi](https://github.com/philj56/tofi) as file app launcher.
 	* [Mako](https://github.com/emersion/mako) as notification daemon.
-	* [Wlogout](https://github.com/ArtsyMacaw/wlogout).
