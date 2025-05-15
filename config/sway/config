@@ -36,6 +36,19 @@ set $lock swaylock --config ~/.config/swaylock/config
 # Set dashboard
 set $dashboard ~/.config/sway/eww.sh
 
+# Set file browser
+set $files nemo
+
+# Select workspace
+set $selectWorkspace swaymsg workspace $(~/.config/sway/list_windows.py |\
+    tofi --width 1800 --height 600 --font-size 12 |\
+    cut -d'|' -f2 | cut -d':' -f1)
+
+# Fuzzy find files and open (fffo)
+set $fffo kitty --class "fffo" ~/.config/sway/find_file_and_open.sh
+for_window [app_id="fffo"] floating enable, resize set 960 648
+bindsym $mod+Ctrl+w exec $fffo
+
 ##################################################
 # Looks
 ##################################################
@@ -52,7 +65,7 @@ client.placeholder #101010 #101010 #101010 #101010 #101010
 
 
 # Background configuration
-output * bg ~/.config/sway/wallpaper_landscape/9 fill
+output * bg ~/.config/sway/bg fill
 
 ##################################################
 # Keyboard
@@ -68,16 +81,30 @@ input * {
 # Key bindings
 ##################################################
 # Basics:
-## Home row direction keys, like vim
+##################################################
+# Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 
-## Alt tab
+# Alt tab
 bindsym $mod+tab workspace next_on_output
 bindsym $mod+Shift+tab workspace prev_on_output
 
+# Volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Bright
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+
+##################################################
+# Apps
+##################################################
 ## Start a terminal
 bindsym $mod+Return exec $term
 
@@ -106,15 +133,11 @@ bindsym $mod+Ctrl+f fullscreen
 # Lock sway
 bindsym $mod+Ctrl+o exec $lock
 
-# Volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# Files
+bindsym $mod+Ctrl+n exec $files
 
-# Bright
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+# Select workspace
+bindsym $mod+Ctrl+s exec $selectWorkspace
 
 ##################################################
 # Moving around
@@ -212,6 +235,8 @@ bindsym $mod+Alt+v splitv
 # You can send windows there and get them back later.
 # We use our numbers as Scratchpad
 
+bindsym $mod+Ctrl+space floating toggle
+
 # Special windows to move to scratchpad
 bindsym $mod+Shift+1 mark "sp1", move scratchpad
 bindsym $mod+Shift+2 mark "sp2", move scratchpad
@@ -259,20 +284,14 @@ mode "resize" {
 }
 
 ##################################################
-# Special things
-##################################################
-for_window [title="Picture in picture"] floating enable
-# Disable idle
-for_window [app_id=".*" title=".*"] fullscreen disable_idle
-
-##################################################
 # SwayIdle
 ##################################################
+# Lock after 5 mintue, screen off after 10, resume if mouse move
 exec_always {
   swayidle -w \
-    timeout 300 $lock \ # Lock after 5 min
-    timeout 600 'swaymsg "output * dpms off"' \ # Screen off after 10 minutes
-    resume 'swaymsg "output * dpms on"' \ # Resume if mouse move
+    timeout 300 $lock \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
     before-sleep $lock &
 }
 
@@ -280,5 +299,16 @@ exec_always {
 # Apps to execute at the init
 ##################################################
 exec_always kanshi
+exec_always ~/.config/eww/scripts/poll/20min.sh
+exec_always ~/.config/eww/scripts/poll/1sec.sh
+exec_always ~/.config/eww/scripts/sound.sh
+exec_always ~/.config/sway/dim.sh
+exec_always /usr/local/bin/autotiling
+
+# This app should not be executed always
+exec kitty --class spKitty 
+exec /usr/bin/keepassxc
+for_window [app_id="^spKitty$"] mark sp1, move scratchpad, scratchpad hide, floating enable
+for_window [app_id="^org.keepassxc.KeePassXC$"] mark sp2, move scratchpad, scratchpad hide, floating enable
 
 include /etc/sway/config.d/*

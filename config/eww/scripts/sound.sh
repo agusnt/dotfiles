@@ -3,8 +3,6 @@
 muted=$(pactl get-sink-mute @DEFAULT_SINK@ | cut -d' ' -f2)
 volume=$(pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | cut -d'/' -f2 | cut -d'%' -f1 | tr -d ' ')
 
-ficon="/tmp/sound-icon"
-
 set_files() {
   #Set the icons and vols
   ficon="/tmp/sound-icon"

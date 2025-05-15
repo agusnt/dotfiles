@@ -17,4 +17,4 @@ weather=$(curl -s "https://api.open-meteo.com/v1/forecast?latitude=$lat&longitud
 # info
 hour=$(date +%H)
 tmp=$(echo "$weather" | jq '.hourly.apparent_temperature' | sed -n "$hour"p | cut -d',' -f1 | awk '{$1=$1;print}')
-echo "$tmpC" >/tmp/temperature
+echo "$tmp󰔄 " >/tmp/temperature

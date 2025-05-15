@@ -8,23 +8,11 @@ if ! pidof eww; then
   sleep 1
 fi
 
-open_eww() {
-  eww list-windows | while IFS= read -r window; do
-    eww open "$window" --screen $SCREEN
-  done
-}
-
-close_eww() {
-  eww list-windows | while IFS= read -r window; do
-    eww close "$window"
-  done
-}
-
 ## Launch or close widgets accordingly
 if [[ ! -f "$FILE" ]]; then
   touch "$FILE"
-  open_eww
+  eww open dashboard --screen $SCREEN
 else
-  close_eww
+  eww close dashboard
   rm $FILE
 fi

@@ -1,0 +1,28 @@
+(defwidget info [] 
+  (box :orientation "v" :style "padding: 5px" :width 200 :space-evenly "false"
+    (label :class "info" :text "Sway shortcuts")
+    (label :class "info-medium" :text "--------------------------------")
+    (box :orientation "v" :style "padding: 5px" :width 200 :space-evenly "false"
+      (label :class "text-info" :xalign 0 :text " $mod+Return  Terminal ( )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+q  Kill (󰧻 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+m  Launcher (󱓞 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+c  Reload (󰑓 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+p  Screenshot ( )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+Shit+q  Screenshot Area ( )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+d  Dashboard (󰕮 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+f  Fullscreen (󰹑 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+o  Lock ( )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+n  Files ( )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+w  Fuzzy Finder (󰈞 )")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+s  Workspace (󰙖 )")
+    )
+    (label :class "info-medium" :text "--------------------------------")
+    (box :orientation "v" :style "padding: 5px" :width 200 :space-evenly "false"
+      (label :class "text-info" :xalign 0 :text " $mod+[letter]  Focus workspace")
+      (label :class "text-info" :xalign 0 :text " $mod+Shift+[letter]  Move to workspace")
+      (label :class "text-info" :xalign 0 :text " $mod+Shift+Space  Move to next output")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+[h,j,k,l]  Focus to [h,j,k,l]")
+      (label :class "text-info" :xalign 0 :text " $mod+Ctrl+Shift+[h,j,k,l]  Move to [h,j,k,l]")
+    )
+  )
+)

@@ -1,0 +1,21 @@
+(deflisten volume-icon :initial " " `tail -F /tmp/sound-icon`)
+(deflisten volume :initial 0 `tail -F /tmp/sound-vol`)
+
+(defwidget volume [] 
+  (box :orientation "v" :space-evenly "false"
+    (box :orientation "v" :halign "center" :class "system-icon" :space-evenly "false" 
+      (button :style "background-color:#282828;margin-left: 8px" :onclick "~/.config/eww/scripts/sound.sh toggle" (
+        label :text {volume-icon})
+      )
+    )
+    (eventbox :onscroll "~/.config/eww/scripts/sound.sh {}"
+      (box :orientation "v" :class "system-slider" :space-evenly "false" :halign "center"
+        (scale :orientation "v" :min 0 :max 100 :step 5 :value {volume} :active "false" :flipped true)
+      )
+    )
+    (box :orientation "v" :halign "center" :class "system-icon" :space-evenly "false" 
+      (button :style "background-color:#282828;margin-left: 8px;" :onclick "~/.config/eww/scripts/sound.sh up" "󰝝 ") 
+      (button :style "background-color:#282828;margin-left: 8px;" :onclick "~/.config/eww/scripts/sound.sh down" "󰝞 ") 
+    )
+  )
+)

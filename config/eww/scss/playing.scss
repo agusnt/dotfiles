@@ -1,0 +1,67 @@
+.playing {
+  border: 1px solid #1d2021;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.music {
+  border: 0px solid #1d2021;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.music-image {
+  background-color: #282828;
+  border-radius: 0px;
+  padding: 5px;
+}
+
+.musictitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.musicartist {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.musicbtn {
+  font-size: 20px;
+  font-weight: 100;
+}
+
+.musicbtn button {
+  background-color: #282828;
+}
+
+.musicbtn button:hover {
+  background-color: #282828;
+  color: #b8bb26;
+}
+
+.music-slider scale trough {
+  all: unset;
+  background-color: #7c6f64;
+  border-radius: 50px;
+  min-height: 7px;
+  min-width: 240px;
+  margin-bottom: 20px;
+}
+
+.music-slider scale trough highlight {
+  all: unset;
+  background-color: #fabd2f;
+  color: #282828;
+  border-radius: 10px;
+}
+
+.music-slider slider {
+  all: unset;
+  color: #fabd2f;
+}
+
+

@@ -1,0 +1,11 @@
+(defwidget tray [] 
+  (box :orientation "h" :style "padding: 5px" :halign "center"
+    (box :class "info-low-medium-light" :halign "center" "${network1}")
+    (box :class "info-low-medium-light" :halign "center" "${apps} ")
+    (box :class "info-low-medium-light" :halign "center" "${keyboard}")
+  )
+)
+
+(defpoll network1 :interval "10s"  "~/.config/eww/scripts/networks.sh eno1")
+(defpoll apps :interval "10s"  "~/.config/eww/scripts/tray.sh")
+(defpoll keyboard :interval "10s"  "~/.config/eww/scripts/keyboard.sh")

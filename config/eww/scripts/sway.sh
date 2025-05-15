@@ -1,12 +1,18 @@
 #!/bin/bash
 
 declare -A icons
+declare -A returnM
 icons=(
-  ["kitty"]=" "
+  ["kitty"]=" "
   ["librewolf"]=" "
   ["Spotify"]=" "
   ["thunderbird"]=" "
   ["dbgate"]=" "
+  ["libreoffice"]=" "
+  ["zathura"]=" "
+  ["pavucontrol"]=" "
+  ["nemo"]=" "
+  ["org.keepassxc.KeePassXC"]="󱕵 "
 )
 
 swaymsg -t get_tree | jq -r '.nodes[] | .nodes[]? | "Workspace: \(.name), Class: \(.nodes[]? | .app_id // .window_properties.class)"' >/tmp/sway.tmp
@@ -17,11 +23,20 @@ while IFS= read -r line; do
   workspace=$(echo "$line" | cut -d':' -f2 | cut -d',' -f1)
   app=$(echo "$line" | cut -d':' -f3 | cut -d',' -f1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
+  # Special cases
+  if [[ "$app" == *"libreoffice"* ]]; then
+    app="libreoffice"
+  fi
+
   if [[ -v "icons[$app]" ]]; then
-    returnV=$returnV"$workspace":"${icons[$app]}"
+    returnM[$workspace]="${returnM[$workspace]}""${icons[$app]}"
   else
-    returnV=$returnV"$workspace":""
+    returnM[$workspace]="${returnM[$workspace]}"""
   fi
 done <"/tmp/sway.tmp"
+
+for i in "${!returnM[@]}"; do
+  returnV="$returnV""$i:""${returnM[$i]}"
+done
 
 echo "$returnV"

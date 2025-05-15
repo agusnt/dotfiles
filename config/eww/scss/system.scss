@@ -1,0 +1,74 @@
+.bright {
+  border: 1px solid #1d2021;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.system {
+  background-color: rgba(0,0,0,0);
+  border-radius: 10px;
+  padding: 0px;
+}
+
+.icon-box {
+  border: 1px solid #1d2021;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 25px;
+}
+
+.icon-box-top {
+  margin-bottom: 10px;
+}
+
+.icon-box-middle {
+  margin-left: 10px;
+}
+
+.icon-box button:hover {
+  color: #b8bb26;
+}
+
+.tray {
+  border: 1px solid #1d2021;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.system-icon {
+  font-size: 25px;
+  margin-left: 0px;
+}
+
+.system-icon button {
+  font-size: 25px;
+  margin-left: 0px;
+}
+
+.system-icon button:hover {
+  color: #b8bb26;
+}
+
+.system-slider scale trough {
+  all: unset;
+  background-color: #7c6f64;
+  border-radius: 50px;
+  min-height: 100px;
+  min-width: 10px;
+  margin-bottom: 0px;
+}
+
+.system-slider scale trough highlight {
+  all: unset;
+  background-color: #fabd2f;
+  color: #282828;
+  border-radius: 10px;
+}
+
+.system-slider slider {
+  all: unset;
+  color: #fabd2f;
+}

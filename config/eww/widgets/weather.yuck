@@ -1,0 +1,13 @@
+(deflisten weather-icon :initial " " `tail -F /tmp/weather-icon`)
+(deflisten temperature :initial 0 `tail -F /tmp/temperature`)
+(deflisten location :initial 0 `tail -F /tmp/location`)
+
+(defwidget weather [] 
+  (box :orientation "h" :style "padding: 5px" :width 410
+    (box :class "icon" "${weather-icon} ")
+    (box :orientation "v" :space-evenly "false" :valign "center"
+      (box :class "info" "${temperature}")
+      (box :class "info-medium-light" "${location}")
+    )
+  )
+)
