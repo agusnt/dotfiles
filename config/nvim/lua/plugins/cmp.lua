@@ -15,13 +15,27 @@ return {
 
     version = 'v1.*',
     opts = {
-      keymap = { preset = 'default' },
+      keymap = { 
+        preset = "none",
+        ["<Tab>"] = { "select_next", "fallback", },
+        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback", },
+        ["<Enter>"] = { "accept", "fallback", },
+        ["<C- >"] = { "show", "hide", },
+        ["<C-d>"] = { "show_documentation", "hide_documentation", },
+        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+      },
 
       appearance = {
         nerd_font_variant = 'mono'
       },
 
-      completion = { documentation = { auto_show = false } },
+      completion = {
+        list = { selection = { preselect = false, auto_insert = true } },
+        keyword = { range = 'full' },
+        ghost_text = { enabled = true },
+        documentation = { auto_show = false } 
+      },
 
       sources = {
         default = { 'lsp', 'path', 'snippets', 'dictionary', 'buffer' },
@@ -33,6 +47,8 @@ return {
           }
         },
       },
+
+      -- snippets = { preset = 'luasnip' },
 
       signature = { enabled = true },
       fuzzy = { implementation = "prefer_rust_with_warning" }
