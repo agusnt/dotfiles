@@ -1,0 +1,17 @@
+[matching]
+'vlc' = ''
+'kitty' = ''
+'librewolf' = ''
+'libreoffice' = ''
+'libreoffice-calc' = ''
+'libreoffice-writer' = ''
+'Thunderbird' = ''
+'thunderbird' = ''
+'nemo' = ''
+'spotify' = ''
+'dbgate' = ''
+'org.keepassxc.KeePassXC' = ''
+
+[other]
+fallback_icon = ''
+deduplicate_icons = true
