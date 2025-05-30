@@ -98,4 +98,24 @@ ls.add_snippets("python", {
         text(" else "),
         insert(4, "value"),
     }),
+
+    snip({
+        trig = "main",
+        namr = "Main",
+        dscr = "Main define",
+    }, {
+        text("if __name__ == \"__main__\":")
+    }),
+
+    snip({
+        trig = "loopfile",
+        namr = "Read file",
+        dscr = "Loop to read file",
+    }, {
+        text("with open("),
+        insert(1, "file"),
+        text(") as "),
+        insert(2, "var"),
+        text(":")
+    }),
 })

@@ -27,11 +27,16 @@ return {
     'ggandor/leap.nvim',
     dependencies = 'tpope/vim-repeat',
   },
-  -- Gruvbox
+  -- Gruvbox Material
   {
-    'ellisonleao/gruvbox.nvim',
+    'sainnhe/gruvbox-material',
     lazy = false,
-    priority = 1000
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_background = 'hard'
+      vim.g.gruvbox_enable_italic = true
+      vim.cmd.colorscheme('gruvbox-material')
+    end
   },
   -- Beutiful notifications
   {

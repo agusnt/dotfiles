@@ -1,10 +1,7 @@
 # Note from the author:
 #
 # For output configuration, I rely on Kanshi.
-#
-# I’m not a fan of bars—screen space should be for apps, not for a bar you rarely check. 
-# Instead, I use an EWW dashboard (triggered with Mod+Ctrl+d). It displays only the most important information.
-
+# 
 # @Author: Navarro-Torres, Agustin
 
 ##################################################
@@ -20,7 +17,7 @@ set $term kitty
 set $menu tofi-drun --drun-launch=true
 
 # Screen lock
-set $lock swaylock --config ~/.config/swaylock/config
+set $lock swaylock
 
 # Set dashboard
 set $dashboard ~/.config/sway/eww.sh
@@ -42,15 +39,18 @@ bindsym $mod+w exec $fffo
 # Looks
 ##################################################
 # A bit of gap between windows
-gaps inner 1
+gaps inner 2
 # Borders
-default_border pixel 1
+default_border pixel 2
 default_floating_border pixel 2
-client.focused #1d2021 #504945 #ebdbb2 #282828 #282828
-client.focused_inactive #1d2021 #3c3836 #ebdbb2 #282828 #282828
-client.unfocused #1d2021 #282828 #d6c4a1 #282828 #282828
-client.urgent #1d2021 #cc9321 #cc241d #282828 #282828
-client.placeholder #1d2021 #504945 #bdae93 #282828 #282828
+client.focused #141617 #504945 #d4be98 #1d2021 #1d2021
+client.focused_inactive #141617 #282828 #d4be98 #1d2021 #1d2021
+client.unfocused #141617 #1d2021 #d4be98 #1d2021 #1d2021
+client.urgent #141617 #442e2d #ea6962 #1d2021 #1d2021
+client.placeholder #141617 #1d2021 #d4be98 #1d2021 #1d2021
+
+# Font
+font pango:"Lilex Nerd Font" Regular 11
 
 # Background configuration
 output * bg ~/.config/sway/bg fill
@@ -122,10 +122,14 @@ bindsym $mod+z scratchpad show
 # ------------------------------------------------
 
 # Volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+#bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+#bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
+#bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+#bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym $mod+Ctrl+p exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym $mod+Ctrl+o exec pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym $mod+Ctrl+m exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Bright
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
@@ -169,43 +173,43 @@ bindsym $mod+Return exec $term
 # Kill focused window
 bindsym $mod+Shift+q kill
 # Start your launcher
-bindsym $mod+m exec $menu
+bindsym $mod+d exec $menu
 # Reload the configuration file
 bindsym $mod+c reload
 # Screenshots
 bindsym $mod+p exec grim
 bindsym $mod+Shift+p exec grim -g "$(slurp)"
-# Dashboard
-bindsym $mod+d exec $dashboard
 # Lock sway
 bindsym $mod+o exec $lock
 # Files
 bindsym $mod+n exec $files
+# Exit sway
+bindsym $mod+Shift+e exit
 
 ##################################################
 # Workspaces
 ##################################################
-bindsym $mod+0 workspace 0
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace number 0
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
 
-bindsym $mod+Shift+0 move container to workspace 0
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace number 0
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
 
 ##################################################
 # Resizing containers:
@@ -229,23 +233,33 @@ mode "resize" {
 # SwayIdle
 ##################################################
 # Lock after 5 mintue, screen off after 10, resume if mouse move
-exec_always {
+exec {
   swayidle -w \
-    timeout 300 $lock \
+    timeout 300 swaylock \
     timeout 600 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-    before-sleep $lock &
+    before-sleep swaylock &
+}
+
+##################################################
+# Swaybar
+##################################################
+bar {
+  swaybar_command waybar
+  position bottom
+  hidden_state hide
+  mode hide
 }
 
 ##################################################
 # Apps to execute at the init
 ##################################################
 exec_always kanshi
-exec_always ~/.config/eww/scripts/poll/20min.sh
-exec_always ~/.config/eww/scripts/poll/1sec.sh
-exec_always ~/.config/eww/scripts/sound.sh
+exec_always ~/.cargo/bin/workstyle
 exec_always ~/.config/sway/dim.sh
 exec_always /usr/local/bin/autotiling
+exec udiskie --tray
+exec sworkstyle
 
 # This app should not be executed always
 include /etc/sway/config.d/*

@@ -1,0 +1,80 @@
+{
+  "layer": "bottom",
+  "position": "bottom",
+  "height": 30,
+  "spacing": 4,
+  "ipc": true,
+  "modules-left": ["sway/workspaces", "sway/scratchpad", "sway/language", "sway/mode"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "pulseaudio", "network", "custom/dnd", "idle_inhibitor"],
+  
+
+  "sway/workspaces": {
+    "format": "{}",
+  },
+  
+  "sway/mode": {
+    "format": "{}",
+  },
+
+  "sway/scratchpad": {
+	  "format": "{icon} {count}",
+	  "show-empty": false,
+	  "format-icons": ["", ""],
+  },
+
+  "clock": {
+    "format": "󰥔  {:%d/%m/%Y %R} ",
+	  "format-alt": "󰥔  {:%A, %B %d, %Y (%R)}",
+	  "tooltip-format": "<tt><small>{calendar}</small></tt>",
+  },
+
+  "pulseaudio": {
+	  "format": "{icon} {volume}%",
+	  "format-muted": " ",
+    "format-bluetooth": "{volume}% {icon}",
+	  "format-icons": {
+	  	"headphones": " ",
+	  	"phone": " ",
+	  	"phone-muted": " ",
+	  	"portable": " ",
+	  	"car": " ",
+	  	"default": ["󰕿", "󰖀", "󰕾"]
+	  },
+	  "scroll-step": 1,
+	  "on-click": "pavucontrol"
+  },
+
+  "network": {
+  	"interface": "eno1",
+	  "format": "{ifname}",
+	  "format-wifi": "{essid} ({signalStrength}%)  ",
+	  "format-ethernet": "󰌘 ",
+	  "format-disconnected": "", //An empty format will hide the module.
+	  "format-disconnected": " ",
+	  "tooltip-format": "{ifname} [{ipaddr}]",
+	  "tooltip-format-wifi": "{essid} ({signalStrength}%) [{ipaddr}]  ",
+	  "tooltip-format-ethernet": "{ifname} [{ipaddr}] 󰌘 ",
+	  "tooltip-format-disconnected": "Disconnected",
+	  "max-length": 50
+  },
+
+  "custom/dnd": {
+    "format": "{}",
+    "on-click": "~/.config/waybar/dnd-toggle.sh",
+    "exec": "~/.config/waybar/dnd.sh",
+    "tooltip": false,
+    "interval": 1,
+    "signal": 8,
+  },
+
+
+  "idle_inhibitor": {
+	  "format": "{icon}",
+	  "format-icons": {
+	  	"activated": " ",
+	  	"deactivated": " "
+	  },
+	  "timeout": 30.5
+  }
+}

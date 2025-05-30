@@ -1,9 +1,0 @@
-(defwidget sway [] 
-  (box :width 186 :orientation "v" :space-evenly "false" 
-    (box :orientation "h" :space-evenly "false" :halign "center"
-      (label :class "info-medium-light" :text "${sway-app}" :wrap true)
-    )
-  )
-)
-
-(defpoll sway-app :interval "1s"  "~/.config/eww/scripts/sway.sh")

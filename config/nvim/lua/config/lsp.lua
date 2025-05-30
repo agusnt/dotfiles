@@ -91,3 +91,5 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
 vim.diagnostic.config {
   float = { border = _border }
 }
+
+vim.lsp.set_log_level(vim.log.levels.OFF)

@@ -48,5 +48,18 @@ weather=$(curl -s "https://api.open-meteo.com/v1/forecast?latitude=$lat&longitud
 
 # info
 hour=$(($(date +%H) + 2))
+
+# Temperature
+tmp=$(echo "$weather" | jq '.hourly.apparent_temperature' | sed -n "$hour"p | cut -d',' -f1 | awk '{$1=$1;print}' | cut -d'.' -f1)
+if [ $tmp -lt 5 ]; then
+  tmp=""$tmp
+elif [ $tmp -lt 15 ]; then
+  tmp=""$tmp
+elif [ $tmp -lt 30 ]; then
+  tmp=""$tmp
+else
+  tmp=""$tmp
+fi
+
 weather=$(echo "$weather" | jq '.hourly.weather_code' | sed -n "$hour"p | cut -d',' -f1)
-echo "${WEATHER_CODES[$weather]}" >/tmp/weather-icon
+echo "${WEATHER_CODES[$weather]} $tmp" >/tmp/weather

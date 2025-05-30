@@ -4,7 +4,7 @@
 
 return {
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
-
+  { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
   {
     'saghen/blink.cmp',
     dependencies = {
@@ -34,7 +34,8 @@ return {
         list = { selection = { preselect = false, auto_insert = true } },
         keyword = { range = 'full' },
         ghost_text = { enabled = true },
-        documentation = { auto_show = false } 
+        documentation = { auto_show = false, border = 'rounded' },
+        menu = { border = 'rounded' },
       },
 
       sources = {
@@ -48,11 +49,18 @@ return {
         },
       },
 
-      -- snippets = { preset = 'luasnip' },
+      snippets = { preset = 'luasnip' },
 
       signature = { enabled = true },
       fuzzy = { implementation = "prefer_rust_with_warning" }
     },
     opts_extend = { "sources.default" }
-  }
+  },
+  config = function()
+    vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "Pmenu" }) -- Fondo y texto de la documentación
+    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { link = "Pmenu" }) -- Fondo y texto del menú de autocompletado
+    vim.api.nvim_set_hl(0, "BlinkCmpBorder", { link = "Pmenu" }) -- Si Blink tiene un grupo de borde específico
+
+    vim.api.nvim_set_hl(0, "BlinkCmpSelected", { link = "PmenuSel" })
+  end
 }
