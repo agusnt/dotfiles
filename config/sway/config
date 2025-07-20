@@ -1,0 +1,283 @@
+# For output configuration, I rely on Kanshi.
+# 
+# @Author: Navarro-Torres, Agustin
+
+##################################################
+# Vars
+##################################################
+# Windows key as modifier
+set $mod Mod4 
+
+# Kitty as terminal
+set $term kitty
+
+# Tofi as launcher
+set $menu wofi --allow-images --show drun -a
+
+# Screen lock
+set $lock swaylock
+
+# Set file browser
+set $files nemo
+
+##################################################
+# Looks
+##################################################
+# A bit of gap between windows
+gaps inner 1
+# Borders
+# No border
+default_border pixel 2
+default_floating_border pixel 2
+# Title border
+# default_border normal
+# default_floating_border normal
+client.focused #141617 #504945 #d4be98 #1d2021 #1d2021
+client.focused_inactive #141617 #282828 #d4be98 #1d2021 #1d2021
+client.unfocused #141617 #1d2021 #d4be98 #1d2021 #1d2021
+client.urgent #141617 #442e2d #ea6962 #1d2021 #1d2021
+client.placeholder #141617 #1d2021 #d4be98 #1d2021 #1d2021
+
+# Font
+font pango:"Lilex Nerd Font" Regular 11
+
+# Background configuration
+output * bg ~/.config/sway/bg fill
+
+##################################################
+# Keyboard
+##################################################
+input "type:keyboard" {
+  xkb_layout "us,es"
+  xkb_options "grp:alt_shift_toggle"
+}
+
+input "type:touchpad" {
+  tap disabled # Disable click-on-tap
+  natural_scroll disabled
+  # No touchpad if i am typing
+  dwt enabled
+  dwtp enabled
+}
+
+input "2:10:TPPS/2_Elan_TrackPoint" {
+  # Slowdown the trackpoint
+  pointer_accel -0.4
+}
+
+##################################################
+# Key bindings
+##################################################
+
+# ------------------------------------------------
+# Basics:
+# ------------------------------------------------
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# ------------------------------------------------
+# Movement:
+# ------------------------------------------------
+
+# Alt tab for workspaces
+bindsym $mod+tab workspace next_on_output
+bindsym $mod+Shift+tab workspace prev_on_output
+
+# Left-Right-Up-Down
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Move between displays
+bindsym $mod+Ctrl+$right move workspace to output right 
+bindsym $mod+Ctrl+$left move workspace to output left 
+bindsym $mod+Ctrl+$up move workspace to output up
+bindsym $mod+Ctrl+$down move workspace to output down
+
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# ------------------------------------------------
+# Scratchpad
+# ------------------------------------------------
+# Move to scratchpad
+bindsym $mod+Shift+z move scratchpad
+# Toggle Scratchpad
+bindsym $mod+z scratchpad show
+
+# ------------------------------------------------
+# For Laptop:
+# ------------------------------------------------
+
+# Volume
+bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume +5
+bindsym XF86AudioLowerVolume exec swayosd-client --output-volume -5
+bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
+bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+
+# Bright
+bindsym XF86MonBrightnessUp exec swayosd-client --brightness +10
+bindsym XF86MonBrightnessDown exec swayosd-client --brightness -10
+
+# Screenshot
+bindsym XF86SelectiveScreenshot exec grim -g "$(slurp)"
+bindsym Print exec grim
+
+# Display
+bindsym XF86Display exec ~/.config/kanshi/sharing.sh
+
+# ------------------------------------------------
+# How do I split a new window:
+# ------------------------------------------------
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# ------------------------------------------------
+# Change between layouts:
+# ------------------------------------------------
+bindsym $mod+e layout default
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+
+# ------------------------------------------------
+# Change the focus
+# ------------------------------------------------
+bindsym $mod+Shift+a focus parent
+bindsym $mod+space focus toggle 
+
+# ------------------------------------------------
+# Floating window
+# ------------------------------------------------
+bindsym $mod+Shift+space floating toggle
+
+# ------------------------------------------------
+# Change Window aspect
+# ------------------------------------------------
+bindsym $mod+r mode "resize"
+bindsym $mod+f fullscreen toggle
+
+for_window [class=".*"] inhibit_idle fullscreen
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+# ------------------------------------------------
+# APP configuration
+# ------------------------------------------------
+# Start a terminal
+bindsym $mod+Return exec $term
+# Kill focused window
+bindsym $mod+Shift+q kill
+# Start your launcher
+bindsym $mod+d exec $menu
+# Reload the configuration file
+bindsym $mod+c reload
+# Choose window
+bindsym $mod+w exec ~/.config/sway/window_chooser.sh
+# Screenshots
+bindsym $mod+p exec grim
+bindsym $mod+Shift+p exec grim -g "$(slurp)"
+# Lock sway
+bindsym $mod+o exec $lock
+# Files
+bindsym $mod+n exec $files
+# Exit sway
+bindsym $mod+Shift+e exit
+
+##################################################
+# Workspaces
+##################################################
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+
+##################################################
+# Resizing containers:
+##################################################
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $right resize shrink width 30px
+    bindsym $left resize grow width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+##################################################
+# SwayIdle
+##################################################
+# Lock after 5 minute, screen off after 10, resume if mouse move
+exec {
+  swayidle -w \
+    timeout 300 swaylock \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep swaylock &
+}
+
+##################################################
+# Swaybar
+##################################################
+bar {
+  swaybar_command waybar
+  position bottom
+  hidden_state hide
+  mode hide
+}
+
+##################################################
+# Apps to execute at the init
+##################################################
+exec_always --no-startup-id kanshi
+exec_always --no-startup-id autotiling
+exec_always --no-startup-id ~/.cargo/bin/sworkstyle
+exec_always --no-startup-id ~/.config/sway/dim.sh
+exec_always --no-startup-id swayosd-server
+
+exec udiskie --tray
+exec keepassxc
+
+# Turn bluetooth off
+exec bluetoothctl power off
+
+# Theme
+exec_always {
+  gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+  gsettings set org.gnome.desktop.interface font-theme "Lilex Nerd Font"
+}
+
+
+# This app should not be executed always
+include /etc/sway/config.d/*
