@@ -1,6 +1,8 @@
 # How to install
 
-I know that you are using the latest version of Debian stable.
+I know that you are using the latest version of Debian Trixie.
+
+This should work with the NVIM 0.10, when nvim 0.11 hits de Debian repository (even backports) I will update to it. 
 
 ## Before anything
 
@@ -22,13 +24,11 @@ Install the LSP servers:
 ```bash
 sudo apt install clangd
 
-sudo npm install -g vscode-json-languageserver vscode-html-languageservice bash-language-server
+sudo npm install -g vscode-json-languageserver vscode-html-languageservice bash-language-server pyright
 
 cargo install asm-lsp
 
 cargo install --git https://github.com/latex-lsp/texlab texlab
-
-pip install --user --break-system-packages pyright
 ```
 
 ### LTex-LS
@@ -36,18 +36,13 @@ pip install --user --break-system-packages pyright
 Download the package from [here](https://github.com/ltex-plus/ltex-ls-plus/releases/tag/18.5.1).
 
 ```bash
-
-# Install OpenJDK 21
-wget https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.3_9.tar.gz
-sudo tar -xzf OpenJDK21U-jdk_x64_linux_hotspot_21.0.3_9.tar.gz -C /opt/
-sudo update-alternatives --install /usr/bin/java java /opt/jdk-21.0.3+9/bin/java 1000
-sudo update-alternatives --install /usr/bin/javac javac /opt/jdk-21.0.3+9/bin/javac 1000
-
 # Extract it
 tar -xf ltex-ls-plus*.tar.gz
 
 # Copy the binary
-sudo cp ltex-ls-plus*/bin/ltex-ls-lus /usr/local/bin/
+sudo cp ltex-ls-plus*/ /opt
+
+sudo ln -s /opt/ltex-ls-plus-18.5.1/bin/ltex-ls-plus /usr/local/bin/ltex-ls
 ```
 
 
@@ -55,11 +50,10 @@ sudo cp ltex-ls-plus*/bin/ltex-ls-lus /usr/local/bin/
 
 ```bash
 
-sudo apt install jq clang-format shfmt
+sudo apt install jq clang-format shfmt python3-autopep8
 
-sudo npm install -g bibtex-tidy
+sudo npm install -g bibtex-tidy ruff
 
-pip install --user --break-system-packages autopep8 ruff
 ```
 
 
@@ -69,3 +63,9 @@ pip install --user --break-system-packages autopep8 ruff
 sudo apt install shellcheck
 ```
 
+
+# Road to new versions of NVIM
+
+## 0.11
+
+* Modified the nvim-lsp plugin, since 0.11 is easier to configure lsp servers.

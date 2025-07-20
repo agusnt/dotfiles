@@ -2,7 +2,7 @@ zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=/home/agus/.local/bin:/usr/local/bin/:$PATH
+export PATH=/home/agus/.local/bin:/usr/local/bin/:/usr/sbin/:$PATH
 export EDITOR=nvim
 
 ###############################################################################
@@ -84,3 +84,33 @@ function y() {
 
 path=('/home/agus/.juliaup/bin' $path)
 export PATH
+export PATH=~/.npm-global/bin:$PATH
+
+###############################################################################
+# Globar Vars
+###############################################################################
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
+export MOZ_ENABLE_WAYLAND=1
+export QT_QPA_PLATFORM=wayland
+export JAVA_HOME=/usr/
+
+###############################################################################
+# SSH stuff
+###############################################################################
+if [ -z "$SSH_AUTH_SOCK" ]; then
+   eval "$(ssh-agent -s)" >/dev/null
+fi
+
+# Not ask for password for 30 min
+function _ssh_auto_add() {
+  # Uncomment if the key pass has password
+  #if ! ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519 | awk '{print $2}')"; then
+  #  ssh-add -t 30m ~/.ssh/id_ed25519
+  #fi
+  command "$@"
+}
+function ssh() { _ssh_auto_add ssh "$@"; }
+function rsync() { _ssh_auto_add rsync "$@"; }
+
+. "$HOME/.cargo/env"

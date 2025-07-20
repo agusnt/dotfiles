@@ -34,7 +34,7 @@ return {
         list = { selection = { preselect = false, auto_insert = true } },
         keyword = { range = 'full' },
         ghost_text = { enabled = true },
-        documentation = { auto_show = false, border = 'rounded' },
+        documentation = { auto_show = false },
         menu = { border = 'rounded' },
       },
 

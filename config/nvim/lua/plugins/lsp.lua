@@ -23,10 +23,23 @@ return {
     event = 'VeryLazy',
     priority = 1000,
     config = function()
-        require('tiny-inline-diagnostic').setup()
-        vim.diagnostic.config({ virtual_text = false })
+      require('tiny-inline-diagnostic').setup()
+      vim.diagnostic.config({ virtual_text = false })
     end
   },
   -- Action previews
   'aznhe21/actions-preview.nvim',
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      local lspconfig = require('lspconfig')
+      lspconfig.pyright.setup{}
+      lspconfig.clangd.setup{}
+      lspconfig.bashls.setup{}
+      lspconfig.html.setup{}
+      lspconfig.jsonls.setup{}
+      lspconfig.asm_lsp.setup{}
+      lspconfig.ltex.setup{}
+    end
+  }
 }

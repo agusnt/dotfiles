@@ -1,7 +1,8 @@
 [matching]
 'vlc' = ''
 'kitty' = ''
-'librewolf' = ''
+'firefox' = ''
+'firefox-esr' = ''
 'libreoffice' = ''
 'libreoffice-calc' = ''
 'libreoffice-writer' = ''
@@ -9,8 +10,10 @@
 'thunderbird' = ''
 'nemo' = ''
 'spotify' = ''
+'org.pwmt.zathura' = ''
 'dbgate' = ''
 'org.keepassxc.KeePassXC' = ''
+'zoom' = '󰭹'
 
 [other]
 fallback_icon = ''

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$(makoctl mode)" == "default" ]]; then
-  echo "󰂚"
+  echo " "
 else
-  echo "󰂛"
+  echo "  "
 fi

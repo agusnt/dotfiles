@@ -1,0 +1,6 @@
+[screencast]
+chooser_type=simple
+exec_before=~/.config/xdg-desktop-portal-wlr/disable-notification.sh
+exec_after=~/.config/xdg-desktop-portal-wlr/enable-notification.sh
+chooser_cmd=swaymsg -t get_outputs | jq '.[] | .name' | sed 's/"//g' | wofi -dmenu
+max_fps=30

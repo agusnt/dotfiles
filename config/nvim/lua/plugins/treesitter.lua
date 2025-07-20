@@ -19,7 +19,6 @@ return {
           'json',
           'make',
           'ninja',
-          'latex',
           'cmake',
           'python',
           'comment',

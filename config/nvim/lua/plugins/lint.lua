@@ -12,8 +12,8 @@ return {
     },
     config = function()
       require('lint').linters_by_ft = {
-        -- c = { 'clang-format', },
-        -- cpp = { 'clang-format' },
+        c = { 'clang-format', },
+        cpp = { 'clang-format' },
         bash = { 'shellcheck' },
         -- python = { 'pyright', },
       }
