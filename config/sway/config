@@ -9,7 +9,7 @@
 set $mod Mod4 
 
 # Kitty as terminal
-set $term kitty
+set $term footclient
 
 # Tofi as launcher
 set $menu wofi --allow-images --show drun -a
@@ -18,25 +18,25 @@ set $menu wofi --allow-images --show drun -a
 set $lock swaylock
 
 # Set file browser
-set $files nemo
+set $files thunar
 
 ##################################################
 # Looks
 ##################################################
 # A bit of gap between windows
-gaps inner 1
+gaps inner 0
 # Borders
 # No border
-default_border pixel 2
+default_border pixel 1.5
 default_floating_border pixel 2
 # Title border
-# default_border normal
-# default_floating_border normal
-client.focused #141617 #504945 #d4be98 #1d2021 #1d2021
-client.focused_inactive #141617 #282828 #d4be98 #1d2021 #1d2021
-client.unfocused #141617 #1d2021 #d4be98 #1d2021 #1d2021
-client.urgent #141617 #442e2d #ea6962 #1d2021 #1d2021
-client.placeholder #141617 #1d2021 #d4be98 #1d2021 #1d2021
+#default_border normal
+#default_floating_border normal
+client.focused #d79921 #d79921 #282828
+client.focused_inactive #665c54 #665c54 #ebdbb2
+client.unfocused #1d2021 #3c3836 #ebdbb2
+client.urgent #cc241d #cc241d #ebdbb2
+client.placeholder #282828 #282828 #ebdbb2
 
 # Font
 font pango:"Lilex Nerd Font" Regular 11
@@ -132,8 +132,8 @@ bindsym XF86MonBrightnessUp exec swayosd-client --brightness +10
 bindsym XF86MonBrightnessDown exec swayosd-client --brightness -10
 
 # Screenshot
-bindsym XF86SelectiveScreenshot exec grim -g "$(slurp)"
-bindsym Print exec grim
+bindsym XF86SelectiveScreenshot exec ~/.config/sway/screenshot.sh slurp
+bindsym Print exec ~/.config/sway/screenshot.sh
 
 # Display
 bindsym XF86Display exec ~/.config/kanshi/sharing.sh
@@ -154,8 +154,7 @@ bindsym $mod+t layout tabbed
 # ------------------------------------------------
 # Change the focus
 # ------------------------------------------------
-bindsym $mod+Shift+a focus parent
-bindsym $mod+space focus toggle 
+bindsym $mod+space focus parent
 
 # ------------------------------------------------
 # Floating window
@@ -248,20 +247,9 @@ exec {
 }
 
 ##################################################
-# Swaybar
-##################################################
-bar {
-  swaybar_command waybar
-  position bottom
-  hidden_state hide
-  mode hide
-}
-
-##################################################
 # Apps to execute at the init
 ##################################################
 exec_always --no-startup-id kanshi
-exec_always --no-startup-id autotiling
 exec_always --no-startup-id ~/.cargo/bin/sworkstyle
 exec_always --no-startup-id ~/.config/sway/dim.sh
 exec_always --no-startup-id swayosd-server
@@ -272,12 +260,21 @@ exec keepassxc
 # Turn bluetooth off
 exec bluetoothctl power off
 
+# Start graphical session
+exec_always systemctl --user start sway-session.target
+
 # Theme
 exec_always {
-  gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+  gsettings set org.gnome.desktop.interface color-scheme prefer-light
+  gsettings set org.gnome.desktop.interface icon-theme "Adwaita"
   gsettings set org.gnome.desktop.interface font-theme "Lilex Nerd Font"
 }
 
+# Picture-in-Picture
+for_window [class="chromium" title="Picture-in-Picture"] floating enable, sticky enable
+for_window [class="google-chrome" title="Picture-in-Picture"] floating enable, sticky enable
+for_window [app_id="org.keepassxc.KeePassXC"] floating enable, sticky enable, resize set width 800 height 600
+for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, resize set width 640 height 360
 
 # This app should not be executed always
 include /etc/sway/config.d/*

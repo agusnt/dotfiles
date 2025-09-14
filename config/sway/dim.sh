@@ -33,5 +33,6 @@ def on_window_focus(ipc, event):
         prev_focused = focused
         prev_workspace = workspace
 
-ipc.on("window::focus", on_window_focus)
-ipc.main()
+while True:
+  ipc.on("window::focus", on_window_focus)
+  ipc.main()
