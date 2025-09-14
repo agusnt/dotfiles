@@ -18,14 +18,13 @@ return {
         },
         format_on_save = {
           timeout_ms = 500,
-          lsp_format = "fallback",
         },
         formatters = {
           shfmt = {
             args = {'-i', '2'}
           }
         },
-        log_level = vim.log.levels.DEBUG,
+        -- log_level = vim.log.levels.DEBUG,
         quiet = false
       })
     end

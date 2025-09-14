@@ -10,36 +10,38 @@ return {
     event = 'VeryLazy',
     opts = {},
   },
-  -- Easy goto function
   {
-    'rmagatti/goto-preview',
-    event = 'BufEnter',
+    "romus204/referencer.nvim",
     config = function()
-      require('goto-preview').setup({})
+        require("referencer").setup()
     end
   },
   {
-    'rachartier/tiny-inline-diagnostic.nvim',
-    event = 'VeryLazy',
-    priority = 1000,
-    config = function()
-      require('tiny-inline-diagnostic').setup()
-      vim.diagnostic.config({ virtual_text = false })
+    "Dan7h3x/signup.nvim",
+    branch = "main",
+    config = function(_,opts)
+      require("signup").setup(opts)
     end
   },
-  -- Action previews
-  'aznhe21/actions-preview.nvim',
+  {
+    'Kasama/nvim-custom-diagnostic-highlight',
+    config = function()
+      require('nvim-custom-diagnostic-highlight').setup({})
+    end
+  },
+  -- LSP
   {
     'neovim/nvim-lspconfig',
-    config = function()
+    config = function ()
       local lspconfig = require('lspconfig')
-      lspconfig.pyright.setup{}
-      lspconfig.clangd.setup{}
-      lspconfig.bashls.setup{}
-      lspconfig.html.setup{}
-      lspconfig.jsonls.setup{}
-      lspconfig.asm_lsp.setup{}
-      lspconfig.ltex.setup{}
+      lspconfig['clangd'].setup({})
+      lspconfig['harper_ls'].setup({})
+      lspconfig['pyright'].setup({})
+      lspconfig['jqls'].setup({})
+      lspconfig['html'].setup({})
+      lspconfig['asm_lsp'].setup({})
+      lspconfig['bashls'].setup({})
+      lspconfig['gopls'].setup({})
     end
   }
 }

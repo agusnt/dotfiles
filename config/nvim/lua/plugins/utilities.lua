@@ -29,33 +29,25 @@ return {
   },
   -- Gruvbox Material
   {
-    'sainnhe/gruvbox-material',
+    'ellisonleao/gruvbox.nvim',
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.gruvbox_background = 'hard'
+      vim.g.gruvbox_background = 'dark'
       vim.g.gruvbox_enable_italic = true
-      vim.cmd.colorscheme('gruvbox-material')
+      vim.cmd.colorscheme('gruvbox')
     end
   },
   -- Beutiful notifications
   {
-    'j-hui/fidget.nvim',
+    'linrongbin16/lsp-progress.nvim',
     config = function()
-      require("fidget").setup({})
+      require('lsp-progress').setup()
     end
   },
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-  },
-  {
-    "lervag/vimtex",
-    lazy = false, -- we don't want to lazy load VimTeX
-    init = function()
-      vim.g.vimtex_view_method = "zathura"
-      vim.g.vimtex_compiler_method = 'latexrun'
-    end
   },
   {
     "folke/snacks.nvim",
@@ -71,5 +63,24 @@ return {
     config = function(_)
       require('better-diagnostic-virtual-text').setup(opts)
     end
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { 
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons" 
+    },
+    opts = {},
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
   }
 }

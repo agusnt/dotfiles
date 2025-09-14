@@ -65,13 +65,6 @@ Lspmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
 Lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>') -- Open diagnostic
 Lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 Lspmap('n', 'gp', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-vim.keymap.set({ 'v', 'n' }, "gf", require('actions-preview').code_actions)
-Map("n", "gd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true })
-Map("n", "gt", "<cmd>lua require('goto-preview').goto_preview_type_definition()<CR>", { noremap = true })
-Map("n", "gi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", { noremap = true })
-Map("n", "gD", "<cmd>lua require('goto-preview').goto_preview_declaration()<CR>", { noremap = true })
-Map("n", "<ESC>", "<cmd>lua require('goto-preview').close_all_win()<CR>", { noremap = true })
-Map("n", "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", { noremap = true })
 
 -- DAP
 Map("n", "dc", "<cmd>lua require('dap').continue()<CR>", { silent = true })
@@ -92,6 +85,9 @@ Map("i", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", { silent = true })
 Map("s", "<c-h>", "<cmd>lua require'luasnip'.jump(-1)<CR>", { silent = true })
 Map("i", "<c-l>", "<Plug>luasnip-next-choice", { silent = true })
 Map("s", "<c-l>", "<Plug>luasnip-next-choice", { silent = true })
+
+-- Open NvimTree
+Map("n", "<leader>f", ":NvimTreeToggle<cr>", { silent = true })
 
 -- Leap
 require('leap').add_default_mappings()

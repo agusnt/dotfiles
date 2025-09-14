@@ -2,7 +2,7 @@
 
 I know that you are using the latest version of Debian Trixie.
 
-This should work with the NVIM 0.10, when nvim 0.11 hits de Debian repository (even backports) I will update to it. 
+This should work with the nvim 0.10, when nvim 0.11 (or newer version) hits de Debian repository (even backports) I will update to it. 
 
 ## Before anything
 
@@ -13,8 +13,12 @@ curl https://sh.rustup.rs -sSf | sh
 
 sudo apt install npm
 
-sudo npm install -g tree-sitter-cli
+npm install -g tree-sitter-cli
 ```
+
+### Recommended
+
+Modified `.npmrc` to install packages to the user instead of global, adding: `prefix=~/.local/`
 
 
 ## LSP server
@@ -22,29 +26,14 @@ sudo npm install -g tree-sitter-cli
 Install the LSP servers:
 
 ```bash
-sudo apt install clangd
+sudo apt install clangd gopls
 
-sudo npm install -g vscode-json-languageserver vscode-html-languageservice bash-language-server pyright
+npm install -g vscode-json-languageserver vscode-html-languageservice bash-language-server pyright
 
-cargo install asm-lsp
+cargo install asm-lsp harper-ls
 
 cargo install --git https://github.com/latex-lsp/texlab texlab
 ```
-
-### LTex-LS
-
-Download the package from [here](https://github.com/ltex-plus/ltex-ls-plus/releases/tag/18.5.1).
-
-```bash
-# Extract it
-tar -xf ltex-ls-plus*.tar.gz
-
-# Copy the binary
-sudo cp ltex-ls-plus*/ /opt
-
-sudo ln -s /opt/ltex-ls-plus-18.5.1/bin/ltex-ls-plus /usr/local/bin/ltex-ls
-```
-
 
 ## Formatters
 
@@ -52,7 +41,9 @@ sudo ln -s /opt/ltex-ls-plus-18.5.1/bin/ltex-ls-plus /usr/local/bin/ltex-ls
 
 sudo apt install jq clang-format shfmt python3-autopep8
 
-sudo npm install -g bibtex-tidy ruff
+npm install -g bibtex-tidy
+
+curl -LsSf https://astral.sh/ruff/install.sh | sh
 
 ```
 
@@ -60,11 +51,11 @@ sudo npm install -g bibtex-tidy ruff
 ## Lint
 
 ```bash
-sudo apt install shellcheck
+sudo apt install shellcheck clang-tidy
 ```
 
 
-# Road to new versions of NVIM
+# Road to the new versions of NVIM
 
 ## 0.11
 
