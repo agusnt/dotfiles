@@ -1,27 +1,23 @@
 window {
   font-family: "Lilex Nerd Font";
-  border-radius: 10px;
-  border: 1px solid #141617;
-  background-color: #282828;
+  background-color: #1d2021;
 }
 
 #input {
   margin: 5px;
   border: none;
-  color: #d4be98;
+  border-radius: 10px;
+  color: #ebdbb2;
   background-color: #3c3836;
 }
 
-#inner-box {
+#inner-box,
+#outer-box
+{
   margin: 5px;
+  border-radius: 5px
   border: none;
-  background-color: #282828;
-}
-
-#outer-box {
-  margin: 5px;
-  border: none;
-  background-color: #282828;
+  background-color: #1d2021;
 }
 
 #scroll {
@@ -32,9 +28,15 @@ window {
 #text {
   margin: 5px;
   border: none;
-  color: #d4be98;
+  color: #ebdbb2;
 }
 
 #entry:selected {
-  background-color: #1d2021;
+  font-weight: bold;
+  background-color: #d79921;
+  border-radius: 10px;
+}
+
+#text:selected {
+  color: #1d2021;
 }
