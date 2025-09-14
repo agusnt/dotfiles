@@ -1,7 +1,6 @@
 {
-  "layer": "bottom",
-  "position": "bottom",
-  "ipc": true,
+  "layer": "top",
+  "position": "top",
   "modules-center": ["sway/workspaces", "sway/scratchpad", "sway/mode"],
   "modules-left": ["clock", "group/hw"],
   "modules-right": ["tray", "group/system", "group/net", "group/options"],
@@ -13,22 +12,13 @@
 
   "group/net": {
     "orientation": "horizontal",
-    "modules": ["bluetooth", "network#short"]
-  },
-
-  "group/netExt": {
-    "orientation": "horizontal",
-    "modules": ["network#short", "network#info"],
-    "drawer": {
-      "transition-duration": 300
-    }
+    "modules": ["bluetooth", "network#usb", "network#wifi"]
   },
 
   "group/system": {
     "orientation": "horizontal",
     "modules": ["privacy", "custom/running", "backlight", "pulseaudio", "group/batts"]
   },
-
 
   "group/batts": {
     "orientation": "horizontal",
@@ -40,7 +30,7 @@
 
   "group/hw": {
     "orientation": "horizontal",
-    "modules": ["temperature", "cpu", "memory", "disk#home", "disk#var", "disk#root"],
+    "modules": ["temperature", "custom/fan", "cpu", "memory", "disk#home", "disk#var", "disk#root", "custom/watts#bat"],
     "drawer": {
       "transition-duration": 300
     }
@@ -84,8 +74,8 @@
     "format": " {icon}{percent}% ",
     "tooltip-format": "",
     "format-icons": [" ", " ", " ", " ", " ", " ", " ", " ", " "],
-    "on-scroll-up": "brightnessctl set +5%",
-    "on-scroll-down": "brightnessctl set 5%-"
+    "on-scroll-up": "swayosd-client --brightness +10",
+    "on-scroll-down": "swayosd-client --brightness -10"
   },
 
   "tray": {
@@ -124,12 +114,20 @@
 
   "temperature": {
 	  "interval": 30,
-    "hwmon-path": ["/sys/class/thermal/thermal_zone4/temp"],
+    "hwmon-path": ["/sys/class/hwmon/hwmon8/temp1_input"],
     "critical-threshold": 80,
-    "warning-threshold": 50,
+    "warning-threshold": 60,
 	  "format": " {temperatureC}°C",
 	  "format-critical": " {temperatureC}°C",
 	  "format-warning": " {temperatureC}°C",
+  },
+
+  "custom/fan": {
+    "return-type": "json",
+    "format": " {text}",
+    "tooltip": true,
+	  "interval": 10,
+    "exec": "~/.config/waybar/fan.sh",
   },
 
   "cpu": {
@@ -140,13 +138,13 @@
 
   "memory": {
 	  "interval": 30,
-	  "format": " {icon}",
+	  "format": "  {icon}",
 	  "format-icons": ["󰄰 ", "󰪞 ", "󰪟 ", "󰪠 ", "󰪡 ", "󰪢 ", "󰪣 ", "󰪤 ", "󰪥 "],
   },
 
   "disk#home": {
 	  "interval": 30,
-	  "format": "  /home {percentage_free}%",
+	  "format": "   /home {percentage_free}%",
     "unit": "GB",
     "path": "/home",
   },
@@ -165,9 +163,17 @@
     "path": "/var",
   },
 
+  "custom/watts#bat": {
+    "format": "  {}",
+    "tooltip": true,
+	  "interval": 10,
+    "exec": "awk '{print $1*1e-6 \" W\"}' /sys/class/power_supply/BAT0/power_now",
+  },
+
   "battery#icon": {
 	  "bat": "BAT0",
 	  "interval": 60,
+	  "full-at": 80,
 	  "states": {
 	  	"warning": 30,
 	  	"critical": 15
@@ -184,6 +190,7 @@
   "battery#time": {
 	  "bat": "BAT0",
 	  "interval": 60,
+	  "full-at": 80,
 	  "states": {
 	  	"warning": 30,
 	  	"critical": 15
@@ -191,7 +198,6 @@
 	  "format": " ({time})",
     "format-time": " {H}' {m}\"",
   },
-
 
   "pulseaudio": {
 	  "format": "{icon} {volume}% ",
@@ -208,10 +214,22 @@
 	  },
 	  "scroll-step": 1,
 	  "on-click": "pavucontrol",
-	  "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+	  "on-click-right": "swayosd-client --output-volume mute-toggle",
+    "on-scroll-up": "swayosd-client --output-volume +5",
+    "on-scroll-down": "swayosd-client --output-volume -5"
   },
 
-  "network#short": {
+  "network#usb": {
+  	"interface": "enxa829481838d9",
+	  "format": "󰈀 ",
+	  "format-disconnected": "",
+	  "tooltip-format": "{ifname} [{ipaddr}]",
+	  "tooltip-format-disconnected": "",
+    "on-click": "footclient nmtui",
+	  "max-length": 50
+  },
+
+  "network#wifi": {
   	"interface": "wlp194s0",
 	  "format": "{ifname}",
 	  "format-wifi": "{icon}{signalStrength}%",
@@ -220,25 +238,15 @@
 	  "tooltip-format-wifi": "{essid} ({signalStrength}%) [{ipaddr}] {icon}",
 	  "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
 	  "tooltip-format-disconnected": "Disconnected 󰤮 ",
-    "on-click": "kitty -e nmtui",
-	  "max-length": 50
-  },
-
-  "network#info": {
-  	"interface": "wlp194s0",
-	  "format-wifi": " ({essid}) [{ipaddr}]",
-	  "format-disconnected": "",
-	  "tooltip-format-wifi": "{essid} ({signalStrength}%) [{ipaddr}] {icon}",
-	  "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
-	  "tooltip-format-disconnected": "Disconnected 󰤮 ",
-    "on-click": "kitty -e nmtui",
+    "on-click": "footclient nmtui",
+    "on-click-right": "~/.config/waybar/toggle_wifi.sh",
 	  "max-length": 50
   },
 
   "bluetooth": {
   	"format": "{icon} ",
-  	"format-connected": "󰂱 {device_alias}",
-  	"format-connected-battery": "󰂱 {device_alias} ({device_battery_percentage}%)",
+  	"format-connected": "󰂱 {device_alias} ",
+  	"format-connected-battery": "󰂱 {device_alias} ({device_battery_percentage}%) ",
   	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
   	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
   	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
@@ -247,7 +255,8 @@
 	  	"on": "󰂯",
 	  	"off": "󰂲"
     },
-    "on-click": "kitty -e bluetui"
+    "on-click": "/usr/bin/foot bluetui",
+    "on-click-right": "~/.config/waybar/bluetooth_toggle.sh"
   },
 
   "custom/dnd": {
@@ -259,13 +268,12 @@
   },
 
   "custom/running": {
+    "return-type": "json",
     "format": "{text}",
-    "tooltip-format": "{tooltip}",
+    "tooltip": true,
 	  "interval": 10,
     "on-click": "~/.config/waybar/running.sh",
     "exec": "~/.config/waybar/running.sh",
-    "return-type": "json",
-    "tooltip": true,
   },
 
   "custom/power": {

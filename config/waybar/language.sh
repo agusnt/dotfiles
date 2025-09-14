@@ -1,10 +1,10 @@
 #!/bin/bash
 
-layout=$(swaymsg -t get_inputs | grep -A 10 "Keyboard" | grep "xkb_active_layout_name")
+exit
+layout=$(setxkbmap -query 2>/dev/null | grep "layout" | rev | cut -d' ' -f1 | rev)
 
-if [[ "$layout" =~ "US" ]]; then
+if [[ "$layout" =~ "us" ]]; then
   swaymsg input type:keyboard xkb_layout es
 elif [[ "$layout" =~ "Spanish" ]]; then
   swaymsg input type:keyboard xkb_layout us
 fi
-

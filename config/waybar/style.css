@@ -1,12 +1,12 @@
 * {
   font-family: Lilex Nerd Font;
   border-radius: 2px;
-  font-size: 13;
+  font-size: 12;
   min-height: 0;
 }
 
 window#waybar {
-  background-color: rgba(20,22,23,0.5);
+  background-color: #1d2021;
   color: #d4be98;
 }
 
@@ -20,58 +20,44 @@ window#waybar {
 #options,
 #scratchpad
 {
-  border: 2px solid #3c3836;
-  background-color: #504945;
-  padding: 2px 8px 3px 8px;
+  border: 2px solid #282828;
+  background-color: #3c3836;
+  padding: 0px 8px 0px 8px;
   margin: 0px 4px 0px 4px;
 }
 
+#options { margin: 0px 0px 0px 4px; }
+
+#clock { margin: 0px 4px 0px 0px; }
+
 #hw,
 #music,
-#system
-{
-  border-right: 4px solid #a9b665;
-}
-
-#options
-{
-  padding: 2px 8px 3px 8px;
-  margin: 0px 0px 0px 4px;
-}
+#system { border-right: 4px solid #98971a; }
 
 #workspaces
 {
-  border: 2px solid #3c3836;
-  background-color: #504945;
+  border: 2px solid #282828;
+  background-color: #3c3836;
   margin: 0px 4px 0px 0px;
 }
 
-#workspaces button 
-{
-  color: #d4be98;
-}
+#workspaces button { color: #ebdbb2; }
 
 #workspaces button.focused 
 {
-  background-color: #d8a657;
+  background-color: #d79921;
   font-weight: bold;
   color: #282828;
 }
 
-#workspaces button.urgent
-{
-  color: #ddc7a1;
-}
+#workspaces button.urgent { color: #fb4934; }
 
-#workspaces button:hover
-{
-  color: #000000;
-}
+#workspaces button:hover { color: #1d2021; }
 
 #mode
 {
-  background-color: #7daea3;
-  color: #141617;
+  background-color: #83a598;
+  color: #282828;
 }
 
 
@@ -79,21 +65,18 @@ window#waybar {
 #temperature.warning
 {
   font-weight: bold;
-  color: #d8a657;
+  color: #fabd2f;
 }
 
 #battery.critical,
 #temperature.critical
 {
   font-weight: bold;
-  color: #ea6962;
+  color: #fb4934;
 }
 
 #network.disabled,
-#network.disconnected
-{
-  color: #e78a4e;
-}
+#network.disconnected { color: #d65d0e; }
 
 #tray:hover,
 #network:hover,
