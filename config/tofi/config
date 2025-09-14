@@ -1,0 +1,21 @@
+# gruvbox-dark
+text-color       = #d4be98
+prompt-color     = #d8a657
+selection-color  = #a9bb65
+background-color = #1d2021
+border-color     = #473c29
+
+font = Lilex Nerd Font
+
+outline-width = 2
+border-width = 2
+padding-left = 1%
+padding-right = 0
+padding-bottom = 0
+corner-radius = 30
+
+prompt-text = "󰿘 "
+num-results = 5
+hide-cursor = true
+width = 640
+height = 300
