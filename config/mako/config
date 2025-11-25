@@ -12,7 +12,7 @@ height=500
 icons=1
 history=1
 max-history=5
-anchor=top-right
+anchor=top-center
 
 [urgency=low]
 border-color=#101010
