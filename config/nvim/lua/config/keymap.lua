@@ -90,6 +90,11 @@ Map("s", "<c-l>", "<Plug>luasnip-next-choice", { silent = true })
 Map("n", "<leader>f", ":NvimTreeToggle<cr>", { silent = true })
 
 -- Leap
-require('leap').add_default_mappings()
-vim.keymap.del({ 'x', 'o' }, 'x')
-vim.keymap.del({ 'x', 'o' }, 'X')
+vim.keymap.set({'n', 'o'}, 'gs', function ()
+  require('leap.remote').action {
+    input = vim.fn.mode(true):match('o') and '' or 'v'
+  }
+end)
+vim.keymap.set({'n', 'o'}, 'gS', function ()
+  require('leap.remote').action { input = 'V' }
+end)

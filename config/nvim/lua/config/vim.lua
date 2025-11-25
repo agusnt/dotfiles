@@ -43,3 +43,6 @@ vim.opt.foldlevelstart = 99 -- Everthing unfolding
 
 -- Smart indent
 vim.opt.smartindent = false
+
+-- System clipboard
+vim.opt.clipboard = "unnamedplus"

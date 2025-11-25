@@ -1,4 +1,4 @@
--- Treesitter color scheme
+-- Tree-sitter color scheme
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
@@ -32,7 +32,7 @@ return {
         sync_install = false, -- Install sync
         auto_install = true,
         highlight = {
-          disable = { 'latex', 'bash' }, -- Disabel some of them
+          disable = { 'latex', 'bash' }, -- Disable some of them
           enable = true,
         },
         indent = { enable = true },

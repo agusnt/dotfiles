@@ -57,9 +57,9 @@ return {
     opts_extend = { "sources.default" }
   },
   config = function()
-    vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "Pmenu" }) -- Fondo y texto de la documentación
-    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { link = "Pmenu" }) -- Fondo y texto del menú de autocompletado
-    vim.api.nvim_set_hl(0, "BlinkCmpBorder", { link = "Pmenu" }) -- Si Blink tiene un grupo de borde específico
+    vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "Pmenu" }) 
+    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { link = "Pmenu" })
+    vim.api.nvim_set_hl(0, "BlinkCmpBorder", { link = "Pmenu" })
 
     vim.api.nvim_set_hl(0, "BlinkCmpSelected", { link = "PmenuSel" })
   end
