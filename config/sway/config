@@ -9,7 +9,7 @@
 set $mod Mod4 
 
 # Kitty as terminal
-set $term footclient
+set $term footclient -E
 
 # Tofi as launcher
 set $menu wofi --allow-images --show drun -a
@@ -30,8 +30,8 @@ gaps inner 0
 default_border pixel 1.5
 default_floating_border pixel 2
 # Title border
-#default_border normal
-#default_floating_border normal
+# default_border normal
+# default_floating_border normal
 client.focused #d79921 #d79921 #282828
 client.focused_inactive #665c54 #665c54 #ebdbb2
 client.unfocused #1d2021 #3c3836 #ebdbb2
@@ -122,14 +122,13 @@ bindsym $mod+z scratchpad show
 # ------------------------------------------------
 
 # Volume
-bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume +5
-bindsym XF86AudioLowerVolume exec swayosd-client --output-volume -5
-bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
-bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
 # Bright
-bindsym XF86MonBrightnessUp exec swayosd-client --brightness +10
-bindsym XF86MonBrightnessDown exec swayosd-client --brightness -10
+bindsym XF86MonBrightnessUp exec brightnessctl s 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
 
 # Screenshot
 bindsym XF86SelectiveScreenshot exec ~/.config/sway/screenshot.sh slurp
@@ -147,7 +146,7 @@ bindsym $mod+v splitv
 # ------------------------------------------------
 # Change between layouts:
 # ------------------------------------------------
-bindsym $mod+e layout default
+bindsym $mod+e layout splith
 bindsym $mod+s layout stacking
 bindsym $mod+t layout tabbed
 
@@ -184,8 +183,8 @@ bindsym $mod+c reload
 # Choose window
 bindsym $mod+w exec ~/.config/sway/window_chooser.sh
 # Screenshots
-bindsym $mod+p exec grim
-bindsym $mod+Shift+p exec grim -g "$(slurp)"
+bindsym $mod+p exec ~/.config/sway/screenshot.sh
+bindsym $mod+Shift+p exec ~/.config/sway/screenshot.sh slurp
 # Lock sway
 bindsym $mod+o exec $lock
 # Files
@@ -235,6 +234,35 @@ mode "resize" {
 }
 
 ##################################################
+# Bar
+##################################################
+
+bar {
+  position top
+  font "Lilex Nerd Font Mono 14"
+  icon_theme "Arc"
+  output *
+  
+  wrap_scroll no
+  #hidden_state hide
+  #mode hide
+  #modifier Mod4
+
+  status_command ~/.config/sway/bar.sh
+
+  tray_output None
+
+  colors {
+    background #282828
+    
+    statusline #d4be98
+    
+    focused_workspace  #1d2021 #d8a657 #141617
+    inactive_workspace  #1d2021 #473c29 #ddc7a1
+  }
+}
+
+##################################################
 # SwayIdle
 ##################################################
 # Lock after 5 minute, screen off after 10, resume if mouse move
@@ -249,13 +277,10 @@ exec {
 ##################################################
 # Apps to execute at the init
 ##################################################
-exec_always --no-startup-id kanshi
-exec_always --no-startup-id ~/.cargo/bin/sworkstyle
-exec_always --no-startup-id ~/.config/sway/dim.sh
-exec_always --no-startup-id swayosd-server
+exec --no-startup-id ~/.config/sway/dim.sh
 
-exec udiskie --tray
-exec keepassxc
+exec udiskie
+# exec keepassxc
 
 # Turn bluetooth off
 exec bluetoothctl power off
@@ -267,14 +292,22 @@ exec_always systemctl --user start sway-session.target
 exec_always {
   gsettings set org.gnome.desktop.interface color-scheme prefer-light
   gsettings set org.gnome.desktop.interface icon-theme "Adwaita"
-  gsettings set org.gnome.desktop.interface font-theme "Lilex Nerd Font"
+  gsettings set org.gnome.desktop.interface font-theme "Lilex Nerd Font Mono"
 }
 
 # Picture-in-Picture
 for_window [class="chromium" title="Picture-in-Picture"] floating enable, sticky enable
 for_window [class="google-chrome" title="Picture-in-Picture"] floating enable, sticky enable
-for_window [app_id="org.keepassxc.KeePassXC"] floating enable, sticky enable, resize set width 800 height 600
+#for_window [app_id="org.keepassxc.KeePassXC"] floating enable, sticky enable, resize set width 800 height 600
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, resize set width 640 height 360
+
+# Defaults asssigments
+# assign [app_id="firefox"] workspace 1
+# assign [app_id="foot"] workspace 2
+# assign [app_id="footclient"] workspace 2
+# assign [app_id="thunderbird"] workspace 3
+# assign [app_id="virt-manager"] workspace 4
+
 
 # This app should not be executed always
 include /etc/sway/config.d/*

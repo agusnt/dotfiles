@@ -1,128 +1,92 @@
-fn_vol() {
-  # Volumen control
-  muted=$(pactl get-sink-mute @DEFAULT_SINK@ | cut -d' ' -f2)
-  volume=$(pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | cut -d'/' -f2 | cut -d'%' -f1 | tr -d ' ')
+#!/usr/bin/env bash
+WIFI_DEVICE="wlan0"
+ETH_DEVICE="eth0"
+SMT_DEVICE="enp197s0f0u2"
 
-  if [ "$muted" = "yes" ]; then
-    vol="󰖁 "
+
+get_temp_status() {
+  echo -n "[ $(awk '{printf "%d\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)]"
+}
+
+get_cpu_status() {
+  echo -n "[ $(top -bn2 -d 0.01 | grep "Cpu(s)" | tail -n1 | awk '{printf "%d\n", 100 - $8}')%]"
+}
+
+get_ram_status() {
+  echo -n "[ $(free | grep Mem | awk '{printf "%d\n", $3/$2 * 100}')%]"
+}
+
+get_wireguard_status() {
+  if [ ! -z "$(sudo wg)" ]; then
+    echo -n "[󰦝]"
   else
-    if [ $volume -lt 33 ]; then
-      vol="󰕿 ($volume%)"
-    elif [ $volume -lt 66 ]; then
-      vol="󰖀 ($volume%)"
-    else
-      vol="󰕾 ($volume%)"
+    echo -n "[󰦜]"
+  fi
+}
+
+get_wifi_status() {
+  SIGNAL=$(iw dev $WIFI_DEVICE link | grep signal | awk '{print $2}')
+  if [ -z "$SIGNAL" ]; then
+    echo -n "[󰖪]"
+  else
+    SSID=$(iw dev $WIFI_DEVICE link | grep SSID | awk '{print $2}')
+    if [ "$SIGNAL" -le -100 ]; then QUALITY=0;
+    elif [ "$SIGNAL" -ge -50 ]; then QUALITY=100;
+    else QUALITY=$(( (SIGNAL + 100) * 2 )); fi
+    
+    echo -n "[󰖩 $SSID $QUALITY%]"
+  fi
+}
+
+get_smartphone_status() {
+  if [[ "$(cat /sys/class/net/$SMT_DEVICE/operstate 2>/dev/null)" == "up" ]]; then
+    echo -n "[]"
+  else
+    echo -n "[󱘖]"
+  fi
+}
+
+get_eth_status() {
+  if [[ "$(cat /sys/class/net/$ETH_DEVICE/operstate 2>/dev/null)" == "up" ]]; then
+    echo -n "[󰈀]"
+  else
+    echo -n "[󰈂]"
+  fi
+}
+
+get_vol_status() {
+  VOL=$(wpctl get-volume @DEFAULT_SINK@ | cut -d' ' -f 2 | cut -d'.' -f2)
+  if wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q "MUTED"; then
+    echo -n "["
+  else
+    echo -n "["
+  fi
+  echo -n " $VOL%]"
+}
+
+get_bright_status() {
+  PER=$(echo "scale=2; ($(brightnessctl g) / $(brightnessctl m)) * 100" | bc -l | cut -d'.' -f1)
+  echo -n "[󰃠 $PER%]"
+}
+
+get_battery_status() {
+  BAT=$(ls /sys/class/power_supply/ | grep BAT | head -n 1)
+  if [ ! -z "$BAT" ]; then
+    CAPACITY=$(cat "/sys/class/power_supply/$BAT/capacity")
+    TIME_EMPTY=" $(upower -i $(upower -e | grep 'BAT') | grep "time to empty" | awk '{print $4, $5}')"
+    if [[ "$TIME_EMPTY" == " " ]]; then
+      TIME_EMPTY=""
     fi
-  fi
-  echo "$vol"
-}
 
-fn_network() {
-  # Ntwork interface
-  IFACE=eno1
-  if ip address | grep $IFACE | grep -q UP; then
-    IP=$(ip address | grep $IFACE | grep inet | awk '{print $2}')
-    echo "󰈀  $IP"
-  else
-    echo "󱘖 "
+    echo -n "[󰁹 $CAPACITY%$TIME_EMPTY]"
   fi
 }
 
-fn_bright() {
-  level=$(brightnessctl | grep "%" | cut -d'(' -f2 | cut -d'%' -f1)
-  echo "$level" >/tmp/bright.level
-  if [ $level -lt 33 ]; then
-    echo "󰃞 ($level%)"
-  elif [ $level -lt 66 ]; then
-    echo "󰃝 ($level%)"
-  else
-    echo "󰃠 "
-  fi
+get_date_status() {
+  echo -n "[$(date +'%A, %d de %B del %Y, %H:%M')]"
 }
 
-fn_bat() {
-  state=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state" | awk '{print $2}')
-  per=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "percentage" | awk '{print $2}' | cut -d'%' -f1)
-  time=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "time to" | awk -F':' '/,/{gsub(/ /, "", $2);print $2}')
-  if [ -n "$time" ]; then
-    time=$(echo ", $time" | xargs)
-  fi
-  if [ "$state" = "discharging" ]; then
-    if [ $per -lt 5 ]; then
-      bat="󰂃"
-    elif [ $per -lt 10 ]; then
-      bat="󰁺"
-    elif [ $per -lt 20 ]; then
-      bat="󰁻"
-    elif [ $per -lt 30 ]; then
-      bat="󰁼"
-    elif [ $per -lt 40 ]; then
-      bat="󰁽"
-    elif [ $per -lt 50 ]; then
-      bat="󰁾"
-    elif [ $per -lt 60 ]; then
-      bat="󰁿"
-    elif [ $per -lt 70 ]; then
-      bat="󰂀"
-    elif [ $per -lt 80 ]; then
-      bat="󰂁"
-    elif [ $per -lt 90 ]; then
-      bat="󰂂"
-    else
-      bat="󰁹"
-    fi
-    echo "$bat ($per%$time)"
-  else
-    echo "󰂄 ($per%$time)"
-  fi
-}
-
-fn_music() {
-  # Music
-  player="playerctl --player=spotify"
-  statusMusic=$($player status | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-  if [ "$statusMusic" = "Playing" ]; then
-    status="󰎇"
-  else
-    echo "󰎊"
-    return
-  fi
-
-  # Title and artist
-  title=$($player metadata xesam:title)
-  artist=$($player metadata xesam:artist)
-
-  position=$($player position)
-  duration=$(($($player metadata mpris:length) / 1000000))
-  posRelative=$(echo "($position / $duration) * 100" | bc -l | cut -d'.' -f1)
-
-  # Bar for the position
-  bar=""
-  for i in 0 10 20 30 40 50 60 70 80 90; do
-    if [ "$posRelative" -gt $i ]; then
-      bar="$bar"
-    else
-      bar="$bar"
-    fi
-  done
-
-  if [ "$posRelative" -gt 90 ]; then
-    bar="$bar"
-  else
-    bar="$bar"
-  fi
-
-  echo "$status $title $bar $artist"
-}
-
-fn_dnd() {
-  if [ "$(makoctl mode)" = "dnd" ]; then
-    echo -n " [󱏨]"
-  fi
-  echo -n " "
-}
-
-show_date=$(date '+%a, %d/%m/%y, %H:%M')
-
-echo ["$(cat /tmp/weather)"] ["$(fn_music)"] ["$(fn_vol)"] ["$(fn_network)"]"$(fn_dnd)"["$show_date"]
-#echo ["$(cat /tmp/weather)"] ["$(fn_music)"] ["$(fn_bright)"] ["$(fn_bat)"] ["$(fn_vol)"] ["$(fn_network)"] ["$show_date"]
+while true; do
+  echo "$(get_cpu_status) $(get_ram_status) $(get_temp_status) $(get_vol_status) $(get_bright_status) $(get_wireguard_status) $(get_wifi_status) $(get_eth_status) $(get_smartphone_status) $(get_battery_status) $(get_date_status)"
+  sleep 1
+done
