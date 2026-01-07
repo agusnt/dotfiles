@@ -29,7 +29,7 @@ return {
         -- priority list of preferred backend
         backend = { "telescope" },
 
-        -- options related to telescope.nvim
+        -- Options related to telescope.nvim
         telescope = vim.tbl_extend(
           "force",
           require("telescope.themes").get_dropdown(),
@@ -57,13 +57,46 @@ return {
       ensure_installed = {
         "jqls",
         "html",
-        "gopls",
         "texlab",
         "clangd",
         "bashls",
         "pyright",
         "asm_lsp",
-        "harper_ls",
+        "textlsp",
+        "codebook",
+      },
+      servers = {
+        textLSP = {
+          analysers = {
+            languagetool = { enabled = false, }
+          },
+          ollama = {
+            enabled = true,
+              check_text = {
+                on_open = false,
+                on_save = true,
+                on_change = false,
+              },
+              model = "gemma3:1b-it-qat",  -- smaller but faster model
+              max_token = 50,
+          },
+          documents = {
+            language = "auto:en",
+            -- do not autodetect documents with fewer characters
+            min_length_language_detect = 20,
+            org = {
+              org_todo_keywords = {
+                'TODO',
+                'IN_PROGRESS',
+                'DONE',
+                'FIX'
+              },
+            },
+            txt = {
+              parse = true,
+            },
+          },
+        }
       },
     },
     dependencies = {
@@ -78,15 +111,15 @@ return {
       ensure_installed = {
         "jqls",
         "html",
-        "gopls",
         "texlab",
         "clangd",
         "bashls",
         "pyright",
         "asm_lsp",
-        "harper_ls",
 
         -- Lintern
+        "cspell",
+        "cpplint",
         "jsonlint",
         "shellcheck",
         "markdownlint",
@@ -99,5 +132,5 @@ return {
       },
       auto_update = true
     },
-  }
+  },
 }

@@ -12,10 +12,10 @@ return {
     },
     config = function()
       require('lint').linters_by_ft = {
-        c = { 'clangtidy', },
-        cpp = { 'clangtidy' },
+        c = { 'cpplint', },
+        cpp = { 'cpplint' },
         bash = { 'shellcheck' },
-        -- python = { 'pyright', },
+        -- python = { 'flake8' },
       }
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
