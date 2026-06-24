@@ -11,6 +11,7 @@ vim.opt.expandtab    = true -- True for using spaces instead of tab
 vim.opt.tabstop      = 2
 vim.opt.shiftwidth   = 2
 vim.g.backspace      = indent, eol, start
+vim.cmd [[autocmd FileType python setlocal shiftwidth=2 tabstop=2 expandtab]]
 
 -- Encode and spell
 vim.o.encoding       = "utf-8"
@@ -44,5 +45,36 @@ vim.opt.foldlevelstart = 99 -- Everthing unfolding
 -- Smart indent
 vim.opt.smartindent = false
 
+-- Indent while wrapping
+vim.opt.wrap = true
+vim.opt.breakindent = true
+vim.opt.showbreak = "↳ "
+
+-- Enable treesitter
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '*' },
+  callback = function() 
+    pcall(vim.treesitter.start) 
+  end,
+})
+
+vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.wo[0][0].foldmethod = 'expr'
+
+vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+vim.api.nvim_create_autocmd('User', { pattern = 'TSUpdate',
+callback = function()
+  require('nvim-treesitter.parsers').lua.install_info.generate = true
+end})
+
 -- System clipboard
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus"
+
+-- Disable providers
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+
+-- Colors
+vim.opt.termguicolors = true

@@ -53,30 +53,22 @@ Map("n", "<leader>fu", "<cmd>Telescope undo<cr>")
 
 -- LSP
 Lspmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>') -- Info
--- Lspmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')        -- Goto definition
--- Lspmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')       -- Goto declaration
--- Lspmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')    -- Goto Implementation
--- Lspmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')   -- Goto type definition
--- Lspmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')        -- List references
--- Lspmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>') -- Show arguments
--- Lspmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')          -- Show symbols
+Lspmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')        -- Goto definition
+Lspmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')       -- Goto declaration
+Lspmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')    -- Goto Implementation
+Lspmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')   -- Goto type definition
+Lspmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')        -- List references
+Lspmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>') -- Show arguments
+Lspmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')          -- Show symbols
 -- Lspmap('n', 'gf', '<cmd>lua vim.lsp.buf.code_action()<cr>')       -- List options
+Lspmap('n', 'gf', '<cmd>lua require("tiny-code-action").code_action()<cr>')
 Lspmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
 Lspmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>') -- Open diagnostic
 Lspmap('n', 'gn', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
 Lspmap('n', 'gp', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
--- DAP
-Map("n", "dc", "<cmd>lua require('dap').continue()<CR>", { silent = true })
-Map("n", "dn", "<cmd>lua require('dap').step_into()<CR>", { silent = true })
-Map("n", "do", "<cmd>lua require('dap').step_over()<CR>", { silent = true })
-Map("n", "dO", "<cmd>lua require('dap').step_out()<CR>", { silent = true })
-Map("n", "db", "<cmd>lua require('dap').toggle_breakpoint()<CR>", { silent = true })
-Map("n", "dB", "<cmd>lua require('dap').set_breakpoint()<CR>", { silent = true })
-Map("n", "dx", "<cmd>lua require('dap').set_breakpoint()<CR>", { silent = true })
-Map("n", "dy", "<cmd>lua require('dap').repl.open()<CR>", { silent = true })
-Map("n", "dl", "<cmd>lua require('dap').run_last()<CR>", { silent = true })
-Map("n", "dt", "<cmd>lua require('dap').terminate()<CR>", { silent = true })
+-- Neorg
+Lspmap('n', 'gO', '<cmd>Neorg toc<cr>')
 
 -- LuaSnip
 Map("i", "<c-j>", "<cmd>lua require'luasnip'.jump(1)<CR>", { silent = true })

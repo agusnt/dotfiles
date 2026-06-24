@@ -2,28 +2,25 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-return {
-  {
-    'mfussenegger/nvim-lint',
-    event = {
-      "BufReadPre",
-      "BufNewFile",
-      "BufWritePost",
-    },
-    config = function()
-      require('lint').linters_by_ft = {
-        c = { 'cpplint', },
-        cpp = { 'cpplint' },
-        bash = { 'shellcheck' },
-        -- python = { 'flake8' },
-      }
-      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-        callback = function()
-          require("lint").try_lint()
-        end,
-      })
-    end
-  }
+require('lint').linters_by_ft = {
+  c = { 'clangtidy' },
+  cpp = { 'clangtidy' },
+  bash = { 'shellcheck' },
+  -- python = { 'flake8' },
 }
+
+local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  group = lint_augroup,
+  callback = function()
+    require("lint").try_lint()
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  group = lint_augroup,
+  callback = function()
+    require("lint").try_lint()
+  end,
+})

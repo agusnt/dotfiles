@@ -1,42 +1,14 @@
--- Tree-sitter color scheme
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-return {
-  {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    config = function()
-      local configs = require("nvim-treesitter")
-      configs.setup({
-        ensure_installed = {
-          'c',
-          'cpp',
-          'asm',
-          'lua',
-          'html',
-          'bash',
-          'json',
-          'make',
-          'ninja',
-          'cmake',
-          'python',
-          'comment',
-          'gitignore',
-          'gitcommit',
-          'git_config',
-          'git_rebase',
-          'gitattributes',
-          'dockerfile',
-        },
-        sync_install = false, -- Install sync
-        auto_install = true,
-        highlight = {
-          disable = { 'latex', 'bash' }, -- Disable some of them
-          enable = true,
-        },
-        indent = { enable = true },
-      })
-    end
+require("arborist").setup({
+  overrides = {
+    norg = { url = "https://github.com/nvim-neorg/tree-sitter-norg" },
+    norg_meta = { url = "https://github.com/nvim-neorg/tree-sitter-norg-meta" },
   },
-}
+  ensure_installed = {
+    "norg",
+    "norg_meta",
+  }
+})
+
