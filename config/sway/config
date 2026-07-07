@@ -2,6 +2,9 @@
 # 
 # @Author: Navarro-Torres, Agustin
 
+# Start graphical session
+exec ~/.config/sway/start-systemd-session.sh
+
 ##################################################
 # Vars
 ##################################################
@@ -12,7 +15,7 @@ set $mod Mod4
 set $term footclient -E
 
 # Tofi as launcher
-set $menu wofi --allow-images --show drun -a
+set $menu wofi --allow-images --show drun -a -M fuzzy
 
 # Screen lock
 set $lock swaylock
@@ -20,11 +23,14 @@ set $lock swaylock
 # Set file browser
 set $files thunar
 
+# Set passowrd manager
+set $pass /opt/wofi-pass -i
+
 ##################################################
 # Looks
 ##################################################
 # A bit of gap between windows
-gaps inner 0
+gaps inner 5
 # Borders
 # No border
 default_border pixel 1.5
@@ -122,13 +128,14 @@ bindsym $mod+z scratchpad show
 # ------------------------------------------------
 
 # Volume
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioRaiseVolume exec ~/.config/sway/vol.sh "up"
+bindsym XF86AudioLowerVolume exec ~/.config/sway/vol.sh "down"
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec ~/.config/sway/mic.sh
 
 # Bright
-bindsym XF86MonBrightnessUp exec brightnessctl s 5%+
-bindsym XF86MonBrightnessDown exec brightnessctl s 5%-
+bindsym XF86MonBrightnessUp exec ~/.config/sway/bright.sh "up"
+bindsym XF86MonBrightnessDown exec ~/.config/sway/bright.sh "down"
 
 # Screenshot
 bindsym XF86SelectiveScreenshot exec ~/.config/sway/screenshot.sh slurp
@@ -158,7 +165,7 @@ bindsym $mod+space focus parent
 # ------------------------------------------------
 # Floating window
 # ------------------------------------------------
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle; resize set width 98ppt; resize set height 98ppt; move position center
 
 # ------------------------------------------------
 # Change Window aspect
@@ -166,7 +173,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+r mode "resize"
 bindsym $mod+f fullscreen toggle
 
-for_window [class=".*"] inhibit_idle fullscreen
+#for_window [class=".*"] inhibit_idle fullscreen
 for_window [app_id=".*"] inhibit_idle fullscreen
 
 # ------------------------------------------------
@@ -180,10 +187,11 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 # Reload the configuration file
 bindsym $mod+c reload
-# Choose window
-bindsym $mod+w exec ~/.config/sway/window_chooser.sh
+# Mirror laptop screen to monitor
+#bindsym $mod+m exec ~/.config/sway/mirror.sh
+bindcode 455 exec ~/.config/sway/mirror.sh
 # Screenshots
-bindsym $mod+p exec ~/.config/sway/screenshot.sh
+bindsym $mod+Ctrl+p exec ~/.config/sway/screenshot.sh
 bindsym $mod+Shift+p exec ~/.config/sway/screenshot.sh slurp
 # Lock sway
 bindsym $mod+o exec $lock
@@ -191,6 +199,8 @@ bindsym $mod+o exec $lock
 bindsym $mod+n exec $files
 # Exit sway
 bindsym $mod+Shift+e exit
+# Password manager
+bindsym $mod+p exec $pass
 
 ##################################################
 # Workspaces
@@ -223,10 +233,10 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $right resize shrink width 30px
-    bindsym $left resize grow width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
+    bindsym $right resize shrink width
+    bindsym $left resize grow width
+    bindsym $down resize grow height
+    bindsym $up resize shrink height
 
     # Return to default mode
     bindsym Return mode "default"
@@ -240,17 +250,11 @@ mode "resize" {
 bar {
   position top
   font "Lilex Nerd Font Mono 14"
-  icon_theme "Arc"
   output *
   
   wrap_scroll no
-  #hidden_state hide
-  #mode hide
-  #modifier Mod4
 
   status_command ~/.config/sway/bar.sh
-
-  tray_output None
 
   colors {
     background #282828
@@ -261,6 +265,8 @@ bar {
     inactive_workspace  #1d2021 #473c29 #ddc7a1
   }
 }
+
+
 
 ##################################################
 # SwayIdle
@@ -277,16 +283,18 @@ exec {
 ##################################################
 # Apps to execute at the init
 ##################################################
-exec --no-startup-id ~/.config/sway/dim.sh
+# Start polkit
+# exec /usr/libexec/polkit-gnome-authentication-agent-1
 
 exec udiskie
-# exec keepassxc
 
 # Turn bluetooth off
 exec bluetoothctl power off
 
-# Start graphical session
-exec_always systemctl --user start sway-session.target
+# Light of the mic key
+exec {
+  brightnessctl --device='platform::micmute' set $(pactl get-source-mute @DEFAULT_SOURCE@ | grep -c "Mute: yes")
+}
 
 # Theme
 exec_always {
@@ -296,18 +304,17 @@ exec_always {
 }
 
 # Picture-in-Picture
-for_window [class="chromium" title="Picture-in-Picture"] floating enable, sticky enable
-for_window [class="google-chrome" title="Picture-in-Picture"] floating enable, sticky enable
+# for_window [class="chromium" title="Picture-in-Picture"] floating enable, sticky enable
+# for_window [class="google-chrome" title="Picture-in-Picture"] floating enable, sticky enable
 #for_window [app_id="org.keepassxc.KeePassXC"] floating enable, sticky enable, resize set width 800 height 600
-for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, resize set width 640 height 360
-
-# Defaults asssigments
-# assign [app_id="firefox"] workspace 1
-# assign [app_id="foot"] workspace 2
-# assign [app_id="footclient"] workspace 2
-# assign [app_id="thunderbird"] workspace 3
-# assign [app_id="virt-manager"] workspace 4
-
+for_window [app_id="firefox" title="Library"] floating enable, sticky enable, resize set width 640 height 360
+for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, resize set width 800 height 400
+for_window [app_id="thunderbird-esr" title="(Write).*"] floating enable, resize set width 1000 height 950
+for_window [app_id="thunderbird-esr" title="(Write).*"] floating enable, resize set width 1000 height 950
+for_window [app_id="thunderbird-esr" title="(New Event).*"] floating enable, resize set width 1000 height 950
+for_window [app_id="thunderbird-esr" title="(Edit Event).*"] floating enable, resize set width 1000 height 950
+for_window [app_id="thunar" title="(Renombrar|Rename).*"] floating enable, resize set width 600 height 150
+for_window [app_id="thunar" title=".*Operation.*"] floating enable, resize set width 600 height 150
 
 # This app should not be executed always
 include /etc/sway/config.d/*

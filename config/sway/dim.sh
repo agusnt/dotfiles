@@ -13,10 +13,15 @@ ipc              = i3ipc.Connection()
 prev_focused     = None
 prev_workspace   = ipc.get_tree().find_focused().workspace().num
 
+def is_floating(window):
+    """Check if a window is floating"""
+    return window.floating in ['auto_on', 'user_on']
+
 for window in ipc.get_tree():
     if window.focused:
         prev_focused = window
-    else:
+    elif not is_floating(window):  # Solo aplicar a ventanas no flotantes
+    #else:
         window.command('opacity ' + transparency_val)
 
 def on_window_focus(ipc, event):
@@ -25,6 +30,9 @@ def on_window_focus(ipc, event):
 
     focused = event.container
     workspace = ipc.get_tree().find_focused().workspace().num
+
+    if is_floating(focused):
+        return
 
     if focused.id != prev_focused.id: # https://github.com/swaywm/sway/issues/2859
         focused.command('opacity 1')
