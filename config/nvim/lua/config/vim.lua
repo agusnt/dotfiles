@@ -14,14 +14,14 @@ vim.g.backspace      = indent, eol, start
 vim.cmd [[autocmd FileType python setlocal shiftwidth=2 tabstop=2 expandtab]]
 
 -- Encode and spell
-vim.o.encoding       = "utf-8"
-vim.o.spelllang      = "en"
-vim.opt.spell        = false
+vim.o.encoding  = "utf-8"
+vim.o.spelllang = "en"
+vim.opt.spell   = false
 
 -- Number relatives
-vim.wo.number        = relativenumber
-vim.o.nu             = true
-vim.o.rnu            = true
+vim.wo.number   = relativenumber
+vim.o.nu        = true
+vim.o.rnu       = true
 --vim.wo.statuscolumn  = '%=%s %=%r '
 
 -- Italic Comments
@@ -53,8 +53,8 @@ vim.opt.showbreak = "↳ "
 -- Enable treesitter
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { '*' },
-  callback = function() 
-    pcall(vim.treesitter.start) 
+  callback = function()
+    pcall(vim.treesitter.start)
   end,
 })
 
@@ -63,10 +63,12 @@ vim.wo[0][0].foldmethod = 'expr'
 
 vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
-vim.api.nvim_create_autocmd('User', { pattern = 'TSUpdate',
-callback = function()
-  require('nvim-treesitter.parsers').lua.install_info.generate = true
-end})
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'TSUpdate',
+  callback = function()
+    require('nvim-treesitter.parsers').lua.install_info.generate = true
+  end
+})
 
 -- System clipboard
 -- vim.opt.clipboard = "unnamedplus"
@@ -78,3 +80,16 @@ vim.g.loaded_python3_provider = 0
 
 -- Colors
 vim.opt.termguicolors = true
+
+-- Special characters
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = '→ ',
+  eol = '↵',
+}
+vim.api.nvim_set_hl(0, 'SpecialKey', { fg = '#888888', blend = 100 })
+
+-- DNS server
+vim.env.GIT_SSL_NO_VERIFY = "true"
+vim.env.HOSTALIASES = "/dev/null"
+vim.env.NODE_OPTIONS = "--dns-result-order=ipv4first"
