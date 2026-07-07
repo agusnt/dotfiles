@@ -3,48 +3,57 @@
 -- @Email: agusnavarro11@gmail.com
 
 require("mason").setup({
-    ui = {
-        icons = {
-            package_installed = "",
-            package_pending = "",
-            package_uninstalled = ""
-        }
+  ui = {
+    icons = {
+      package_installed = "",
+      package_pending = "",
+      package_uninstalled = ""
     }
+  }
 })
 
 require('mason-tool-installer').setup({
-  -- LSP servers
-  "lua-language-server", 
-  "rust-analyzer",
-  "asm-lsp",
-  "basedpyright",
-  "clangd",
-  "texlab",
-  "bash-language-server", 
-  "neocmakelsp",
-  "docker-language-server",
-  "json-lsp",
-  "awk-language-server",
-  "cspell-lsp",
-  "harper-ls",
-  "marksman",
-  -- Formatters
-  "asmfmt",
-  "autopep8",
-  "beautysh",
-  "clang-format", 
-  "cmakelang",
-  "dockerfmt",
-  "tex-fmt",
-  -- Linters
-  "cpplint",
-  "cspell",
-  -- Debug adapters
-  "bash-debug-adapter",
-  "cpptools",
-  -- Other
-  "ast-grep",
-  "bibtex-tidy",
+  ensure_installed = {
+    -- LSP servers
+    "lua-language-server",
+    "rust-analyzer",
+    "asm-lsp",
+    "basedpyright",
+    "clangd",
+    "texlab",
+    "bash-language-server",
+    "neocmakelsp",
+    "docker-language-server",
+    "json-lsp",
+    "awk-language-server",
+    "cspell-lsp",
+    "harper-ls",
+    "marksman",
+    -- Formatters
+    "asmfmt",
+    "autopep8",
+    "beautysh",
+    "clang-format",
+    "cmakelang",
+    "dockerfmt",
+    "tex-fmt",
+    "shfmt",
+    "jq",
+    "ruff",
+    -- Linters
+    "cpplint",
+    "cspell",
+    "clang-format",
+    "shellcheck",
+    -- Debug adapters
+    "bash-debug-adapter",
+    "cpptools",
+    -- Other
+    "ast-grep",
+    "bibtex-tidy",
+  },
+  auto_update = true,
+  run_on_start = true,
 })
 
 -- Only LSP servers for mason-lspconfig
