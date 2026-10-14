@@ -1,17 +1,61 @@
+# swaylock - Gruvbox dark
+# Paleta: bg0_h 1d2021 | bg0 282828 | bg1 3c3836 | bg3 665c54 | fg4 a89984
+#         fg ebdbb2 | yellow d79921 | orange d65d0e | red cc241d/fb4934 | green b8bb26
+
+# --- Comportamiento ---
 daemonize
 ignore-empty-password
 show-failed-attempts
 show-keyboard-layout
+indicator-caps-lock
 disable-caps-lock-text
-image=~/.config/sway/bg
-key-hl-color=d79921
-inside-wrong-color=fb4934
-inside-ver-color=ebdbb2
-inside-clear-color=d65d0eaa
-layout-bg-color=282828aa
-inside-color=282828
-layout-border-color=1d2021
+scaling=fill
+
+# --- Fondo ---
+color=1d2021
+
+# --- Indicador ---
+indicator-radius=90
+indicator-thickness=8
+font=JetBrainsMono Nerd Font
+font-size=24
+
+# --- Interior (normal / verificando / error / limpiado / caps) ---
+inside-color=282828ee
+inside-ver-color=282828ee
+inside-wrong-color=282828ee
+inside-clear-color=282828ee
+inside-caps-lock-color=282828ee
+
+# --- Anillo ---
 ring-color=3c3836
-ring-clear-color=665c54
-ring-wrong-color=cc241d
-ring-ver-color=a89984
+ring-ver-color=b8bb26
+ring-wrong-color=fb4934
+ring-clear-color=d65d0e
+ring-caps-lock-color=d79921
+
+# --- Resaltado al teclear ---
+key-hl-color=d79921
+bs-hl-color=fb4934
+caps-lock-key-hl-color=fabd2f
+caps-lock-bs-hl-color=fb4934
+
+# --- Texto ---
+text-color=ebdbb2
+text-ver-color=b8bb26
+text-wrong-color=fb4934
+text-clear-color=d65d0e
+text-caps-lock-color=fabd2f
+
+# --- Líneas y separador (sin bordes internos) ---
+line-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+line-clear-color=00000000
+line-caps-lock-color=00000000
+separator-color=00000000
+
+# --- Distribución de teclado ---
+layout-bg-color=282828ee
+layout-border-color=3c3836
+layout-text-color=ebdbb2

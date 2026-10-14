@@ -1,42 +1,74 @@
+/* Gruvbox dark */
+@define-color bg0 #1d2021;
+@define-color bg1 #3c3836;
+@define-color bg2 #504945;
+@define-color fg #ebdbb2;
+@define-color fg-dim #a89984;
+@define-color accent #d79921;
+
+* {
+  font-family: "Lilex Nerd Font", monospace;
+  font-size: 14px;
+}
+
 window {
-  font-family: "Lilex Nerd Font";
-  background-color: #1d2021;
+  background-color: @bg0;
+  border: 2px solid @accent;
+  border-radius: 12px;
+}
+
+#outer-box {
+  margin: 8px;
+  background-color: transparent;
 }
 
 #input {
   margin: 5px;
-  border: none;
+  padding: 8px 12px;
+  border: 1px solid @bg2;
   border-radius: 10px;
-  color: #ebdbb2;
-  background-color: #3c3836;
+  color: @fg;
+  background-color: @bg1;
+  box-shadow: none;
 }
 
-#inner-box,
-#outer-box
-{
+#input:focus {
+  border-color: @accent;
+}
+
+#inner-box {
   margin: 5px;
-  border-radius: 5px
-  border: none;
-  background-color: #1d2021;
+  background-color: transparent;
 }
 
 #scroll {
-  margin: 0px;
+  margin: 0;
   border: none;
 }
 
-#text {
-  margin: 5px;
-  border: none;
-  color: #ebdbb2;
-}
-
-#entry:selected {
-  font-weight: bold;
-  background-color: #d79921;
+#entry {
+  padding: 6px 8px;
   border-radius: 10px;
 }
 
+#entry:hover {
+  background-color: @bg1;
+}
+
+#entry:selected {
+  background-color: @accent;
+}
+
+#img {
+  margin-right: 10px;
+}
+
+#text {
+  margin: 0 5px;
+  color: @fg;
+}
+
 #text:selected {
-  color: #1d2021;
+  color: @bg0;
+  font-weight: bold;
 }

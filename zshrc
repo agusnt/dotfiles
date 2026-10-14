@@ -2,8 +2,10 @@ zmodload zsh/zprof
 ###############################################################################
 # Path
 ###############################################################################
-export PATH=/home/agus/.local/bin:/usr/local/bin/:/usr/sbin/:$PATH
+export PATH=~/.local/bin:/usr/local/bin/:~/.npm-global/bin:/sbin/:~/.cargo/bin:$PATH
 export EDITOR=nvim
+# Change GO directory
+export GOPATH=$HOME/.local/share/go
 
 ###############################################################################
 # Plugins
@@ -44,7 +46,7 @@ ZSH_THEME="gruvbox"
 SOLARIZED_THEME="dark"
 
 ###############################################################################
-# History 
+# History
 ###############################################################################
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
@@ -66,8 +68,17 @@ precmd() { vcs_info }
 
 setopt PROMPT_SUBST
 
+# Is this session an ssh?
+function prompt_ssh_indicator() {
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo "%F{green}[󰌘 SSH]%F{red}[]%m%F{blue}[]%f[@%m]"
+  else
+    echo "%F{red}[]%f"
+  fi
+}
+
 NEWLINE=$'\n'
-PROMPT='%B[@%m]%b[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%B %b%f'
+PROMPT='%B$(prompt_ssh_indicator)%b[%2d]%b${vcs_info_msg_0_}${NEWLINE}%F{green}%b%f '
 
 zstyle ':vcs_info:git:*' formats '%F{yellow}[ %b]'
 
@@ -83,9 +94,6 @@ function y() {
     rm -f -- "$tmp"
 }
 
-path=('/home/agus/.juliaup/bin' $path)
-export PATH
-export PATH=~/.npm-global/bin:$PATH
 
 ###############################################################################
 # Globar Vars
@@ -118,8 +126,8 @@ function rsync() { _ssh_auto_add rsync "$@"; }
 # Pack and Unpack file
 ###############################################################################
 unpack () {
-  if [ -f $1 ] ; then
-    case $1 in
+  if [ -f "$1" ] ; then
+    case "$1" in
     *.tar.bz2) tar xvjf $1    ;;
     *.tar.gz)  tar xvzf $1    ;;
     *.tar.xz)  tar xf $1      ;;
@@ -129,9 +137,10 @@ unpack () {
     *.tar)     tar xvf $1     ;;
     *.tbz2)    tar xvjf $1    ;;
     *.tgz)     tar xvzf $1    ;;
-    *.zip)     unzip $1       ;;
+    *.zip)     7z x $1       ;;
     *.Z)       uncompress $1  ;;
     *.7z)      7z x $1        ;;
+    *.xz)      unxz $1        ;;
     *)         echo "don't know how to extract '$1'..." ;;
     esac
   else
@@ -140,7 +149,7 @@ unpack () {
 }
 
 pack () {
-  case $1 in
+  case "$1" in
   *.tar.bz2) tar -cvjSf $1 ${@:2} ;;
   *.tar.gz)  tar -czvf $1 ${@:2}  ;;
   *.tar.xz)  tar cfJ $1 ${@:2}   ;;
@@ -163,14 +172,20 @@ pack () {
 fileConvert () {
   case $1 in
     *.heic)
-      case $2 in 
-        *.jpg) heif-convert -q 100 $1 $2 ;; 
+      case $2 in
+        *.jpg) heif-convert -q 100 $1 $2 ;;
         *)   echo "don't know how to convert to $2..." ;;
       esac
       ;;
     *)       echo "don't know how to convert from $1..." ;;
   esac
 }
+
+TMPDIR=/tmp
+TMP=$TMPDIR
+TEMP=$TMPDIR
+
+export TMPDIR TMP TEMP
 
 ###############################################################################
 # Like Bash
@@ -180,4 +195,7 @@ setopt BRACE_CCL
 setopt nonomatch
 autoload -Uz braceccl
 
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
+
+# Latex stuff
+export TEXINPUTS=".:$HOME/Templates/latex//:$TEXINPUTS"

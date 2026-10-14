@@ -2,75 +2,30 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
+local servers = require('config/servers')
+
 require("mason").setup({
   ui = {
     icons = {
-      package_installed = "",
-      package_pending = "",
-      package_uninstalled = ""
+      package_installed = "",
+      package_pending = "",
+      package_uninstalled = ""
     }
   }
 })
 
+-- One install list: every language server plus the extra tools
+local ensure_installed = vim.tbl_values(servers.lsp)
+vim.list_extend(ensure_installed, servers.tools)
+
 require('mason-tool-installer').setup({
-  ensure_installed = {
-    -- LSP servers
-    "lua-language-server",
-    "rust-analyzer",
-    "asm-lsp",
-    "basedpyright",
-    "clangd",
-    "texlab",
-    "bash-language-server",
-    "neocmakelsp",
-    "docker-language-server",
-    "json-lsp",
-    "awk-language-server",
-    "cspell-lsp",
-    "harper-ls",
-    "marksman",
-    -- Formatters
-    "asmfmt",
-    "autopep8",
-    "beautysh",
-    "clang-format",
-    "cmakelang",
-    "dockerfmt",
-    "tex-fmt",
-    "shfmt",
-    "jq",
-    "ruff",
-    -- Linters
-    "cpplint",
-    "cspell",
-    "clang-format",
-    "shellcheck",
-    -- Debug adapters
-    "bash-debug-adapter",
-    "cpptools",
-    -- Other
-    "ast-grep",
-    "bibtex-tidy",
-  },
-  auto_update = true,
+  ensure_installed = ensure_installed,
+  auto_update = false, -- update on demand with :MasonToolsUpdate
   run_on_start = true,
 })
 
--- Only LSP servers for mason-lspconfig
+-- Servers are enabled in config/lsp.lua; this plugin is kept only for its
+-- lspconfig <-> Mason name mapping
 require("mason-lspconfig").setup({
-  ensure_installed = {
-    "lua_ls",
-    "rust_analyzer",
-    "asm_lsp",
-    "basedpyright",
-    "clangd",
-    "texlab",
-    "bashls",
-    "neocmake",
-    "harper_ls",
-    "dockerls",
-    "jsonls",
-    "marksman"
-  },
-  automatic_installation = true,
+  automatic_enable = false,
 })

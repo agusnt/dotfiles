@@ -2,6 +2,9 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 --
+
+local B = require("snip/base")
+local ls, snip, text, insert, dynamicn, rep, fn_recur_3 = B.ls, B.snip, B.text, B.insert, B.dynamicn, B.rep, B.fn_recur_3
 ls.filetype_extend("plaintex", { "tex" }) -- include all tex snips
 
 ls.add_snippets("tex", {
@@ -182,4 +185,90 @@ ls.add_snippets("tex", {
     insert(2),
     text({"\\end{tabular}", "\\end{table}"}),
   })
+})
+
+-- More snippets, written with fmta (<> are the placeholders, << and >> are literal)
+do
+  local fmta = require("luasnip.extras.fmt").fmta
+  local i, rep, ch = B.insert, B.rep, B.choice
+  local text = B.text
+  local S = B.snip
+  local function s(trig, dscr, fmt, nodes)
+    return S({ trig = trig, namr = dscr, dscr = dscr }, fmta(fmt, nodes or {}))
+  end
+  ls.add_snippets("tex", {
+
+    s("sec", "Section with label", [[\section{<>}
+\label{sec:<>}
+<>]], { i(1, "title"), i(2, "label"), i(0) }),
+    s("ssec", "Subsection with label", [[\subsection{<>}
+\label{sec:<>}
+<>]], { i(1, "title"), i(2, "label"), i(0) }),
+    s("sssec", "Subsubsection", [[\subsubsection{<>}
+<>]], { i(1, "title"), i(0) }),
+    s("eq", "Equation with label", [[\begin{equation}
+  <>
+  \label{eq:<>}
+\end{equation}]], { i(1), i(2, "label") }),
+    s("ali", "Align environment", [[\begin{align*}
+  <>
+\end{align*}]], { i(1) }),
+    s("mk", "Inline math", [[$<>$]], { i(1) }),
+    s("frac", "Fraction", [[\frac{<>}{<>}]], { i(1, "num"), i(2, "den") }),
+    s("sum", "Summation", [[\sum_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "0"), i(3, "n"), i(4) }),
+    s("int", "Integral", [[\int_{<>}^{<>} <> \, d<>]], { i(1, "a"), i(2, "b"), i(3, "f(x)"), i(4, "x") }),
+    s("lim", "Limit", [[\lim_{<> \to <>} <>]], { i(1, "x"), i(2, "\\infty"), i(3) }),
+    s("thm", "Theorem", [[\begin{theorem}
+  <>
+\end{theorem}]], { i(1) }),
+    s("lem", "Lemma", [[\begin{lemma}
+  <>
+\end{lemma}]], { i(1) }),
+    s("def", "Definition", [[\begin{definition}
+  <>
+\end{definition}]], { i(1) }),
+    s("proof", "Proof", [[\begin{proof}
+  <>
+\end{proof}]], { i(1) }),
+    s("cite", "Citation", [[\cite{<>}]], { i(1) }),
+    s("ref", "Reference", [[\ref{<>}]], { i(1) }),
+    s("cref", "Clever reference", [[\cref{<>}]], { i(1) }),
+    s("label", "Label", [[\label{<>}]], { i(1) }),
+    s("usep", "Use a package", [[\usepackage<>{<>}]], { i(1, "[options]"), i(2, "package") }),
+    s("code", "Listing", [[\begin{lstlisting}[language=<>]
+<>
+\end{lstlisting}]], { i(1, "C"), i(2) }),
+
+  })
+end
+
+local i, rep = B.insert, B.rep
+
+B.add("tex", {
+  { "sec", "Section", [[\section{<>}
+\label{sec:<>}
+<>]], { i(1, "Title"), i(2, "label"), i(0) } },
+  { "ssec", "Subsection", [[\subsection{<>}
+<>]], { i(1, "Title"), i(0) } },
+  { "eq", "Equation", [[\begin{equation}
+  \label{eq:<>}
+  <>
+\end{equation}]], { i(1, "label"), i(0) } },
+  { "ali", "Align", [[\begin{align}
+  <>
+\end{align}]], { i(0) } },
+  { "mk", "Inline math", [[$<>$]], { i(1) } },
+  { "frac", "Fraction", [[\frac{<>}{<>}]], { i(1), i(2) } },
+  { "sum", "Sum", [[\sum_{<>=<>}^{<>} <>]], { i(1, "i"), i(2, "1"), i(3, "n"), i(0) } },
+  { "int", "Integral", [[\int_{<>}^{<>} <> \, d<>]], { i(1, "a"), i(2, "b"), i(3), i(4, "x") } },
+  { "ref", "Reference", [[\ref{<>}]], { i(1) } },
+  { "cite", "Citation", [[\cite{<>}]], { i(1) } },
+  { "pkg", "Use package", [[\usepackage{<>}]], { i(1) } },
+  { "cmd", "New command", [[\newcommand{\<>}[<>]{<>}]], { i(1, "name"), i(2, "1"), i(3) } },
+  { "thm", "Theorem", [[\begin{theorem}
+  <>
+\end{theorem}]], { i(0) } },
+  { "code", "Listing", [[\begin{lstlisting}[language=<>]
+<>
+\end{lstlisting}]], { i(1, "C"), i(0) } },
 })

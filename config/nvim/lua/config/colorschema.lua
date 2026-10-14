@@ -2,25 +2,17 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
-vim.cmd([[highlight! link StatusLine Normal]])
-vim.cmd([[highlight! link StatusLineNC NormalNC]])
+vim.o.background = 'dark'
+require('gruvbox').setup({ italic = { comments = true } })
 
--- Fix colors
---vim.api.nvim_set_hl(0, 'FloatBorder', { bg = colors.bg0, fg = colors.fg0 })
---vim.api.nvim_set_hl(0, 'NormalFloat', { bg = colors.bg0 })
---vim.api.nvim_set_hl(0, 'CursorLine', { bg = colors.bg2 })
---vim.api.nvim_set_hl(0, 'SignColumn', { bg = colors.bg0 })
---vim.api.nvim_set_hl(0, 'SignColumn', { bg = colors.bg0 })
---
----- Gitsigns
---vim.api.nvim_set_hl(0, "GitGutterAdd", { bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "GitGutterChange", { bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "GitGutterDelete", { bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "GitGutterChangeDelete", { bg = colors.bg0 })
---
----- LSP
---vim.api.nvim_set_hl(0, "DiagnosticError", { fg = colors.bright_red, bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "DiagnosticSignError", { fg = colors.bright_red, bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "DiagnosticSignHint", { fg = colors.bright_aqua, bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "DiagnosticSignInfo", { fg = colors.bright_purple, bg = colors.bg0 })
---vim.api.nvim_set_hl(0, "DiagnosticSignWarn", { fg = colors.bright_yellow, bg = colors.bg0 })
+local function links()
+  vim.api.nvim_set_hl(0, 'StatusLine', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'StatusLineNC', { link = 'NormalNC' })
+  vim.api.nvim_set_hl(0, 'SpecialKey', { fg = '#7c6f64', blend = 100 })
+end
+
+-- A colorscheme clears the highlights, so reapply after every :colorscheme
+vim.api.nvim_create_autocmd('ColorScheme', { callback = links })
+links()
+
+vim.cmd.colorscheme('gruvbox')
