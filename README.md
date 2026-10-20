@@ -20,6 +20,24 @@ git clone <repo> ~/dotfiles && cd ~/dotfiles
 
 Equivalent to `stow -R -t ~ <package>`. Without `-f`, if a real file already exists at the target, stow aborts. Edits to existing files apply immediately (they are symlinks); `-u` is for new or deleted files.
 
+## Migrating the system (packages, repos, flatpak)
+
+`migrate.sh` saves the system state to `.migration/` so it can be restored on another Debian install.
+
+```sh
+./migrate.sh export      # old system: manual apt packages, holds, /etc/apt repos+keys+pinning, flatpak remotes+apps
+git add .migration && git commit -m "Update system snapshot"
+
+./migrate.sh import -n   # new system: dry run, shows what would happen
+./migrate.sh import      # restores repos/keys, apt update, installs packages, adds flatpak remotes and apps
+```
+
+- Only manually installed packages are saved (`apt-mark showmanual`); dependencies are resolved by apt.
+- Packages missing on the new system are skipped and listed in `.migration/apt/missing.txt`.
+- If the Debian release differs, the official Debian sources are not copied; only third-party repos and keys are.
+- Flatpak is handled per scope (system and user). Existing files in `/etc/apt` are never overwritten.
+- Review `.migration/apt/etc/` before committing if the repo is public.
+
 ## Packages
 
 | Package                                              | Contents                                                                |
@@ -36,5 +54,5 @@ Equivalent to `stow -R -t ~ <package>`. Without `-f`, if a real file already exi
 
 ## After cloning
 
-- Create `~/.zshrc.local` with `export CLAUDE_CODE_OAUTH_TOKEN=...`. The token that used to be in `.zshrc` was exposed: **revoke it and generate a new one** (`claude setup-token`).
+- Create `~/.zshrc.local` with the secrets.
 - `sway/assets/bg` points to a `desktop-base` wallpaper (Debian).
