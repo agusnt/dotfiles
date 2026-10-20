@@ -1,0 +1,26 @@
+define theme:
+  description = "gruvbox-material-light.theme: A clearer Gruvbox Material theme"
+  colors:
+    label     = "color223"
+    ids       = "color214"
+    today     = "color208"
+    holiday   = "color167"
+    exclusion = "color245 on color237"
+    debug     = "color214"
+
+  palette:
+    color01 = "white on color167"
+    color02 = "white on color142"
+    color03 = "white on color214"
+    color04 = "white on color109"
+    color05 = "color235 on color223"
+    color06 = "white on color108"
+    color07 = "white on color208"
+    color08 = "white on color245"
+    color09 = "color167 on color236"
+    color10 = "color142 on color236"
+    color11 = "color214 on color236"
+    color12 = "color109 on color236"
+    color13 = "color175 on color236"
+    color14 = "color108 on color236"
+    color15 = "color208 on color236"

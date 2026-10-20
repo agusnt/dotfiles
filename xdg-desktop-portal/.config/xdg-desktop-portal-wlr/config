@@ -1,0 +1,6 @@
+[screencast]
+chooser_type=dmenu
+chooser_cmd=swaymsg -t get_outputs | jq '.[] | .name' | sed 's/"//g' | wofi --dmenu
+exec_before=$HOME/.local/bin/dnd-on.sh
+exec_after=$HOME/.local/bin/dnd-off.sh
+max_fps=30

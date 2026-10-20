@@ -1,0 +1,17 @@
+# Sudo
+alias please='sudo $(fc -ln -1)'
+alias wgup='sudo wg-quick up ~/.config/wireguard/nas.conf'
+alias wgdown='sudo wg-quick down ~/.config/wireguard/nas.conf'
+alias wifiup='nmcli radio wifi on'
+alias wifidown='nmcli radio wifi off'
+
+alias python='python3'
+alias ls='ls --group-directories-first --color=auto'
+alias ll='ls -l --group-directories-first --color=auto'
+alias grep='grep --color=auto'
+alias vim='nvim'
+alias open='xdg-open'
+
+# Development
+alias devup='devcontainer up --workspace-folder .'
+alias devcon='devcontainer exec --workspace-folder . bash'

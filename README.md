@@ -1,0 +1,40 @@
+# Dotfiles
+
+Personal configuration managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Each top-level folder is a _package_ that mirrors the structure of `$HOME`.
+
+```
+sway/.config/sway/...   →   ~/.config/sway/...
+```
+
+## Usage
+
+```sh
+git clone <repo> ~/dotfiles && cd ~/dotfiles
+./install.sh            # all packages
+./install.sh sway nvim  # only some
+./install.sh -D foot    # uninstall
+./install.sh -f         # overwrite existing files (backed up to ~/.dotfiles-backup/<date>)
+./install.sh -u         # git pull + re-stow (picks up added/removed files)
+```
+
+Equivalent to `stow -R -t ~ <package>`. Without `-f`, if a real file already exists at the target, stow aborts. Edits to existing files apply immediately (they are symlinks); `-u` is for new or deleted files.
+
+## Packages
+
+| Package                                              | Contents                                                                |
+| ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| `sway`                                               | sway, bar, dashboard, cheatsheet, scripts                               |
+| `foot` `mako` `wofi` `wofi-pass` `swaylock` `kanshi` | terminal, notifications, launcher, lock screen, display profiles        |
+| `nvim`                                               | Neovim 0.12 (`vim.pack`), see `nvim/.config/nvim/NOTES.md`              |
+| `zsh`                                                | `.zshrc` and `.aliases` (secrets go in `~/.zshrc.local`, not versioned) |
+| `tmux`                                               | `.tmux.conf`                                                            |
+| `zathura` `timewarrior`                              | utilities                                                               |
+| `thunar`                                             | file manager                                                            |
+| `xdg-desktop-portal` `wireplumber` `wiremix`         | portals and audio                                                       |
+| `colors`                                             | shared palette and the script that applies it                           |
+
+## After cloning
+
+- Create `~/.zshrc.local` with `export CLAUDE_CODE_OAUTH_TOKEN=...`. The token that used to be in `.zshrc` was exposed: **revoke it and generate a new one** (`claude setup-token`).
+- `sway/assets/bg` points to a `desktop-base` wallpaper (Debian).

@@ -1,0 +1,19 @@
+# Secrets and state: never commit
+**/auth.db*
+**/cookie
+**/upload.token
+**/.env
+**/*.pem
+**/security/
+borgmatic/.config/borgmatic/config.local.yaml
+
+# Build artifacts
+__pycache__/
+*.pyc
+*.o
+*.so
+*.log
+nvim/.config/nvim/lua/git/
+
+# Local secrets
+.zshrc.local
