@@ -23,6 +23,8 @@ mod_vol() {
   vol=$REPLY
   vol_c=""
   [[ $muted == *MUTED* ]] && vol="󰖁" && vol_c=$RED
+  # Bluetooth sink: prefix the Bluetooth audio icon to the volume icon
+  [[ $(wpctl inspect @DEFAULT_AUDIO_SINK@ 2>/dev/null) == *bluez* ]] && vol="󰂰 $vol"
   printf -v vol '[%s %3d%%]' "$vol" "$v"
 
   out=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null) || return
