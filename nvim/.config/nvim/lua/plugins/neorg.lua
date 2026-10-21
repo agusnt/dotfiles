@@ -2,7 +2,7 @@
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
--- Loaded lazily from init.lua on the first .norg buffer
+-- Loaded from init.lua at startup (:Neorg must exist before any .norg buffer)
 require("neorg").setup({
   load = { -- Neorg modules
     ["core.integrations.image"] = {},
@@ -27,6 +27,7 @@ require("neorg").setup({
           docencia = "~/Notes/Docencia/",
           research = "~/Notes/Research/",
           sim = "~/Notes/Sim/",
+          pascual = "~/Notes/Pascual/",
         },
       },
     },

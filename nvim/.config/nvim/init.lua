@@ -5,12 +5,8 @@ require('plugins/pack')
 require('config/colorschema') -- Colorscheme (needs gruvbox from pack)
 require('plugins/ui')
 require('plugins/editing')
--- neorg: loaded on the first norg buffer (plugins/neorg)
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'norg',
-  once = true,
-  callback = function() require('plugins/neorg') end,
-})
+-- neorg: loaded at startup so :Neorg exists before opening any .norg file
+require('plugins/neorg')
 require('plugins/tex')
 require('plugins/devcontainer')
 require('plugins/tools')
