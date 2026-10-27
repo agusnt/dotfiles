@@ -6,7 +6,7 @@
 #   show:   open a floating terminal (app_id "sway-dashboard") running `view`
 #   hide:   close it
 #   city:   set the weather city (NAME), or print the current one
-# Inside the window: Tab/arrows/1-3 switch tabs (System, Power, Hardware, Network, Services, Tasks, Weather), c changes
+# Inside the window: Tab/arrows/1-3 switch tabs (System, Power, Hardware, Network, Services, Tasks, Weather and Investment), c changes
 # the city, q or Esc close it. It redraws every 2 s.
 # Optional: task (taskwarrior), curl, jq, nmcli, wpctl, bluetoothctl, vnstat.
 
@@ -80,9 +80,9 @@ rm -f "$cache"/*.run
 . "$dir/lib.sh"
 for f in "$dir"/sections/*.sh; do . "$f"; done
 
-# Tabs: each one lists the sections it shows. "Weather" also has the big clock.
-TAB_NAMES=(System Power Hardware Network Services Backups Tasks Weather)
-TAB_SECTIONS=("system processes" "power" "hardware bluetooth displays" "network" "failed services" "backup borg" "tasks" "weather")
+# Tabs: each one lists the sections it shows. "Weather and Investment" also has the big clock.
+TAB_NAMES=(System Power Hardware Network Services Backups Tasks "Weather and Investment")
+TAB_SECTIONS=("system processes" "power" "hardware bluetooth displays" "network" "failed services" "backup borg" "tasks" "weather invest")
 tab=0
 COLW=56   # width of one column (text + gutter)
 MARGIN=2  # blank columns between the window border and the text
@@ -92,16 +92,19 @@ cols=100
 # choose_city: small menu with the favourites plus free text
 choose_city() {
   local i choice name
-  printf '\e[2J\e[H\n\n  %sWeather city%s  (current: %s)\n\n' "$CYN" "$R" "$CITY"
-  for i in "${!CITIES[@]}"; do printf '    %d)  %s\n' $((i + 1)) "${CITIES[i]}"; done
-  printf '    o)  other…\n    Esc)  cancel\n\n  > '
+  local menu w
+  w=$(tput cols 2>/dev/null || echo 100)
+  menu=$(printf '%sWeather city%s  (current: %s)\n\n' "$CYN" "$R" "$CITY")$'\n'
+  for i in "${!CITIES[@]}"; do menu+=$(printf '%d)  %s' $((i + 1)) "${CITIES[i]}")$'\n'; done
+  menu+=$'o)  other…\nEsc)  cancel\n\n> '
+  printf '\e[2J\e[H\n\n%s' "$(center_block "$w" "$menu")"
   read -rsn1 choice
   case $choice in
   [1-9])
     [[ -n ${CITIES[choice - 1]} ]] && set_city "${CITIES[choice - 1]}"
     ;;
   o)
-    printf '\n\n  City: \e[?25h'
+    printf '\n\n%*sCity: \e[?25h' $((w / 2 - 8)) ''
     read -re name
     printf '\e[?25l'
     [[ -n $name ]] && set_city "$name"
@@ -129,7 +132,7 @@ tab_bar() {
 draw() {
   local out name txt k i min clk date_s now body bar
   local -a colt=() coll=() tmp secs
-  local ncol
+  local ncol termw
 
   cols=$(($(tput cols 2>/dev/null || echo 100) - 2 * MARGIN))
   ncol=$((cols / COLW))
@@ -143,12 +146,13 @@ draw() {
   for name in "${TAB_NAMES[@]}"; do width=$((width + ${#name} + 5)); done
   ((width > cols)) && wide=0
   bar=$(tab_bar "$wide")
-  out="${bar}"$'\n'
-  out+="${DIMC}${date_s}${R} ${B}${now}${R}  ${DIMC}Tab/S-Tab/←/→/1-${#TAB_NAMES[@]}: tabs · c: city · r: refresh backups · q: close${R}"$'\n\n'
+  termw=$((cols + 2 * MARGIN))
+  out=$(center_lines "$termw" "$bar")$'\n'
+  out+=$(center_lines "$termw" "${DIMC}${date_s}${R} ${B}${now}${R}  ${DIMC}Tab/S-Tab/←/→/1-${#TAB_NAMES[@]}: tabs · c: city · r: refresh backups · q: close${R}")$'\n\n'
 
-  if [[ ${TAB_NAMES[tab]} == Weather ]]; then
+  if [[ ${TAB_NAMES[tab]} == "Weather and Investment" ]]; then
     clk=$(clock "$now")
-    out+=$(sbs "$clk" $'\n'"${B}$(printf '%(%A, %d %B %Y)T' -1)${R}" 36)$'\n\n'
+    out+=$(center_block "$termw" "$(sbs "$clk" $'\n'"${B}$(printf '%(%A, %d %B %Y)T' -1)${R}" 36)")$'\n\n'
   fi
 
   # Distribute the tab's sections: each one goes to the shortest column
@@ -170,11 +174,11 @@ draw() {
   done
   body=${colt[0]}
   for ((i = 1; i < ncol; i++)); do body=$(sbs "$body" "${colt[i]}" $((COLW * i))); done
-  out+="$body"
+  out+=$(center_block "$termw" "$body")
 
-  # Margins; overwrite in place (no flicker): clear each line's tail, then the rest
-  out=${out//$'\n'/$'\e[K\n'$(printf '%*s' "$MARGIN" '')}
-  printf '\e[H\n%*s%s\e[K\e[J' "$MARGIN" '' "$out"
+  # Overwrite in place (no flicker): clear each line's tail, then the rest
+  out=${out//$'\n'/$'\e[K\n'}
+  printf '\e[H\n%s\e[K\e[J' "$out"
 }
 
 # set_tab N: switch to tab N (wraps around) and clear the screen

@@ -81,6 +81,31 @@ sbs() {
   done
 }
 
+# center_lines WIDTH TEXT: centre every line on its own in WIDTH columns
+center_lines() {
+  local line plain pad
+  while IFS= read -r line; do
+    plain=${line//$'\e'\[*([0-9;])m/}
+    pad=""
+    ((${#plain} < $1)) && printf -v pad '%*s' $((($1 - ${#plain}) / 2)) ''
+    printf '%s%s\n' "$pad" "$line"
+  done <<<"$2"
+}
+
+# center_block WIDTH TEXT: centre the text as a whole (all lines shift the same
+# amount, so columns and tables keep their alignment)
+center_block() {
+  local -a l
+  local line plain max=0 pad=""
+  mapfile -t l <<<"$2"
+  for line in "${l[@]}"; do
+    plain=${line//$'\e'\[*([0-9;])m/}
+    ((${#plain} > max)) && max=${#plain}
+  done
+  ((max < $1)) && printf -v pad '%*s' $((($1 - max) / 2)) ''
+  for line in "${l[@]}"; do printf '%s%s\n' "$pad" "$line"; done
+}
+
 # clock HH:MM:SS: big 3x5 block digits
 declare -A GLYPH=(
   [0]='███|█ █|█ █|█ █|███' [1]=' █ |██ | █ | █ |███' [2]='███|  █|███|█  |███'

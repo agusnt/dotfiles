@@ -5,7 +5,12 @@
 # `-- Title` comments in keymap.lua; the description comes from `desc = "..."`,
 # else from the trailing `-- comment`, else from the <cmd> the key runs.
 
-NVIM_DIR=${NVIM_DIR:-$dir/../../nvim}
+# $dir is symlink-resolved (it may live in the dotfiles repo), so fall back to ~/.config
+if [[ -z ${NVIM_DIR:-} ]]; then
+  for NVIM_DIR in "$dir/../../nvim" "$dir/../../../../nvim/.config/nvim" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"; do
+    [[ -r $NVIM_DIR/lua/config/keymap.lua ]] && break
+  done
+fi
 
 rows_nvim() {
   local line text args mode lhs desc tag section="Keymaps" leader='\' re_q re_d q="'"

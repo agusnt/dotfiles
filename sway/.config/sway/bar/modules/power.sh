@@ -28,9 +28,7 @@ mod_battery() {
   fi
   icon=${icons[cap / 10]}
   [[ $status == Charging ]] && icon="󰂄"
-  # The remaining time is only shown in the click notification: it comes and
-  # goes, and would shift every block to its right
-  printf -v battery '[%s %3d%%]' "$icon" "$cap"
+  printf -v battery '[%s %3d%%%s]' "$icon" "$cap" "$time"
   heat_low "$cap" "$BAT_WARN" "$BAT_CRIT"
   battery_ic=$REPLY
   battery_info="$status, $cap%${time:+,$time left}"

@@ -4,7 +4,11 @@
 # above each group; the description is the command it runs) and adds the
 # stock bindings and plugin keys worth remembering.
 
-TMUX_CONF=${TMUX_CONF:-$dir/../tmux.conf}
+if [[ -z ${TMUX_CONF:-} ]]; then
+  for TMUX_CONF in "$dir/../tmux.conf" "$dir/../../../../tmux/.tmux.conf" "$HOME/.tmux.conf"; do
+    [[ -r $TMUX_CONF ]] && break
+  done
+fi
 
 rows_tmux() {
   local line section="Keys" prefix="C-b" table key rest first tail tag p i
@@ -97,5 +101,28 @@ rows_tmux() {
     row "$g" "${p}C-s" "Resurrect: save the session" ""
     row "$g" "${p}C-r" "Resurrect: restore the session" ""
   fi
+  grep -q "tmux-continuum" "$TMUX_CONF" && row "$g" "(auto)" "Continuum: saves every 15 min, restores on start" ""
+  grep -q "tmux-yank" "$TMUX_CONF" && row "$g" "[copy] y / Y" "Yank: copy selection to the system clipboard" "Y also pastes it on the prompt"
+  if grep -q "tmux-fzf" "$TMUX_CONF"; then
+    local fzf_key
+    fzf_key=$(sed -n 's/^set-environment -g TMUX_FZF_LAUNCH_KEY "\(.*\)"/\1/p' "$TMUX_CONF")
+    row "$g" "${p}${fzf_key:-F}" "tmux-fzf: menu (sessions, windows, panes, commands, keys)" ""
+  fi
+  if grep -q "tmux-fingers" "$TMUX_CONF"; then
+    local fk
+    fk=$(sed -n 's/^set -g @fingers-key \(.*\)/\1/p' "$TMUX_CONF")
+    row "$g" "${p}${fk:-F}" "Fingers: hints on paths, URLs, hashes, IPs" "letter copies, SHIFT+letter pastes"
+  fi
+  if grep -q "tmux-sessionx" "$TMUX_CONF"; then
+    local sk
+    sk=$(sed -n "s/^set -g @sessionx-bind '\(.*\)'/\1/p" "$TMUX_CONF")
+    row "$g" "${p}${sk:-O}" "SessionX: fzf session manager with preview" "zoxide to create new sessions"
+  fi
+  if grep -q "tmux-open" "$TMUX_CONF"; then
+    row "$g" "[copy] o" "Open selection (file, URL)" ""
+    row "$g" "[copy] C-o" "Open selection in \$EDITOR" ""
+    row "$g" "[copy] S" "Search selection on the web" ""
+  fi
+  grep -q "tmux-prefix-highlight" "$TMUX_CONF" && row "$g" "(bar)" "Prefix highlight: shows when prefix or copy mode is active" ""
   return 0
 }

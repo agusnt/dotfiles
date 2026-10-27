@@ -19,6 +19,10 @@ CITIES=(Zaragoza Madrid Barcelona Valencia Sevilla) # shortcuts in the city menu
 CITY_FILE=${XDG_STATE_HOME:-$HOME/.local/state}/sway-dashboard-city
 [[ -r $CITY_FILE ]] && read -r CITY <"$CITY_FILE"
 
+# Investments shown in the dashboard. One per line: Yahoo Finance symbol, optional
+# units held, optional name. Kept out of git (see .gitignore).
+INVEST_FILE=${XDG_CONFIG_HOME:-$HOME/.config}/sway/investments.conf
+
 # Status bar thresholds. A module is only shown once its *_SHOW value is reached.
 CPU_SHOW=50  # CPU %
 RAM_SHOW=70  # RAM %
@@ -51,6 +55,6 @@ DASH_SERVICES=(
 )
 
 # Optional bar pieces (per machine; override in ~/.config/sway/local.sh if needed)
-BAR_UPDATES=1 # pending Debian updates counter
+BAR_UPDATES=0 # pending Debian updates counter
 WG_IFACE=nas  # WireGuard interface to watch; empty hides the icon
 [[ -r ${XDG_CONFIG_HOME:-$HOME/.config}/sway/local.sh ]] && . "${XDG_CONFIG_HOME:-$HOME/.config}/sway/local.sh"

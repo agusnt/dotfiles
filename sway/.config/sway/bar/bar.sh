@@ -163,7 +163,7 @@ for ((t = 0; ; t++)); do
   [[ -n $kbd ]] && kbd+="]"
 
   upd=""
-  ((updates > 0)) && upd="󰏕 $updates "
+  ((updates > 0)) && upd="󰏕 "
 
   blocks=""
   # Groups by function, separated by a bar
