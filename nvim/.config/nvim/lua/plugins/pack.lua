@@ -96,6 +96,8 @@ vim.pack.add({
   { src = 'https://github.com/kylechui/nvim-surround' },
   -- Dev container (devcontainer CLI)
   { src = 'https://github.com/arnaupv/nvim-devcontainer-cli' },
+  -- Markdown rendering in the buffer
+  { src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim' },
   -- Vimtex
   { src = 'https://github.com/lervag/vimtex.git' },
 })

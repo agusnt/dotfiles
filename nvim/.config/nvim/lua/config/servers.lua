@@ -17,7 +17,7 @@ return {
     neocmake = 'neocmakelsp',
     dockerls = 'dockerfile-language-server',
     jsonls = 'json-lsp',
-    harper_ls = 'harper-ls',
+    ltex_plus = 'ltex-ls-plus',
     marksman = 'marksman',
     yamlls = 'yaml-language-server',
     taplo = 'taplo',

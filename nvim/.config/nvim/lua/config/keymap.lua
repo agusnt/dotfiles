@@ -26,6 +26,7 @@ map("n", "<leader>bq", function() -- Close the current buffer keeping the window
   pcall(vim.cmd.bdelete, cur)
 end, silent)
 map("n", "-", "<cmd>Oil<CR>", silent)                      -- Open the parent directory
+map("n", "<leader>mr", "<cmd>RenderMarkdown buf_toggle<CR>", silent) -- Toggle the Markdown rendering in this buffer
 map("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", silent) -- Preview the git hunk
 map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", silent)   -- Git blame of the line
 

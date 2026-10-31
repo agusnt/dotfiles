@@ -64,13 +64,17 @@ vim.lsp.config('rust_analyzer', {
   },
 })
 
--- Grammar and spell checking (the default filetypes would cover every language)
-vim.lsp.config('harper_ls', {
-  filetypes = { 'markdown', 'text', 'tex' },
+-- Grammar and spell checking (the default filetypes would cover every language).
+-- ltex-ls-plus replaces harper-ls: harper only knows English, ltex detects the language
+-- of each sentence ('auto'). norg is not a ltex filetype, so it is enabled by hand and
+-- checked as plain text.
+vim.lsp.config('ltex_plus', {
+  filetypes = { 'markdown', 'text', 'tex', 'norg' },
   settings = {
-    ['harper-ls'] = {
-      languages = { 'markdown', 'latex', 'text', 'comment', 'string' },
-      diagnosticSeverity = 'warning',
+    ltex = {
+      language = 'auto',
+      enabled = { 'markdown', 'latex', 'plaintext', 'norg' },
+      additionalRules = { enablePickyRules = false },
     },
   },
 })

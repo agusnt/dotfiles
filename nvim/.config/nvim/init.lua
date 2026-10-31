@@ -8,6 +8,7 @@ require('plugins/editing')
 -- neorg: loaded at startup so :Neorg exists before opening any .norg file
 require('plugins/neorg')
 require('plugins/tex')
+require('plugins/markdown')
 require('plugins/devcontainer')
 require('plugins/tools')
 -- pcall: a missing external (tree-sitter CLI) must not abort the rest of the config
