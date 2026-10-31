@@ -96,7 +96,7 @@ handle_click() {
   failed) command -v notify-send >/dev/null && notify-send -e "Failed units" "$failed_info" ;;
   gov) command -v notify-send >/dev/null && notify-send -e "Power profile" "$gov_info" ;;
   battery) command -v notify-send >/dev/null && notify-send -e "Battery" "$battery_info" ;;
-  wifi | eth | phone | netrx | nettx) command -v nm-connection-editor >/dev/null && setsid -f nm-connection-editor >/dev/null 2>&1 ;;
+  wifi | eth | phone) command -v nm-connection-editor >/dev/null && setsid -f nm-connection-editor >/dev/null 2>&1 ;;
   media) command -v playerctl >/dev/null && setsid -f playerctl play-pause >/dev/null 2>&1 ;;
   esac
 }
@@ -112,7 +112,6 @@ for ((t = 0; ; t++)); do
   mod_cpu
   mod_ram
   mod_temp
-  mod_netspeed
   printf -v date '[%(%a %d/%m %H:%M)T]' -1
   wg=""
   [[ -n $WG_IFACE ]] && { [[ -e /sys/class/net/$WG_IFACE ]] && wg="󰦝" || wg="󰦜"; }
@@ -133,7 +132,6 @@ for ((t = 0; ; t++)); do
     declare -F mod_battery >/dev/null && mod_battery
     mod_procs
     mod_gov
-    mod_netif
   }
   audio_dirty=0
   if [[ -n $aud_fd ]]; then
@@ -181,8 +179,6 @@ for ((t = 0; ; t++)); do
   add temp "$temp" "$temp_c" "$temp_ic"
   add disk "$disk" "$disk_c" "$disk_ic"
   group # network
-  add netrx "$netrx" "$netrx_c"
-  add nettx "$nettx" "$nettx_c"
   add wifi "$wifi_s" "$wifi_c" "$wifi_ic"
   add eth "$eth_s" "$eth_c" "$eth_ic"
   add phone "$phone_s" "$phone_c" "$phone_ic"
