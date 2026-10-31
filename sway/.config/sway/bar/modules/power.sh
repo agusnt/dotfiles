@@ -40,3 +40,43 @@ mod_battery() {
   fi
   [[ $status != Discharging ]] && bat_notified=0
 }
+
+# Power profile (power-profiles-daemon): icon only, name in $gov_info (shown on
+# click). power-saver / balanced / performance are read from the ACPI platform
+# profile (what powerprofilesctl sets, no process spawned); without it, from the
+# cpufreq governor + EPP.
+prof_file=/sys/firmware/acpi/platform_profile
+gov_file=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+epp_file=/sys/devices/system/cpu/cpu0/cpufreq/energy_performance_preference
+
+mod_gov() {
+  local g="" epp="" p="" icon name
+  gov=""
+  if [[ -r $prof_file ]]; then
+    read -r p <"$prof_file"
+    case $p in
+    low-power | quiet | cool) name=power-saver ;;
+    balanced) name=balanced ;;
+    performance | balanced-performance) name=performance ;;
+    *) name=$p ;;
+    esac
+  elif [[ -r $gov_file ]]; then
+    read -r g <"$gov_file"
+    [[ -r $epp_file ]] && read -r epp <"$epp_file"
+    case $g/$epp in
+    performance/* | */performance) name=performance ;;
+    */balance_* | */default | schedutil/* | ondemand/*) name=balanced ;;
+    *) name=power-saver ;;
+    esac
+  else
+    return
+  fi
+  case $name in
+  power-saver) icon="󰌪" ;; # leaf
+  balanced) icon="󰗑" ;;    # scale
+  performance) icon="󱓞" ;; # rocket
+  *) icon="󰋗" ;;           # unknown
+  esac
+  gov="[$icon]"
+  gov_info="$name"
+}

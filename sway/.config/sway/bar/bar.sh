@@ -94,6 +94,7 @@ handle_click() {
     esac
     ;;
   failed) command -v notify-send >/dev/null && notify-send -e "Failed units" "$failed_info" ;;
+  gov) command -v notify-send >/dev/null && notify-send -e "Power profile" "$gov_info" ;;
   battery) command -v notify-send >/dev/null && notify-send -e "Battery" "$battery_info" ;;
   wifi | eth | phone | netrx | nettx) command -v nm-connection-editor >/dev/null && setsid -f nm-connection-editor >/dev/null 2>&1 ;;
   media) command -v playerctl >/dev/null && setsid -f playerctl play-pause >/dev/null 2>&1 ;;
@@ -131,6 +132,7 @@ for ((t = 0; ; t++)); do
   ((t % 5 == 0)) && {
     declare -F mod_battery >/dev/null && mod_battery
     mod_procs
+    mod_gov
     mod_netif
   }
   audio_dirty=0
@@ -188,6 +190,7 @@ for ((t = 0; ; t++)); do
   group # machine status
   add backup "$backup" "$backup_c"
   add failed "$failed" "$RED"
+  add gov "$gov"
   add battery "$battery" "" "$battery_ic"
   add kbd "$kbd"
   group # clock
