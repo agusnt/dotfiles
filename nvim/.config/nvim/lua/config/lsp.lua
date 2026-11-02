@@ -68,6 +68,51 @@ vim.lsp.config('rust_analyzer', {
 -- ltex-ls-plus replaces harper-ls: harper only knows English, ltex detects the language
 -- of each sentence ('auto'). norg is not a ltex filetype, so it is enabled by hand and
 -- checked as plain text.
+-- ltex asks the client to run its code actions (add to dictionary, hide false positive,
+-- disable rule). Neovim has no built-in handler, so the choices are saved to
+-- stdpath('data')/ltex/<setting>.<lang>.txt and fed back through the settings.
+local ltex_dir = vim.fn.stdpath('data') .. '/ltex'
+local ltex_settings = {
+  ['_ltex.addToDictionary'] = { key = 'words', setting = 'dictionary' },
+  ['_ltex.disableRules'] = { key = 'ruleIds', setting = 'disabledRules' },
+  ['_ltex.hideFalsePositives'] = { key = 'falsePositives', setting = 'hiddenFalsePositives' },
+}
+
+local function ltex_read(setting, lang)
+  local path = ('%s/%s.%s.txt'):format(ltex_dir, setting, lang)
+  return vim.fn.filereadable(path) == 1 and vim.fn.readfile(path) or {}
+end
+
+-- { [lang] = { entries } } for every saved file of a setting
+local function ltex_load(setting)
+  local result = {}
+  for _, path in ipairs(vim.fn.glob(('%s/%s.*.txt'):format(ltex_dir, setting), false, true)) do
+    local lang = vim.fn.fnamemodify(path, ':t:r'):sub(#setting + 2)
+    result[lang] = vim.fn.readfile(path)
+  end
+  return result
+end
+
+for name, spec in pairs(ltex_settings) do
+  vim.lsp.commands[name] = function(command, ctx)
+    local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+    local settings = client.settings.ltex
+    settings[spec.setting] = settings[spec.setting] or {}
+    for lang, entries in pairs(command.arguments[1][spec.key]) do
+      local merged = ltex_read(spec.setting, lang)
+      for _, entry in ipairs(entries) do
+        if not vim.tbl_contains(merged, entry) then
+          table.insert(merged, entry)
+        end
+      end
+      vim.fn.mkdir(ltex_dir, 'p')
+      vim.fn.writefile(merged, ('%s/%s.%s.txt'):format(ltex_dir, spec.setting, lang))
+      settings[spec.setting][lang] = merged
+    end
+    client:notify('workspace/didChangeConfiguration', { settings = client.settings })
+  end
+end
+
 vim.lsp.config('ltex_plus', {
   filetypes = { 'markdown', 'text', 'tex', 'norg' },
   settings = {
@@ -75,6 +120,9 @@ vim.lsp.config('ltex_plus', {
       language = 'auto',
       enabled = { 'markdown', 'latex', 'plaintext', 'norg' },
       additionalRules = { enablePickyRules = false },
+      dictionary = ltex_load('dictionary'),
+      disabledRules = ltex_load('disabledRules'),
+      hiddenFalsePositives = ltex_load('hiddenFalsePositives'),
     },
   },
 })
