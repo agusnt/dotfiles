@@ -14,10 +14,6 @@ if [[ $temp_f == */thermal_zone0/temp ]]; then
   done
 fi
 
-# Incremental icons: pie slices for usage, thermometer for temperature
-slice_icons=(󰪞 󰪟 󰪠 󰪡 󰪢 󰪣 󰪤 󰪥)
-therm_icons=(󱃃 󰔏 󱃂)
-
 cpu_prev_total=0
 cpu_prev_idle=0
 
@@ -35,8 +31,8 @@ mod_cpu() {
   cpu=""
   cpu_c=""
   ((pct >= CPU_SHOW)) || return
-  level "$pct" "${slice_icons[@]}"
-  printf -v cpu '[%s %3d%%]' "$REPLY" "$pct"
+  level "$pct" "${ICON_SLICE[@]}"
+  printf -v cpu '%s %3d%%' "$REPLY" "$pct"
   heat "$pct"
   cpu_ic=$REPLY
   ((pct >= LOAD_CRIT)) && cpu_c=$RED
@@ -60,17 +56,18 @@ mod_ram() {
   ram=""
   ram_c=""
   ((pct >= RAM_SHOW)) || return
-  level "$pct" "${slice_icons[@]}"
-  printf -v ram '[%s %3d%%' "$REPLY" "$pct"
+  level "$pct" "${ICON_SLICE[@]}"
+  printf -v ram '%s %3d%%' "$REPLY" "$pct"
   heat "$pct"
   ram_ic=$REPLY
   if ((stot)); then
     spct=$(((stot - sfree) * 100 / stot))
     ((spct > 0)) && ram+=" sw $spct%"
   fi
-  ram+="]"
   ((pct >= LOAD_CRIT)) && ram_c=$RED
 }
+
+temp_notified=0
 
 mod_temp() {
   local t
@@ -78,9 +75,16 @@ mod_temp() {
   temp_c=""
   [[ -r $temp_f ]] && read -r t <"$temp_f" || return
   t=$((t / 1000))
+  # One notice per episode; re-armed once it cools 5 degrees below TEMP_CRIT
+  if ((t >= TEMP_CRIT && !temp_notified)); then
+    temp_notified=1
+    notify -u critical "High temperature" "CPU at $t°C"
+  elif ((t < TEMP_CRIT - 5)); then
+    temp_notified=0
+  fi
   ((t >= TEMP_SHOW)) || return
-  level $(((t - 30) * 100 / 70)) "${therm_icons[@]}"
-  printf -v temp '[%s %2d]' "$REPLY" "$t"
+  level $(((t - 30) * 100 / 70)) "${ICON_THERM[@]}"
+  printf -v temp '%s %2d' "$REPLY" "$t"
   heat "$t" "$TEMP_WARN" "$TEMP_CRIT"
   temp_ic=$REPLY
   ((t >= TEMP_CRIT)) && temp_c=$RED
@@ -99,9 +103,9 @@ mod_disk() {
     ((pct >= DISK_SHOW)) || continue
     label=$target
     [[ $target == "$HOME" ]] && label="~"
-    level "$pct" "${slice_icons[@]}"
+    level "$pct" "${ICON_SLICE[@]}"
     printf -v REPLY '%s %s %3d%%' "$REPLY" "$label" "$pct"
-    disk+="${disk:+ }[$REPLY]"
+    disk+="${disk:+ }$REPLY"
     ((pct > max)) && max=$pct
     ((pct >= LOAD_CRIT)) && disk_c=$RED
   done <<<"$out"

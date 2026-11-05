@@ -25,17 +25,13 @@ group() {
 }
 
 # Append a block: add NAME TEXT [BLOCK_COLOR] [ICON_COLOR]
-# Modules wrap their text in [ ]; the brackets are dropped here. The leading
-# icon (a first word that is not alphanumeric) is coloured on its own with
+# The leading icon (a first word that is not alphanumeric) is coloured on its own with
 # pango markup, only when ICON_COLOR or BLOCK_COLOR is given: colours only
 # signal a measurement, never a category.
 blocks=""
 add() {
   [[ -n $2 ]] || return
   local t=${2//[[:cntrl:]]/ } icon
-  t=${t//\] \[/ }
-  t=${t#\[}
-  t=${t%\]}
   t=${t//&/&amp;}
   t=${t//</&lt;}
   t=${t//>/&gt;}
@@ -77,9 +73,16 @@ heat_low() {
   fi
 }
 
+# Optional tools, looked up once: have[NAME] is set when NAME is installed
+declare -A have
+for _c in notify-send pavucontrol playerctl pactl nm-connection-editor bluetoothctl makoctl fuser; do
+  command -v "$_c" >/dev/null && have[$_c]=1
+done
+unset _c
+
 # Desktop notification (needs libnotify-bin; silently skipped otherwise)
 notify() {
-  command -v notify-send >/dev/null && notify-send -e "$@"
+  [[ -v have[notify-send] ]] && notify-send -e "$@"
 }
 
 # Track a state across calls: track KEY VALUE -> REPLY=1 if VALUE changed since
@@ -99,16 +102,4 @@ level() {
   ((p < 0)) && p=0
   ((p > 100)) && p=100
   REPLY=${i[p * ${#i[@]} / 101]}
-}
-
-# bytes/s -> human-readable, fixed-width REPLY (K/s, M/s)
-hr() {
-  local b=$1 t
-  ((b < 0)) && b=0
-  if ((b >= 1048576)); then
-    t=$((b * 10 / 1048576))
-    printf -v REPLY '%5s' "$((t / 10)).$((t % 10))M/s"
-  else
-    printf -v REPLY '%5s' "$((b / 1024))K/s"
-  fi
 }
