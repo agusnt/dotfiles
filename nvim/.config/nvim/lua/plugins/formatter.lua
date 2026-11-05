@@ -24,6 +24,10 @@ require("conform").setup({
     css = { "prettier" },
     bib = { "bibtex-tidy" },
   },
+  formatters = {
+    -- tex-fmt wraps at 80 columns by default; keep the lines as written
+    ["tex-fmt"] = { prepend_args = { "--nowrap" } },
+  },
   -- Format on save; filetypes without a formatter use the LSP
   format_on_save = {
     timeout_ms = 500,
