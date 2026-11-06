@@ -23,6 +23,7 @@ markup=1
 format=<b>%s</b>\n%b
 text-alignment=left
 actions=1
+on-button-middle=exec makoctl dismiss --all
 default-timeout=0
 
 [urgency=low]
@@ -36,3 +37,11 @@ default-timeout=0
 
 [mode=do-not-disturb]
 invisible=1
+
+# Shown when there are more than max-visible (it is not clickable itself)
+[hidden]
+format=<b>+%h more</b> (middle-click any to dismiss all)
+text-alignment=center
+border-color=#8ec07c
+background-color=#282828
+default-timeout=0
