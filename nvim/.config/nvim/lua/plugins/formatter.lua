@@ -27,6 +27,16 @@ require("conform").setup({
   formatters = {
     -- tex-fmt wraps at 80 columns by default; keep the lines as written
     ["tex-fmt"] = { prepend_args = { "--nowrap" } },
+    -- prettier wraps at 80 columns by default; effectively disable it for html
+    -- (markdown/yaml/css keep the default)
+    prettier = {
+      prepend_args = function(_, ctx)
+        if vim.bo[ctx.buf].filetype == "html" then
+          return { "--print-width", "9999" }
+        end
+        return {}
+      end,
+    },
   },
   -- Format on save; filetypes without a formatter use the LSP
   format_on_save = {
