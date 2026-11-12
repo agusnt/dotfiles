@@ -1,0 +1,61 @@
+# Pack, unpack and list archives (sourced from .zshrc)
+
+_archive_listed () {
+  if [ ! -f "$1" ]; then echo "'$1' is not a valid file!"; return 1; fi
+  case "$1" in
+    *.tar.bz2|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.tar) tar tvf "$1" ;;
+    *.zip|*.7z) 7z l "$1" ;;
+    *.rar)      unrar l "$1" ;;
+    *.gz)       gzip -l "$1" ;;
+    *.xz)       xz -l "$1" ;;
+    *.bz2|*.Z)  echo "${1%.*} (single compressed file)" ;;
+    *)          echo "don't know how to list '$1'..." ; return 1 ;;
+  esac
+}
+
+# unpack FILE            extract
+# unpack -l|--listed FILE  list what FILE contains, without extracting
+unpack () {
+  case "$1" in
+    -l|--list|--listed) shift; _archive_listed "$@"; return ;;
+  esac
+  if [ -f "$1" ] ; then
+    case "$1" in
+    *.tar.bz2) tar xvjf $1    ;;
+    *.tar.gz)  tar xvzf $1    ;;
+    *.tar.xz)  tar xf $1      ;;
+    *.bz2)     bunzip2 $1     ;;
+    *.rar)     unrar x $1     ;;
+    *.gz)      gunzip $1      ;;
+    *.tar)     tar xvf $1     ;;
+    *.tbz2)    tar xvjf $1    ;;
+    *.tgz)     tar xvzf $1    ;;
+    *.zip)     7z x $1       ;;
+    *.Z)       uncompress $1  ;;
+    *.7z)      7z x $1        ;;
+    *.xz)      unxz $1        ;;
+    *)         echo "don't know how to extract '$1'..." ;;
+    esac
+  else
+    echo "'$1' is not a valid file!"
+  fi
+}
+
+pack () {
+  case "$1" in
+  *.tar.bz2) tar -cvjSf $1 ${@:2} ;;
+  *.tar.gz)  tar -czvf $1 ${@:2}  ;;
+  *.tar.xz)  tar cfJ $1 ${@:2}   ;;
+  *.bz2)     bzip2 $1             ;;
+  *.rar)     rar a $1 ${@:2}      ;;
+  *.gz)      gzip $1              ;;
+  *.tar)     tar -cvf $1 ${@:2}   ;;
+  *.tbz2)    tar -cjvSf $1 ${@:2} ;;
+  *.tgz)     tar -czvf $1 ${@:2}  ;;
+  *.zip)     zip -r $1 ${@:2}     ;;
+  *.Z)       compress $1          ;;
+  *.7z)      7z a $1              ;;
+  *)         echo "don't know how to compress $1..." ;;
+  esac
+}
+

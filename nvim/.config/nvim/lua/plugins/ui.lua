@@ -18,6 +18,15 @@ if status_ok then
   })
 end
 
+-- Center the text in the window on startup (:NoNeckPain toggles it)
+local nnp_ok, nnp = pcall(require, "no-neck-pain")
+if nnp_ok then
+  nnp.setup({
+    width = 150,
+    autocmds = { enableOnVimEnter = true },
+  })
+end
+
 -- Git hunks in the sign column (preview/blame maps live in config/keymap.lua)
 require("gitsigns").setup({})
 require("which-key").setup({})

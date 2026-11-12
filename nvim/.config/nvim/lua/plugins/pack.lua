@@ -98,6 +98,8 @@ vim.pack.add({
   { src = 'https://github.com/arnaupv/nvim-devcontainer-cli' },
   -- Markdown rendering in the buffer
   { src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim' },
+  -- Center the buffer in the window
+  { src = 'https://github.com/shortcuts/no-neck-pain.nvim' },
   -- Vimtex
   { src = 'https://github.com/lervag/vimtex.git' },
 })

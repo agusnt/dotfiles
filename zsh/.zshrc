@@ -122,49 +122,8 @@ function _ssh_auto_add() {
 function ssh() { _ssh_auto_add ssh "$@"; }
 function rsync() { _ssh_auto_add rsync "$@"; }
 
-###############################################################################
-# Pack and Unpack file
-###############################################################################
-unpack () {
-  if [ -f "$1" ] ; then
-    case "$1" in
-    *.tar.bz2) tar xvjf $1    ;;
-    *.tar.gz)  tar xvzf $1    ;;
-    *.tar.xz)  tar xf $1      ;;
-    *.bz2)     bunzip2 $1     ;;
-    *.rar)     unrar x $1     ;;
-    *.gz)      gunzip $1      ;;
-    *.tar)     tar xvf $1     ;;
-    *.tbz2)    tar xvjf $1    ;;
-    *.tgz)     tar xvzf $1    ;;
-    *.zip)     7z x $1       ;;
-    *.Z)       uncompress $1  ;;
-    *.7z)      7z x $1        ;;
-    *.xz)      unxz $1        ;;
-    *)         echo "don't know how to extract '$1'..." ;;
-    esac
-  else
-    echo "'$1' is not a valid file!"
-  fi
-}
-
-pack () {
-  case "$1" in
-  *.tar.bz2) tar -cvjSf $1 ${@:2} ;;
-  *.tar.gz)  tar -czvf $1 ${@:2}  ;;
-  *.tar.xz)  tar cfJ $1 ${@:2}   ;;
-  *.bz2)     bzip2 $1             ;;
-  *.rar)     rar a $1 ${@:2}      ;;
-  *.gz)      gzip $1              ;;
-  *.tar)     tar -cvf $1 ${@:2}   ;;
-  *.tbz2)    tar -cjvSf $1 ${@:2} ;;
-  *.tgz)     tar -czvf $1 ${@:2}  ;;
-  *.zip)     zip -r $1 ${@:2}     ;;
-  *.Z)       compress $1          ;;
-  *.7z)      7z a $1              ;;
-  *)         echo "don't know how to compress $1..." ;;
-  esac
-}
+# pack / unpack / unpack --listed live in ~/.zsh_archive
+[ -f ~/.zsh_archive ] && source ~/.zsh_archive
 
 ###############################################################################
 # Convert files
@@ -203,3 +162,34 @@ export TEXINPUTS=".:$HOME/Templates/latex//:$TEXINPUTS"
 # Cluadio
 # Secrets (CLAUDE_CODE_OAUTH_TOKEN, etc.) live in ~/.zshrc.local, outside git
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+###############################################################################
+# tmux: every interactive terminal lands in the "Default" session (created if missing)
+###############################################################################
+# Skipped inside tmux, without a terminal (scp, ssh host cmd), in editors'
+# built-in terminals (nvim, VS Code) or with NOTMUX=1
+if [[ -o interactive && -t 0 && -t 1 && -z "$TMUX" && -z "$NOTMUX" \
+      && -z "$NVIM" && "$TERM_PROGRAM" != vscode ]] && command -v tmux >/dev/null; then
+  exec tmux new-session -A -s Default
+fi
+
+###############################################################################
+# tmux tips on every interactive shell (full cheat sheet: prefix+/ in tmux)
+###############################################################################
+# Print a prompt-formatted line centered in the terminal
+_center_print() {
+  setopt localoptions extendedglob
+  local line=${(%)1}
+  local plain=${line//$'\e'\[[0-9;]#m/}
+  local pad=$(( (COLUMNS - ${#plain}) / 2 ))
+  (( pad < 0 )) && pad=0
+  printf '%*s%s\n' $pad '' "$line"
+}
+if [[ -o interactive && -t 1 && -z "$NOTIPS" ]]; then
+  if [[ -n "$TMUX" ]]; then
+    _center_print "%F{8}tmux (prefix=C-b)%f  %F{3}d%f detach  %F{3}c%f new window  %F{3}%%%f/%F{3}\"%f split  %F{3}h j k l%f move  %F{3}z%f zoom  %F{3}x%f close  %F{3}C%f center  %F{3}o%f sessions  %F{3}/%f help"
+    _center_print "%F{8}new session:%f %F{3}prefix :%f then %F{3}new -s name%f   %F{8}(from a shell: %F{3}tmux new -s name%F{8})%f"
+  elif command -v tmux >/dev/null; then
+    _center_print "%F{8}tmux:%f %F{3}tmux new -A -s Default%f attach/create   %F{3}tmux new -s name%f new session   %F{3}tmux ls%f list"
+  fi
+fi
