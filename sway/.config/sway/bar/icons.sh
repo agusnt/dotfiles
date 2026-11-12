@@ -12,7 +12,6 @@ ICON_ETH="󰈀"
 ICON_PHONE="" # metered wired link = tethering
 ICON_VPN_UP="󰦝"
 ICON_VPN_DOWN="󰦜"
-ICON_UPDATES="󰏕"
 ICON_BORG="󰸧"
 
 # Audio

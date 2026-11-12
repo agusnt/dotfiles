@@ -60,9 +60,12 @@ mod_vol() {
 mod_bt() {
   bt=""
   [[ -v have[bluetoothctl] ]] || return
-  [[ $(bluetoothctl show 2>/dev/null) == *"Powered: yes"* ]] || return
+  # No adapter: skip without spawning anything. bluetoothctl can hang for
+  # ~25 s when bluetoothd does not answer, so it always runs under timeout.
+  compgen -G '/sys/class/bluetooth/hci*' >/dev/null || return
+  [[ $(timeout 1 bluetoothctl show 2>/dev/null) == *"Powered: yes"* ]] || return
   bt=$ICON_BT
-  if ((sink_bluez)) || [[ -n $(bluetoothctl devices Connected 2>/dev/null) ]]; then
+  if ((sink_bluez)) || [[ -n $(timeout 1 bluetoothctl devices Connected 2>/dev/null) ]]; then
     bt=$ICON_BT_CONN
   fi
 }

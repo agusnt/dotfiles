@@ -17,3 +17,9 @@ nvim/.config/nvim/lua/git/
 
 # Local secrets
 .zshrc.local
+
+# Local/migration
+.migration/
+.devcontainer/
+sway/.config/sway/investments.conf
+tmux/.tmux/plugins/

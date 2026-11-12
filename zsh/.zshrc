@@ -26,6 +26,11 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle unixorn/fzf-zsh-plugin@main # Autocomplete
 antigen bundle Aloxaf/fzf-tab # Suggestions
 antigen bundle jeffreytse/zsh-vi-mode # Vi-mode
+antigen bundle zsh-users/zsh-completions # More completions
+antigen bundle zsh-users/zsh-history-substring-search # Up/down search history by prefix
+antigen bundle MichaelAquilina/zsh-you-should-use # Reminds you of aliases
+antigen bundle hlissner/zsh-autopair # Close quotes and brackets
+antigen bundle wfxr/forgit # git + fzf (ga, glo, gd, gss...)
 antigen bundle ael-code/zsh-colored-man-pages # Colored man pages
 antigen bundle mdumitru/fancy-ctrl-z # Fancy ctrl z
 antigen bundle zpm-zsh/colors
@@ -39,6 +44,39 @@ antigen theme https://github.com/sbugzu/gruvbox-zsh gruvbox
 
 antigen apply # We are ready
 
+# zsh-vi-mode resets the keymaps on startup, so everything bound to keys goes here
+function zvm_after_init() {
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+  bindkey '^[OA' history-substring-search-up
+  bindkey '^[OB' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+  (( $+functions[autopair-init] )) && autopair-init
+  # atuin takes over Ctrl-R (and keeps the arrow keys for substring search)
+  command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
+}
+
+# z / zi: jump to frequently used directories (also used by tmux-sessionx)
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
+# Show the zsh vi mode in the tmux status bar (pane option @vimode, see .tmux.conf)
+if [[ -n $TMUX ]]; then
+  autoload -Uz add-zsh-hook
+  _tmux_vimode() { command tmux set-option -p -t "$TMUX_PANE" @vimode "$1" \; refresh-client -S 2>/dev/null }
+  function zvm_after_select_vi_mode() {
+    case $ZVM_MODE in
+      $ZVM_MODE_NORMAL) _tmux_vimode NORMAL ;;
+      $ZVM_MODE_INSERT) _tmux_vimode INSERT ;;
+      $ZVM_MODE_VISUAL|$ZVM_MODE_VISUAL_LINE) _tmux_vimode VISUAL ;;
+      $ZVM_MODE_REPLACE) _tmux_vimode REPLACE ;;
+    esac
+  }
+  # Hide it while a command (nvim, ssh...) owns the pane
+  add-zsh-hook preexec _tmux_vimode_clear
+  _tmux_vimode_clear() { _tmux_vimode "" }
+fi
+
 ###############################################################################
 # Theme
 ###############################################################################
@@ -46,7 +84,7 @@ ZSH_THEME="gruvbox"
 SOLARIZED_THEME="dark"
 
 ###############################################################################
-# History 
+# History
 ###############################################################################
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
@@ -131,8 +169,8 @@ function rsync() { _ssh_auto_add rsync "$@"; }
 fileConvert () {
   case $1 in
     *.heic)
-      case $2 in 
-        *.jpg) heif-convert -q 100 $1 $2 ;; 
+      case $2 in
+        *.jpg) heif-convert -q 100 $1 $2 ;;
         *)   echo "don't know how to convert to $2..." ;;
       esac
       ;;

@@ -5,14 +5,14 @@ profile home {
     exec pkill -9 wl-mirror >/dev/null 2>&1
 }
 
-profile office {
-    output eDP-1 disable
-    output 'HP Inc. HP 527pu CNC5061RBG' enable mode 2560x1440 position 0,0
-#     output eDP-1 enable mode 1920x1200 position 0,1440
-#     output 'HP Inc. HP 527pu CNC5061RBG' disable
-    exec bluetoothctl power on
-    exec pkill -9 wl-mirror >/dev/null 2>&1
-}
+#profile office {
+#    output eDP-1 disable
+#    output 'HP Inc. HP 527pu CNC5061RBG' enable mode 2560x1440 position 0,0
+#    output eDP-1 enable mode 1920x1200 position 0,1440
+#    output 'HP Inc. HP 527pu CNC5061RBG' disable
+#    exec bluetoothctl power on
+#    exec pkill -9 wl-mirror >/dev/null 2>&1
+#}
 
 profile laptop {
     output eDP-1 enable mode 1920x1200 position 0,0

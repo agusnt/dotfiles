@@ -55,6 +55,5 @@ DASH_SERVICES=(
 )
 
 # Optional bar pieces (per machine; override in ~/.config/sway/local.sh if needed)
-BAR_UPDATES=0 # pending Debian updates counter
 WG_IFACE=nas  # WireGuard interface to watch; empty hides the icon
 [[ -r ${XDG_CONFIG_HOME:-$HOME/.config}/sway/local.sh ]] && . "${XDG_CONFIG_HOME:-$HOME/.config}/sway/local.sh"

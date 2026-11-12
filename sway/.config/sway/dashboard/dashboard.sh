@@ -6,7 +6,7 @@
 #   show:   open a floating terminal (app_id "sway-dashboard") running `view`
 #   hide:   close it
 #   city:   set the weather city (NAME), or print the current one
-# Inside the window: Tab/arrows/1-3 switch tabs (System, Power, Hardware, Network, Services, Tasks, Weather and Investment), c changes
+# Inside the window: Tab/arrows/1-3 switch tabs (System, Power, Hardware, Network, Services, Tasks, Weather and Investment, xkcd), c changes
 # the city, q or Esc close it. It redraws every 2 s.
 # Optional: task (taskwarrior), curl, jq, nmcli, wpctl, bluetoothctl, vnstat.
 
@@ -81,8 +81,8 @@ rm -f "$cache"/*.run
 for f in "$dir"/sections/*.sh; do . "$f"; done
 
 # Tabs: each one lists the sections it shows. "Weather and Investment" also has the big clock.
-TAB_NAMES=(System Power Hardware Network Services Backups Tasks "Weather and Investment")
-TAB_SECTIONS=("system processes" "power" "hardware bluetooth displays" "network" "failed services" "backup borg" "tasks" "weather invest")
+TAB_NAMES=(System Power Hardware Network Services Backups Tasks "Weather and Investment" xkcd)
+TAB_SECTIONS=("system processes" "power" "hardware bluetooth displays" "network" "failed services" "backup borg" "tasks" "weather invest" "xkcd")
 tab=0
 COLW=56   # width of one column (text + gutter)
 MARGIN=2  # blank columns between the window border and the text
@@ -148,33 +148,43 @@ draw() {
   bar=$(tab_bar "$wide")
   termw=$((cols + 2 * MARGIN))
   out=$(center_lines "$termw" "$bar")$'\n'
-  out+=$(center_lines "$termw" "${DIMC}${date_s}${R} ${B}${now}${R}  ${DIMC}Tab/S-Tab/←/→/1-${#TAB_NAMES[@]}: tabs · c: city · r: refresh backups · q: close${R}")$'\n\n'
+  out+=$(center_lines "$termw" "${DIMC}${date_s}${R} ${B}${now}${R}  ${DIMC}Tab/S-Tab/←/→/1-${#TAB_NAMES[@]}: tabs · c: city · x: xkcd random · r: refresh backups · q: close${R}")$'\n\n'
 
   if [[ ${TAB_NAMES[tab]} == "Weather and Investment" ]]; then
     clk=$(clock "$now")
     out+=$(center_block "$termw" "$(sbs "$clk" $'\n'"${B}$(printf '%(%A, %d %B %Y)T' -1)${R}" 36)")$'\n\n'
   fi
 
-  # Distribute the tab's sections: each one goes to the shortest column
-  for ((i = 0; i < ncol; i++)); do
-    colt[i]=""
-    coll[i]=0
-  done
-  read -ra secs <<<"${TAB_SECTIONS[tab]}"
-  for name in "${secs[@]}"; do
-    txt=$("sec_$name")
-    mapfile -t tmp <<<"$txt"
-    k=0
-    min=${coll[0]}
-    for ((i = 1; i < ncol; i++)); do
-      ((coll[i] < min)) && min=${coll[i]} && k=$i
+  # The xkcd tab is laid out by its own section: running the image through the
+  # pure-bash column helpers below takes minutes
+  if [[ ${TAB_NAMES[tab]} == xkcd ]]; then
+    out=${out//$'\n'/$'\e[K\n'}
+    printf '\e[H\n%s' "$out"
+    sec_xkcd
+    printf '\e[J'
+    return
+  else
+    # Distribute the tab's sections: each one goes to the shortest column
+    for ((i = 0; i < ncol; i++)); do
+      colt[i]=""
+      coll[i]=0
     done
-    colt[k]+="$txt"$'\n\n'
-    coll[k]=$((coll[k] + ${#tmp[@]} + 1))
-  done
-  body=${colt[0]}
-  for ((i = 1; i < ncol; i++)); do body=$(sbs "$body" "${colt[i]}" $((COLW * i))); done
-  out+=$(center_block "$termw" "$body")
+    read -ra secs <<<"${TAB_SECTIONS[tab]}"
+    for name in "${secs[@]}"; do
+      txt=$("sec_$name")
+      mapfile -t tmp <<<"$txt"
+      k=0
+      min=${coll[0]}
+      for ((i = 1; i < ncol; i++)); do
+        ((coll[i] < min)) && min=${coll[i]} && k=$i
+      done
+      colt[k]+="$txt"$'\n\n'
+      coll[k]=$((coll[k] + ${#tmp[@]} + 1))
+    done
+    body=${colt[0]}
+    for ((i = 1; i < ncol; i++)); do body=$(sbs "$body" "${colt[i]}" $((COLW * i))); done
+    out+=$(center_block "$termw" "$body")
+  fi
 
   # Overwrite in place (no flicker): clear each line's tail, then the rest
   out=${out//$'\n'/$'\e[K\n'}
@@ -189,6 +199,16 @@ set_tab() {
 }
 
 trap 'printf "\e[?25h"' EXIT
+
+# Cell size in pixels (foot answers CSI 16 t with CSI 6 ; height ; width t); the
+# xkcd tab draws sixel graphics when it is known
+cell_w=0 cell_h=0
+if [[ $TERM == foot* ]]; then
+  printf '\e[16t'
+  IFS=';' read -rs -d t -t 0.5 _ cell_h cell_w
+  [[ $cell_h == +([0-9]) && $cell_w == +([0-9]) ]] || cell_w=0 cell_h=0
+  export cell_w cell_h
+fi
 printf '\e[?25l\e[2J'
 
 while :; do
@@ -211,6 +231,8 @@ while :; do
   $'\t' | l) set_tab $((tab + 1)) ;;
   h) set_tab $((tab - 1)) ;;
   [1-9]) ((key <= ${#TAB_NAMES[@]})) && set_tab $((key - 1)) ;;
+  x) (xkcd_random &) >/dev/null 2>&1 ;; # random xkcd
+  X) xkcd_latest ;;
   r) rm -f "$cache"/borg* ;; # drop the cached borgmatic result (e.g. after fixing ssh)
   c) choose_city ;;
   esac

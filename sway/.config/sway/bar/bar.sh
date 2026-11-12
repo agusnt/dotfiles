@@ -6,21 +6,40 @@
 # (rotated to bar.log.1 above 256 KiB).
 # Optional packages: playerctl, libnotify-bin (notify-send), pavucontrol.
 # `bar.sh --once` prints a single frame (for debugging) and exits.
+# `bar.sh --log` also writes a full trace (set -x with timestamps, file:line) to
+# $XDG_RUNTIME_DIR/bar-debug.log, truncated on every start. Combine it with
+# --once for a short trace: `bar.sh --once --log`.
 
-export LC_NUMERIC=C # '.' as decimal separator (EPOCHREALTIME, read -t)
-export LC_TIME=C    # dates always in English
+export LC_NUMERIC=C     # '.' as decimal separator (EPOCHREALTIME, read -t)
+export LC_TIME=C        # dates always in English
 export LC_CTYPE=C.UTF-8 # ${var:0:n} must cut characters, not bytes
-once=0
-[[ $1 == --once ]] && once=1
+once=0 debug=0
+for _a in "$@"; do
+  case $_a in
+  --once) once=1 ;;
+  --log) debug=1 ;;
+  *) echo "usage: bar.sh [--once] [--log]" >&2; exit 2 ;;
+  esac
+done
+unset _a
 log=${XDG_RUNTIME_DIR:-/tmp}/bar.log
 [[ -f $log && $(stat -c %s "$log") -gt 262144 ]] && mv -f "$log" "$log.1"
 exec 2>>"$log"
+
+if ((debug)); then
+  debug_log=${XDG_RUNTIME_DIR:-/tmp}/bar-debug.log
+  exec {BASH_XTRACEFD}>"$debug_log"
+  PS4='+ ${EPOCHREALTIME} ${BASH_SOURCE##*/}:${LINENO}: '
+  trap 'echo "bar: exit status $? (line $LINENO)" >&$BASH_XTRACEFD' EXIT
+  set -x
+  echo "bar: trace in $debug_log" >&2
+fi
 
 dir=$(dirname "$(readlink -f "$0")")
 
 # swaybar sends click events on stdin. Keep them on a private descriptor and give
 # every command run from here /dev/null as stdin, so none can swallow a click.
-if ((!once)); then
+if ((! once)); then
   exec {click_fd}<&0 </dev/null
 else
   click_fd=0
@@ -66,16 +85,6 @@ net_prev=
 # Layout of the focused container (see desktop.sh)
 exec {lay_fd}< <(layout_loop)
 read -r -t 2 -u "$lay_fd" layout_raw
-
-# Pending Debian updates (optional: BAR_UPDATES=1 in settings.sh and apt-get present)
-updates=0
-upd_fd=""
-if ((BAR_UPDATES)) && command -v apt-get >/dev/null; then
-  exec {upd_fd}< <(while :; do
-    apt-get -s full-upgrade 2>/dev/null | grep -c '^Inst'
-    sleep 1800
-  done)
-fi
 
 # Media player (status|artist - title), only if playerctl is installed
 if [[ -v have[playerctl] ]]; then
@@ -184,7 +193,6 @@ for ((t = 0; ; t++)); do
   drain "$lay_fd" layout_raw
   mod_layout
   mod_bright
-  [[ -n $upd_fd ]] && drain "$upd_fd" updates
   [[ -n $media_fd ]] && drain "$media_fd" media_raw
   drain "$net_fd" net_raw
   [[ $net_raw != "$net_prev" ]] && {
@@ -233,9 +241,6 @@ for ((t = 0; ; t++)); do
     ((c)) && kbd+="${kbd:+ }CAPS"
   fi
 
-  upd=""
-  ((updates > 0)) && upd="$ICON_UPDATES "
-
   blocks=""
   # Groups by function, separated by a bar
   group # audio and media
@@ -255,7 +260,7 @@ for ((t = 0; ; t++)); do
   add wifi "$wifi_s" "$wifi_c" "$wifi_ic"
   add eth "$eth_s" "$eth_c" "$eth_ic"
   add phone "$phone_s" "$phone_c" "$phone_ic"
-  [[ -n $borg$wg$upd ]] && add data "$upd$borg$wg"
+  [[ -n $borg$wg ]] && add data "$borg$wg"
   group # machine status
   add backup "$backup" "$backup_c"
   add failed "$failed" "$RED"

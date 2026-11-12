@@ -11,12 +11,15 @@ CYN=$'\e[1;36m'
 
 # cached KEY TTL FUNC: print the last output of FUNC. When it is older than TTL
 # seconds, FUNC is re-run in the background, so drawing never waits for it.
+# When FUNC returns 75 (temporary failure) its output is retried after 30 s.
 cached() {
   local f=$cache/$1 age
   if [[ -e $f ]]; then age=$((EPOCHSECONDS - $(stat -c %Y "$f"))); else age=$(($2 + 1)); fi
   if ((age >= $2)) && [[ ! -e $f.run ]]; then
     touch "$f.run"
-    ("$3" >"$f.tmp" 2>/dev/null; mv -f "$f.tmp" "$f"; rm -f "$f.run") >/dev/null 2>&1 &
+    ("$3" >"$f.tmp" 2>/dev/null; rc=$?; mv -f "$f.tmp" "$f"
+      ((rc == 75)) && touch -d "@$((EPOCHSECONDS - $2 + 30))" "$f"
+      rm -f "$f.run") >/dev/null 2>&1 &
   fi
   if [[ ! -e $f ]]; then
     printf '%sloading…%s\n' "$DIMC" "$R"
