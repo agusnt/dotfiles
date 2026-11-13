@@ -1,0 +1,17 @@
+# Extra icons for tmux-nerd-font-window-name (merged over the plugin defaults)
+config:
+  # Claude Code runs as a binary named after its version (e.g. 2.1.34), so
+  # version-like process names get the Claude icon
+  sem-version-icon: "󰚩"
+
+icons:
+  claude: "󰚩"
+  bluetui: "󰂯"
+  bluetoothctl: "󰂯"
+  nmtui: "󰖩"
+  wiremix: "󰕾"
+  timew: "󰅐"
+  zathura: "󰈦"
+
+icons-regex:
+  node.*claude: "󰚩"

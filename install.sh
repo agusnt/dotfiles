@@ -112,19 +112,23 @@ notices=()
 has_pkg() { local p; for p in "${pkgs[@]}"; do [[ $p == "$1" ]] && return 0; done; return 1; }
 
 if has_pkg zsh && ! grep -qs '^[[:space:]]*export[[:space:]]\+CLAUDE_CODE_OAUTH_TOKEN=.\+' "$HOME/.zshrc.local"; then
-  notices+=("~/.zshrc.local: falta (o no define CLAUDE_CODE_OAUTH_TOKEN). Créalo con: export CLAUDE_CODE_OAUTH_TOKEN=...  (genera uno nuevo con 'claude setup-token' y revoca el que se expuso)")
+  notices+=("~/.zshrc.local is missing (or does not define CLAUDE_CODE_OAUTH_TOKEN). Create it with: export CLAUDE_CODE_OAUTH_TOKEN=...  (generate a new one with 'claude setup-token' and revoke the one that was exposed)")
 fi
 
 for entry in "${abs_links[@]}"; do
   target=$(readlink "${entry%%$'\t'*}/${entry#*$'\t'}")
-  [[ -e $target ]] || notices+=("~/${entry#*$'\t'}: apunta a $target, que no existe en este equipo. Cambia el enlace a otra imagen (ln -sfn <imagen> ~/${entry#*$'\t'})")
+  [[ -e $target ]] || notices+=("~/${entry#*$'\t'}: points to $target, which does not exist on this machine. Point the link at another image (ln -sfn <image> ~/${entry#*$'\t'})")
 done
 
 # Absolute /home/<someone-else>/ paths baked into the packages being installed
+# are rewritten in place to this user's $HOME (the files are symlinked, so the
+# repo copy changes; review it with git diff before committing).
+home_esc=$(printf '%s' "$HOME" | sed 's/[\\&|]/\\&/g')
 for pkg in "${pkgs[@]}"; do
   while IFS= read -r -d '' f; do
-    grep -oE '/home/[^/ "]+/' "$f" | grep -vxF "$HOME/" >/dev/null &&
-      notices+=("${f#./}: contiene rutas /home/<otro-usuario>/ fijas; ajústalas a $HOME")
+    grep -oE '/home/[^/ "]+/' "$f" | grep -vxF "$HOME/" >/dev/null || continue
+    sed -i -E "s|/home/[^/ \"]+/|$home_esc/|g" "$f"
+    echo "FIXED paths in ${f#./} -> $HOME/"
   done < <(find "./$pkg" -type f -not -path '*/lua/git/*' -print0)
 done
 
@@ -132,7 +136,7 @@ if ((${#notices[@]})); then
   [[ -t 2 ]] && { b=$'\e[1;33m' r=$'\e[0m'; } || b= r=
   {
     echo
-    echo "${b}== Pendiente de rellenar/revisar ==${r}"
+    echo "${b}== To fill in / review ==${r}"
     for n in "${notices[@]}"; do echo "  ! $n"; done
   } >&2
 fi
