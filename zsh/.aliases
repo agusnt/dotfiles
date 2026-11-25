@@ -1,17 +1,74 @@
 # Sudo
-alias please='sudo $(fc -ln -1)'
+alias please='sudo $(fc -ln -1)'  # rerun the last command with sudo
+
+# Network
 alias wgup='sudo wg-quick up ~/.config/wireguard/nas.conf'
 alias wgdown='sudo wg-quick down ~/.config/wireguard/nas.conf'
 alias wifiup='nmcli radio wifi on'
 alias wifidown='nmcli radio wifi off'
+alias ports='ss -tulpn'
+alias myip='curl -s ifconfig.me'
 
 alias python='python3'
-alias ls='ls --group-directories-first --color=auto'
-alias ll='ls -l --group-directories-first --color=auto'
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias -- -='cd -'
+
+# Eza as ls
+alias ls='eza --group-directories-first --icons=auto'
+alias ll='eza -l --group-directories-first --icons=auto --git'
+alias la='eza -la --group-directories-first --icons=auto --git'
+alias lt='eza --tree --level=2 --icons=auto'
+
+# bat as cat (the binary is called batcat on Debian/Ubuntu)
+if command -v bat >/dev/null; then
+  alias cat='bat --paging=never'
+elif command -v batcat >/dev/null; then
+  alias cat='batcat --paging=never'
+fi
+
+# Safer file operations
+alias mkdir='mkdir -pv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -I'  # prompts only for 3+ files or recursive removal
+alias df='df -h'
+alias du='du -h'
+
+# Useful alias
 alias grep='grep --color=auto'
-alias vim='nvim'
 alias open='xdg-open'
+alias cb='wl-copy'  # Wayland clipboard, usage: cmd | cb
+alias path='echo $PATH | tr ":" "\n"'
+alias reload='exec zsh'
+alias h='atuin search -i'
+
+# Editor
+alias vim='nvim'
+alias v='nvim'
+alias sv='sudoedit'
+alias zshrc='$EDITOR ~/.config/zsh'
+
+# Git
+alias g='git'
+alias gs='git status -sb'
+alias gl='git log --oneline --graph --decorate -20'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gco='git checkout'
+alias gp='git push'
+alias gpl='git pull --rebase'
+
+# tmux
+alias ta='tmux new-session -A -s'  # usage: ta name (attach or create)
+alias tl='tmux ls'
 
 # Development
 alias devup='devcontainer up --workspace-folder .'
 alias devcon='devcontainer exec --workspace-folder . bash'
+alias devdown='docker stop $(docker ps -q --filter "label=devcontainer.local_folder=$PWD")'
+alias devrebuild='devcontainer up --workspace-folder . --remove-existing-container'
+alias claude='devcontainer up --workspace-folder . && devcontainer exec --workspace-folder . claude'
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
