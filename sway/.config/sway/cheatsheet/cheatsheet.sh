@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Pop-up cheat sheet with the sway, Neovim, tmux and zathura key bindings. The tabs are
+# Pop-up cheat sheet with the sway, Neovim, tmux, zathura and taskwarrior-tui key bindings. The tabs are
 # parsed from the live config files, so the list never goes stale.
-# Usage: cheatsheet.sh toggle|show|hide|dump [sway|nvim|tmux|zathura] [FILTER]
+# Usage: cheatsheet.sh toggle|show|hide|dump [sway|nvim|tmux|zathura|tasks] [FILTER]
 #   toggle: show it if closed, hide it if open (bound to the ThinkPad Copilot key)
 #   show:   open a floating terminal (app_id "sway-cheatsheet") running `view`
 #   hide:   close it
@@ -33,7 +33,7 @@ hide)
   ;;
 view | dump) ;;
 *)
-  echo "usage: ${0##*/} toggle|show|hide|dump [sway|nvim|tmux|zathura] [FILTER]" >&2
+  echo "usage: ${0##*/} toggle|show|hide|dump [sway|nvim|tmux|zathura|tasks] [FILTER]" >&2
   exit 1
   ;;
 esac
@@ -43,12 +43,13 @@ esac
 . "$dir/nvim.sh"             # rows_nvim
 . "$dir/tmux.sh"             # rows_tmux
 . "$dir/zathura.sh"          # rows_zathura
+. "$dir/tasks.sh"            # rows_tasks
 
 TABS=(sway nvim)
 LABELS=(Sway Neovim)
 # Optional tab: only if the tmux config exists
 [[ -r ${TMUX_CONF:-$dir/../tmux.conf} ]] && TABS+=(tmux) LABELS+=(tmux)
-TABS+=(zathura) LABELS+=(Zathura)
+TABS+=(zathura tasks) LABELS+=(Zathura Tasks)
 COLW=60 # width of one column (text + gutter)
 KEYW=24 # width of the key column inside a column
 MARGIN=2 # blank columns between the window border and the text

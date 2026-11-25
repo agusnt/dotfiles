@@ -40,4 +40,5 @@ sec_tasks() {
   else
     printf '%s\n\n%s\n' "$next" "$summary"
   fi
+  printf '\n%sSuper+Shift+t opens taskwarrior-tui%s\n' "$DIMC" "$R"
 }

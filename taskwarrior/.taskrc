@@ -1,0 +1,94 @@
+# Taskwarrior + taskwarrior-tui. Colours live in ~/.config/task/gruvbox.theme.
+include ~/.config/task/gruvbox.theme
+
+# on-modify.timewarrior starts/stops the Timewarrior clock with `task start/stop`
+hooks=on
+hooks.location=~/.config/task/hooks
+
+data.location=~/.task
+verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,unwait
+confirmation=no
+nag=
+weekstart=monday
+dateformat=Y-M-D
+dateformat.report=a d b
+dateformat.annotation=Y-M-D H:N
+defaultwidth=120
+
+# Urgency: due dates and blocking dominate, tiny tweaks to the rest
+urgency.user.tag.next.coefficient=8.0
+urgency.due.coefficient=14.0
+urgency.blocking.coefficient=4.0
+urgency.age.coefficient=1.0
+urgency.annotations.coefficient=0.5
+urgency.tags.coefficient=0.5
+
+# Reports (the TUI uses the "next" report by default)
+# Nerd Font icons instead of the letters in the dependency and recurrence columns
+depends.indicator=
+recurrence.indicator=
+report.next.columns=id,start.age,entry.age,depends.indicator,priority,project,tags,recur.indicator,scheduled.countdown,due.relative,until.remaining,description.count,urgency
+report.next.labels=ID,Active,Age,,P,Project,Tags,,Sch,Due,Until,Description,Urg
+report.next.filter=status:pending -WAITING limit:page
+
+# Extra reports: pick them with the report menu (r) or start with `taskwarrior-tui -r today`
+report.today.description=Due or scheduled today, plus overdue
+report.today.columns=id,start.age,priority,project,tags,scheduled.countdown,due.relative,description.count,urgency
+report.today.labels=ID,Active,P,Project,Tags,Sch,Due,Description,Urg
+report.today.filter=status:pending -WAITING (due.before:tomorrow or scheduled.before:tomorrow)
+report.today.sort=urgency-
+
+report.week.description=Due before the end of the week
+report.week.columns=id,start.age,priority,project,tags,due.relative,description.count,urgency
+report.week.labels=ID,Active,P,Project,Tags,Due,Description,Urg
+report.week.filter=status:pending -WAITING due.before:eow+1d
+report.week.sort=due+,urgency-
+
+report.inbox.description=Not yet triaged: no project and no tags
+report.inbox.columns=id,entry.age,description.count
+report.inbox.labels=ID,Age,Description
+report.inbox.filter=status:pending -WAITING project: -TAGGED
+report.inbox.sort=entry+
+
+# Contexts: `:context work` in the TUI (or `task context work`)
+context.work=+work or project:work
+context.home=-work
+
+# taskwarrior-tui behaviour
+uda.taskwarrior-tui.selection.indicator=❯ 
+uda.taskwarrior-tui.selection.bold=yes
+uda.taskwarrior-tui.selection.italic=no
+uda.taskwarrior-tui.selection.dim=no
+uda.taskwarrior-tui.selection.blink=no
+uda.taskwarrior-tui.selection.reverse=no
+uda.taskwarrior-tui.task-report.show-info=true
+uda.taskwarrior-tui.task-report.looping=true
+uda.taskwarrior-tui.task-report.jump-to-task-on-add=true
+uda.taskwarrior-tui.task-report.prompt-on-undo=true
+uda.taskwarrior-tui.task-report.prompt-on-delete=true
+uda.taskwarrior-tui.task-report.prompt-on-done=false
+uda.taskwarrior-tui.task-report.date-time-vague-more-precise=true
+uda.taskwarrior-tui.task-report.next.alias=next
+uda.taskwarrior-tui.task-report.task-detail-prefetch=10
+uda.taskwarrior-tui.tick-rate=250
+uda.taskwarrior-tui.background_process=
+uda.taskwarrior-tui.quick-tag-name=next
+
+# Shortcuts: press 1 on a task to start/stop it (and the Timewarrior clock)
+uda.taskwarrior-tui.shortcuts.1=~/.config/task/scripts/toggle-start.sh
+# 2: toggle +next, 3: annotate in a pop-up prompt, 4: Timewarrior day summary (notification)
+uda.taskwarrior-tui.shortcuts.2=~/.config/task/scripts/toggle-next.sh
+uda.taskwarrior-tui.shortcuts.3=~/.config/task/scripts/annotate.sh
+uda.taskwarrior-tui.shortcuts.4=~/.config/task/scripts/time-today.sh
+
+# Keys that the cheat sheet (sway/.../cheatsheet/tasks.sh) and the hint bar list, pinned
+# so that they stay true if the defaults change
+uda.taskwarrior-tui.keyconfig.report-menu=r
+uda.taskwarrior-tui.keyconfig.context-menu=c
+uda.taskwarrior-tui.keyconfig.refresh=R
+uda.taskwarrior-tui.keyconfig.log=l
+uda.taskwarrior-tui.keyconfig.duplicate=y
+uda.taskwarrior-tui.keyconfig.shell=!
+uda.taskwarrior-tui.keyconfig.select=v
+uda.taskwarrior-tui.keyconfig.select-all=V
+uda.taskwarrior-tui.keyconfig.annotate=A
