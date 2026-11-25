@@ -5,13 +5,28 @@ config:
   sem-version-icon: "󰚩"
 
 icons:
+  ssh: "󰒍"
+  mosh: "󰒍"
+  mosh-client: "󰒍"
   claude: "󰚩"
+  docker: "󰡨"
+  devcontainer: "󰡨"
+  docker-compose: "󰡨"
   bluetui: "󰂯"
   bluetoothctl: "󰂯"
   nmtui: "󰖩"
   wiremix: "󰕾"
   timew: "󰅐"
   zathura: "󰈦"
+  xdg-open: "󰏌"
+  open: "󰏌"
 
 icons-regex:
+  (^|/)docker( |$): "󰡨"
   node.*claude: "󰚩"
+  (^|/)claude( |$): "󰚩"
+
+names-regex:
+  (^|/)docker( |$): docker
+  node.*claude: Claude
+  (^|/)claude( |$): Claude
