@@ -14,6 +14,7 @@ require("arborist").setup({
     "norg_meta",
     "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline",
     "c", "cpp", "python", "bash", "rust", "json", "cmake", "dockerfile",
+    "regex", -- Highlight of the search cmdline in noice
   },
   concurrency = 4,           -- Parallel parser builds
   install_popular = false,   -- Only install the list above
@@ -31,4 +32,16 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Force the native syntax engine that VimTeX relies on
     vim.cmd("syntax on")
   end,
+})
+
+-- Text objects (maps in config/keymap.lua); no dependency on nvim-treesitter
+require("nvim-treesitter-textobjects").setup({
+  select = { lookahead = true }, -- Jump forward to the next match
+  move = { set_jumps = true },   -- Add the moves to the jumplist
+})
+
+-- Keep the header of the current function/class visible at the top
+require("treesitter-context").setup({
+  max_lines = 3,
+  multiline_threshold = 1,
 })

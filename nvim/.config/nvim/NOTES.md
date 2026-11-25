@@ -28,15 +28,6 @@ in `runtimepath` and override files in the config dir). `config/servers.lua` lis
 - `git`, a compiler (`gcc`), `make`.
 - Optional for CodeCompanion: `rg`, `file`, `sqlite3`.
 
-## Dev containers — `arnaupv/nvim-devcontainer-cli`
-
-- Replaces `esensar/nvim-dev-container` (it raised a `vim.validate` warning).
-- Host: Debian/Ubuntu, `docker`, `jq`, `npm i -g @devcontainers/cli`.
-- Commands: `:DevcontainerUp` (`<leader>cdu`), `:DevcontainerConnect` (`<leader>cdc`).
-- Installs nvim **inside** the container. By default it clones the LazyVim starter; to use this
-  config, uncomment `nvim_dotfiles_repo` and `nvim_dotfiles_install_command` in `plugins/utilities.lua`.
-- Inside the container you need `git`, a compiler and the `tree-sitter` CLI.
-
 ## AI
 
 ### Agents / chat — `olimorris/codecompanion.nvim`
@@ -67,10 +58,19 @@ Uses Neovim 0.12's `vim.lsp.inline_completion` with `copilot-language-server` (i
 
 ### Other options considered
 
-`claudecode.nvim` (coupled to Claude Code), `avante.nvim` (heavy, compiles a binary),
+`avante.nvim` (heavy, compiles a binary),
 `minuet-ai.nvim` (discarded), `windsurf.nvim` (no commits since Apr 2025), `supermaven-nvim`, Ollama as a local backend.
+
+## Added plugins
+
+- `nvim-treesitter-textobjects` (`af if ac ic aa ia ab ib al il`, `]f [f ]a [a`, `<leader>cs/cS` swap) and `nvim-treesitter-context` (`[x`).
+- `nvim-ufo` folds (`zR zM zp`), `substitute.nvim` (`<leader>s*` replace, `<leader>e*` exchange; `s`/`S` are Leap).
+- `neogit` (`<leader>gg`), `dropbar.nvim` (`<leader>;`), `dressing.nvim`, `noice.nvim` (`<leader>fn` history).
+- `lazydev.nvim` (Neovim API for lua_ls + blink source), `inc-rename.nvim` (`<F2>`).
+- `rustaceanvim` starts rust-analyzer itself: `rust_analyzer` is not in `config/servers.lua`, only installed by Mason; settings in `vim.g.rustaceanvim` (`config/lsp.lua`).
+- `:PackUpdate` updates everything, `:PackClean` removes installed plugins that are no longer in `plugins/pack.lua`.
 
 ## Pending / untouched
 
-- Lazy loading of plugins (Neorg, CodeCompanion...): not done, measure first with `nvim --startuptime`.
+- Startup: `vim.loader.enable()`, unused built-in plugins off, and `config/lazy.lua` defers most setups until after the first draw (completion also on `InsertEnter`, Neorg on `.norg`/`:Neorg`, Mason tool check 3 s later). LuaSnip and diffview are installed with `load = false` and `packadd`ed by the deferred tasks. Measure with `nvim --startuptime /tmp/s.log`.
 - Not verified: real LSP servers (Mason could not install them in the sandbox) and the CodeCompanion chat.

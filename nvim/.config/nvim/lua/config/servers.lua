@@ -12,7 +12,6 @@ return {
     clangd = 'clangd',
     basedpyright = 'basedpyright',
     texlab = 'texlab',
-    rust_analyzer = 'rust-analyzer',
     asm_lsp = 'asm-lsp',
     neocmake = 'neocmakelsp',
     dockerls = 'dockerfile-language-server',
@@ -27,6 +26,7 @@ return {
 
   -- Mason packages that are not language servers
   tools = {
+    'rust-analyzer', -- Started by rustaceanvim
     -- Formatters
     'asmfmt',
     'stylua',

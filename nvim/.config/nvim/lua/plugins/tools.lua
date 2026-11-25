@@ -1,10 +1,11 @@
--- Small tools: surround, sessions, diagnostics list, tasks
+-- Small tools: surround, git client
 -- @Author: Navarro Torres, Agustín
 -- @Email: agusnavarro11@gmail.com
 
--- pcall: a plugin that failed to install must not abort the rest of the config
--- surround: ys/ds/cs, persistence: sessions, trouble: diagnostics list, overseer: tasks
-for _, name in ipairs({ "nvim-surround", "persistence", "trouble", "overseer" }) do
-  local ok, mod = pcall(require, name)
-  if ok then mod.setup({}) else vim.notify(name .. ': ' .. mod, vim.log.levels.WARN) end
-end
+-- surround: ys/ds/cs
+require("nvim-surround").setup({})
+
+-- Git client (map: <leader>gg); diffs open in Diffview, pickers in Telescope
+require("neogit").setup({
+  integrations = { diffview = true, telescope = true },
+})

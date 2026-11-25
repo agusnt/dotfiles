@@ -8,6 +8,11 @@
 
 local servers = require('config/servers')
 
+-- Neovim API completion and types for lua_ls (also adds luv when vim.uv is used)
+require('lazydev').setup({
+  library = { { path = '${3rd}/luv/library', words = { 'vim%.uv' } } },
+})
+
 -- lua_ls: only what differs from nvim-lspconfig's defaults
 vim.lsp.config('lua_ls', {
   root_markers = { '.luarc.json', '.luarc.jsonc', 'stylua.toml', '.git' },
@@ -15,10 +20,7 @@ vim.lsp.config('lua_ls', {
     Lua = {
       runtime = { version = 'LuaJIT' },
       diagnostics = { globals = { 'vim' } },
-      workspace = {
-        library = { vim.env.VIMRUNTIME },
-        checkThirdParty = false,
-      },
+      workspace = { checkThirdParty = false }, -- The library comes from lazydev.nvim
       telemetry = { enable = false },
     },
   },
@@ -56,13 +58,15 @@ vim.lsp.config('texlab', {
   },
 })
 
-vim.lsp.config('rust_analyzer', {
-  settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = { command = 'clippy' },
+-- Rust is handled by rustaceanvim (it starts rust-analyzer itself, so it is not in
+-- config/servers.lua); Mason still installs the binary
+vim.g.rustaceanvim = {
+  server = {
+    default_settings = {
+      ['rust-analyzer'] = { check = { command = 'clippy' } },
     },
   },
-})
+}
 
 -- Grammar and spell checking (the default filetypes would cover every language).
 -- ltex-ls-plus replaces harper-ls: harper only knows English, ltex detects the language

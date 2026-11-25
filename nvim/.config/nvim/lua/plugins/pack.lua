@@ -25,7 +25,6 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 vim.pack.add({
   -- CMP plugins
-  { src = 'https://github.com/L3MON4D3/LuaSnip' },
   { src = "https://github.com/saghen/blink.lib" },
   { src = 'https://github.com/saghen/blink.cmp' },
   { src = 'https://github.com/rafamadriz/friendly-snippets' },
@@ -58,8 +57,6 @@ vim.pack.add({
   { src = 'https://github.com/ellisonleao/gruvbox.nvim' },
   -- Leap
   { src = 'https://codeberg.org/andyg/leap.nvim' },
-  -- Marks
-  { src = 'https://github.com/chentoast/marks.nvim' },
   -- Ident lines
   { src = 'https://github.com/lukas-reineke/indent-blankline.nvim' },
   -- Treesitter
@@ -76,30 +73,63 @@ vim.pack.add({
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
   -- Mason
   { src = 'https://github.com/mason-org/mason.nvim' },
-  { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
-  { src = 'https://github.com/neovim/nvim-lspconfig' }, -- required by mason-lspconfig
+  { src = 'https://github.com/neovim/nvim-lspconfig' }, -- Default settings of every server
   { src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim' },
   -- Debugging (DAP)
   { src = 'https://github.com/mfussenegger/nvim-dap' },
   { src = 'https://github.com/rcarriga/nvim-dap-ui' },
   { src = 'https://github.com/theHamsta/nvim-dap-virtual-text' },
-  -- Tests and tasks
-  { src = 'https://github.com/nvim-neotest/neotest' },
-  { src = 'https://github.com/nvim-neotest/neotest-python' },
-  { src = 'https://github.com/rouge8/neotest-rust' },
-  { src = 'https://github.com/stevearc/overseer.nvim' },
-  -- Diagnostics list, git diffs, undo history, sessions, surround
-  { src = 'https://github.com/folke/trouble.nvim' },
-  { src = 'https://github.com/sindrets/diffview.nvim' },
+  -- Undo history, surround
   { src = 'https://github.com/mbbill/undotree' },
-  { src = 'https://github.com/folke/persistence.nvim' },
   { src = 'https://github.com/kylechui/nvim-surround' },
-  -- Dev container (devcontainer CLI)
-  { src = 'https://github.com/arnaupv/nvim-devcontainer-cli' },
   -- Markdown rendering in the buffer
   { src = 'https://github.com/MeanderingProgrammer/render-markdown.nvim' },
   -- Center the buffer in the window
   { src = 'https://github.com/shortcuts/no-neck-pain.nvim' },
   -- Vimtex
   { src = 'https://github.com/lervag/vimtex.git' },
+  -- Treesitter: text objects, sticky context
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-context' },
+  -- Better folds
+  { src = 'https://github.com/kevinhwang91/promise-async' },
+  { src = 'https://github.com/kevinhwang91/nvim-ufo' },
+  -- Replace/exchange with register operators
+  { src = 'https://github.com/gbprod/substitute.nvim' },
+  -- Git client
+  { src = 'https://github.com/NeogitOrg/neogit' },
+  -- Breadcrumbs, input/select UI, messages and cmdline
+  { src = 'https://github.com/Bekaboo/dropbar.nvim' },
+  { src = 'https://github.com/MunifTanjim/nui.nvim' },
+  { src = 'https://github.com/folke/noice.nvim' },
+  -- Lua LSP for the Neovim API
+  { src = 'https://github.com/folke/lazydev.nvim' },
+  -- Rust (configures rust-analyzer itself)
+  { src = 'https://github.com/mrcjkb/rustaceanvim' },
+  -- Rename with live preview
+  { src = 'https://github.com/smjonas/inc-rename.nvim' },
 })
+
+-- Installed but not loaded at startup: init.lua runs `packadd` right before they are needed
+local lazy_specs = {
+  { src = 'https://github.com/L3MON4D3/LuaSnip' },
+  { src = 'https://github.com/sindrets/diffview.nvim' },
+}
+vim.pack.add(lazy_specs, { load = false })
+
+-- Update every plugin (opens a confirmation buffer)
+vim.api.nvim_create_user_command('PackUpdate', function() vim.pack.update() end, {})
+
+-- Remove plugins that are installed but no longer listed above
+vim.api.nvim_create_user_command('PackClean', function()
+  local keep = {} -- Lazy plugins are inactive until their packadd
+  for _, spec in ipairs(lazy_specs) do keep[vim.fn.fnamemodify(spec.src, ':t')] = true end
+  local names = {}
+  for _, p in ipairs(vim.pack.get()) do
+    if not p.active and not keep[p.spec.name] then names[#names + 1] = p.spec.name end
+  end
+  if #names == 0 then return vim.notify('PackClean: nothing to remove') end
+  if vim.fn.confirm('Remove?\n' .. table.concat(names, '\n'), '&Yes\n&No', 2) == 1 then
+    vim.pack.del(names)
+  end
+end, {})

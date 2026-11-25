@@ -22,10 +22,7 @@ require('mason-tool-installer').setup({
   ensure_installed = ensure_installed,
   auto_update = false, -- update on demand with :MasonToolsUpdate
   run_on_start = true,
+  start_delay = 3000, -- Check the tools after startup, not during it
 })
 
--- Servers are enabled in config/lsp.lua; this plugin is kept only for its
--- lspconfig <-> Mason name mapping
-require("mason-lspconfig").setup({
-  automatic_enable = false,
-})
+-- Servers are enabled in config/lsp.lua (defaults from nvim-lspconfig)

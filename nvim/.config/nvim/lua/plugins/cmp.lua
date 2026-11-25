@@ -29,6 +29,10 @@ require('blink.cmp').setup({
   -- Completion sources, in priority order
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
+    per_filetype = { lua = { inherit_defaults = true, 'lazydev' } },
+    providers = {
+      lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
+    },
   },
   -- Snippets come from LuaSnip (lua/snip)
   snippets = { preset = 'luasnip' },

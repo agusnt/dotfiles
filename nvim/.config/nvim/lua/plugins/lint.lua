@@ -27,3 +27,5 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     require("lint").try_lint()
   end,
 })
+
+require("lint").try_lint() -- This file loads after the first buffer is open

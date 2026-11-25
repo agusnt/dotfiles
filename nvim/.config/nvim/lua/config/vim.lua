@@ -21,6 +21,9 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.updatetime = 250
 vim.o.cursorline = true
+vim.o.confirm    = true     -- Ask instead of failing on unsaved changes
+vim.o.timeoutlen = 300      -- Faster which-key and mapping sequences
+vim.o.winborder  = "rounded" -- Border on every floating window
 
 -- Encode and spell
 vim.o.spelllang = "en"
@@ -47,6 +50,7 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldlevelstart = 99 -- Everthing unfolding
+vim.opt.foldlevel = 99      -- nvim-ufo needs open folds to start with
 
 -- Smart indent
 vim.opt.smartindent = false
