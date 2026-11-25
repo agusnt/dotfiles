@@ -75,7 +75,7 @@ heat_low() {
 
 # Optional tools, looked up once: have[NAME] is set when NAME is installed
 declare -A have
-for _c in notify-send pavucontrol playerctl pactl nm-connection-editor bluetoothctl makoctl fuser; do
+for _c in notify-send pavucontrol pactl nm-connection-editor bluetoothctl makoctl fuser; do
   command -v "$_c" >/dev/null && have[$_c]=1
 done
 unset _c

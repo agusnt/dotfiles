@@ -16,7 +16,7 @@ profile home {
 
 profile laptop {
     output eDP-1 enable mode 1920x1200 position 0,0
-    exec bluetoothctl power off
+    #exec bluetoothctl power off
     exec pkill -9 wl-mirror >/dev/null 2>&1
 }
 

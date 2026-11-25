@@ -4,7 +4,7 @@
 set -euo pipefail
 
 required=(sway jq network-manager pipewire pipewire-pulse wireplumber psmisc procps coreutils brightnessctl fonts-firacode)
-optional=(chafa playerctl libnotify-bin pavucontrol network-manager-gnome mako-notifier bluez)
+optional=(chafa libnotify-bin pavucontrol network-manager-gnome mako-notifier bluez)
 
 pkgs=("${required[@]}")
 [[ ${1:-} == --required ]] || pkgs+=("${optional[@]}")

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Pop-up cheat sheet with the sway, Neovim and tmux key bindings. The tabs are
+# Pop-up cheat sheet with the sway, Neovim, tmux and zathura key bindings. The tabs are
 # parsed from the live config files, so the list never goes stale.
-# Usage: cheatsheet.sh toggle|show|hide|dump [sway|nvim|tmux] [FILTER]
+# Usage: cheatsheet.sh toggle|show|hide|dump [sway|nvim|tmux|zathura] [FILTER]
 #   toggle: show it if closed, hide it if open (bound to the ThinkPad Copilot key)
 #   show:   open a floating terminal (app_id "sway-cheatsheet") running `view`
 #   hide:   close it
@@ -33,7 +33,7 @@ hide)
   ;;
 view | dump) ;;
 *)
-  echo "usage: ${0##*/} toggle|show|hide|dump [sway|nvim|tmux] [FILTER]" >&2
+  echo "usage: ${0##*/} toggle|show|hide|dump [sway|nvim|tmux|zathura] [FILTER]" >&2
   exit 1
   ;;
 esac
@@ -42,11 +42,13 @@ esac
 . "$dir/sway.sh"             # rows_sway
 . "$dir/nvim.sh"             # rows_nvim
 . "$dir/tmux.sh"             # rows_tmux
+. "$dir/zathura.sh"          # rows_zathura
 
 TABS=(sway nvim)
 LABELS=(Sway Neovim)
 # Optional tab: only if the tmux config exists
 [[ -r ${TMUX_CONF:-$dir/../tmux.conf} ]] && TABS+=(tmux) LABELS+=(tmux)
+TABS+=(zathura) LABELS+=(Zathura)
 COLW=60 # width of one column (text + gutter)
 KEYW=24 # width of the key column inside a column
 MARGIN=2 # blank columns between the window border and the text
@@ -151,7 +153,7 @@ scroll() {
 }
 
 draw() {
-  local i end hdr="" rev=$'\e[7m' view=$((rows - 4))
+  local i end hdr="" hlen=0 help pad rev=$'\e[7m' view=$((rows - 4))
   ((view < 1)) && view=1
   clamp
   end=$((offset + view))
@@ -162,10 +164,16 @@ draw() {
     else
       hdr+="$DIMC $((i + 1)) ${LABELS[i]} $R "
     fi
+    hlen=$((hlen + ${#LABELS[i]} + 4))
   done
+  help="Tab/h/l/1-${#TABS[@]} tab · j/k scroll · / filter${filter:+ [$filter]} · q close   $((offset + 1))-$end/${#body[@]}"
   printf '\e[H\n'
-  printf '%*s%s\e[K\n' "$MARGIN" '' "$hdr"
-  printf '%*s%s\e[K\n' "$MARGIN" '' "${DIMC}Tab/h/l/1-3 tab · j/k scroll · / filter${filter:+ [$filter]} · q close   $((offset + 1))-$end/${#body[@]}$R"
+  pad=$(((cols - hlen) / 2))
+  ((pad < MARGIN)) && pad=$MARGIN
+  printf '%*s%s\e[K\n' "$pad" '' "$hdr"
+  pad=$(((cols - ${#help}) / 2))
+  ((pad < MARGIN)) && pad=$MARGIN
+  printf '%*s%s\e[K\n' "$pad" '' "$DIMC$help$R"
   printf '\e[K\n'
   for ((i = offset; i < end; i++)); do
     printf '%*s%s\e[K\n' "$MARGIN" '' "${body[i]}"

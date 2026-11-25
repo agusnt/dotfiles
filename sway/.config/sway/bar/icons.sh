@@ -22,7 +22,6 @@ ICON_MIC="󰍬"
 ICON_MIC_MUTE="󰍭"
 ICON_BT="󰂯"
 ICON_BT_CONN="󰂱"
-ICON_MEDIA="󰝚"
 
 # Power
 ICON_BAT=(󰁺 󰁺 󰁻 󰁼 󰁽 󰁾 󰁿 󰂀 󰂁 󰂂 󰁹)
@@ -47,4 +46,5 @@ ICON_LAYOUT_SPLITV="" # next window goes below
 ICON_LOG="󰃤" # new errors in bar.log
 ICON_FAILED="󰀦"
 ICON_BACKUP="󰁯"
+ICON_REBOOT="󰜉" # an update needs a reboot
 ICON_OTHERS="󰈈"

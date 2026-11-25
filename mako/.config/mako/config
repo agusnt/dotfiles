@@ -11,7 +11,7 @@ margin=10
 width=400
 height=150
 
-anchor=top-right
+anchor=top-center
 layer=overlay
 max-visible=3
 max-history=20
@@ -24,7 +24,7 @@ format=<b>%s</b>\n%b
 text-alignment=left
 actions=1
 on-button-middle=exec makoctl dismiss --all
-default-timeout=0
+default-timeout=5000
 
 [urgency=low]
 border-color=#928374

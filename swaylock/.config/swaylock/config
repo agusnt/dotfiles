@@ -17,7 +17,7 @@ color=1d2021
 # --- Indicator ---
 indicator-radius=90
 indicator-thickness=8
-font=JetBrainsMono Nerd Font
+font=Lilex Nerd Font Mono
 font-size=24
 
 # --- Inside (normal / verifying / wrong / cleared / caps) ---

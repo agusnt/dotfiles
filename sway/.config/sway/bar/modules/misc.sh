@@ -57,3 +57,27 @@ mod_backup() {
   backup="$ICON_BACKUP $((h / 24))d"
   backup_c=$RED
 }
+
+# Reboot needed after an update: Debian's flag file (update-notifier-common /
+# needrestart) or, failing that, an installed kernel newer than the running one
+mod_reboot() {
+  local running k newest
+  reboot=""
+  reboot_info="No reboot needed"
+  if [[ -e /var/run/reboot-required ]]; then
+    reboot_info="Reboot required"
+    [[ -r /var/run/reboot-required.pkgs ]] &&
+      reboot_info+=$'\n'$(sort -u /var/run/reboot-required.pkgs)
+  else
+    read -r running </proc/sys/kernel/osrelease
+    newest=$running
+    for k in /boot/vmlinuz-*; do
+      k=${k#/boot/vmlinuz-}
+      [[ $k == "$running" || $k == *.dpkg-* ]] && continue
+      [[ $(printf '%s\n%s\n' "$newest" "$k" | sort -V | tail -n1) == "$k" ]] && newest=$k
+    done
+    [[ $newest != "$running" ]] || return
+    reboot_info="Kernel $newest installed, running $running"
+  fi
+  reboot="$ICON_REBOOT"
+}

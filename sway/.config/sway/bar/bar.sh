@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Status bar for swaybar (Debian). i3bar JSON protocol.
 # Single process: /proc and /sys reads with builtins, slow modules with
-# their own interval, and events (sway, playerctl) read without blocking.
+# their own interval, and events (sway) read without blocking.
 # Modules live in modules/*.sh. Errors are appended to $XDG_RUNTIME_DIR/bar.log
 # (rotated to bar.log.1 above 256 KiB).
-# Optional packages: playerctl, libnotify-bin (notify-send), pavucontrol.
+# Optional packages: libnotify-bin (notify-send), pavucontrol.
 # `bar.sh --once` prints a single frame (for debugging) and exits.
 # `bar.sh --log` also writes a full trace (set -x with timestamps, file:line) to
 # $XDG_RUNTIME_DIR/bar-debug.log, truncated on every start. Combine it with
@@ -86,13 +86,6 @@ net_prev=
 exec {lay_fd}< <(layout_loop)
 read -r -t 2 -u "$lay_fd" layout_raw
 
-# Media player (status|artist - title), only if playerctl is installed
-if [[ -v have[playerctl] ]]; then
-  exec {media_fd}< <(playerctl --follow metadata --format '{{status}}|{{artist}} - {{title}}' 2>/dev/null)
-else
-  media_fd=""
-fi
-
 # Audio events (volume, mute, default device): vol/mic/bt are only refreshed
 # when PulseAudio/PipeWire reports a change, or every 30 s as a safety net.
 # Without pactl they fall back to polling every 2 s.
@@ -139,6 +132,7 @@ handle_click() {
     esac
     ;;
   failed) notify "Failed units" "$failed_info" ;;
+  reboot) notify "Reboot" "$reboot_info" ;;
   gov) notify "Power profile" "$gov_info" ;;
   battery) notify "Battery" "$battery_info" ;;
   wifi)
@@ -148,13 +142,6 @@ handle_click() {
     esac
     ;;
   eth | phone) run nm-connection-editor ;;
-  media)
-    case $button in
-    4) run playerctl next ;;
-    5) run playerctl previous ;;
-    *) run playerctl play-pause ;;
-    esac
-    ;;
   bright)
     case $button in
     4) "$dir/../scripts/bright.sh" up ;;
@@ -193,7 +180,6 @@ for ((t = 0; ; t++)); do
   drain "$lay_fd" layout_raw
   mod_layout
   mod_bright
-  [[ -n $media_fd ]] && drain "$media_fd" media_raw
   drain "$net_fd" net_raw
   [[ $net_raw != "$net_prev" ]] && {
     net_prev=$net_raw
@@ -205,6 +191,7 @@ for ((t = 0; ; t++)); do
   # Own intervals
   ((t % 60 == 0)) && mod_failed
   ((t % 300 == 0)) && mod_backup
+  ((t % 60 == 0)) && mod_reboot
   ((t % 30 == 0)) && mod_disk
   ((t % 10 == 0)) && mod_log
   ((t % 5 == 0)) && {
@@ -228,7 +215,6 @@ for ((t = 0; ; t++)); do
     mod_vol
     declare -F mod_bt >/dev/null && mod_bt
   }
-  mod_media
 
   case $kbd_name in
   *US*) kbd="us" ;;
@@ -243,9 +229,8 @@ for ((t = 0; ; t++)); do
 
   blocks=""
   # Groups by function, separated by a bar
-  group # audio and media
+  group # audio
   add others "$others"
-  add media "$media" "$media_c"
   add vol "$vol" "$vol_c"
   add bt "$bt" "$BLU"
   add mic "$mic" "$mic_c"
@@ -264,6 +249,7 @@ for ((t = 0; ; t++)); do
   group # machine status
   add backup "$backup" "$backup_c"
   add failed "$failed" "$RED"
+  add reboot "$reboot" "$YEL"
   add gov "$gov"
   add battery "$battery" "" "$battery_ic"
   add layout "$layout" "$WHT"

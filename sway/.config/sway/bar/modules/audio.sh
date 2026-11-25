@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Audio, Bluetooth and media modules (sourced by ../bar.sh)
+# Audio and Bluetooth modules (sourced by ../bar.sh)
 
 bt=""
 mic_notified=0
@@ -68,17 +68,4 @@ mod_bt() {
   if ((sink_bluez)) || [[ -n $(timeout 1 bluetoothctl devices Connected 2>/dev/null) ]]; then
     bt=$ICON_BT_CONN
   fi
-}
-
-mod_media() {
-  local st info
-  media=""
-  media_c=""
-  [[ -n $media_raw ]] || return
-  st=${media_raw%%|*}
-  info=${media_raw#*|}
-  [[ $st == Playing || $st == Paused ]] || return
-  ((${#info} > 40)) && info="${info:0:39}…"
-  media="$ICON_MEDIA $info"
-  [[ $st == Paused ]] && media_c=$DIM
 }
